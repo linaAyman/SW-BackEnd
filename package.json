@@ -1,21 +1,25 @@
 {
-  "name": "seedstrial",
+  "name": "complexApp",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
-  "scripts": {
-    "watch": "nodemon app",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "main": "app.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^3.2.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "express-ejs-layouts": "^2.5.0",
-    "mongoose": "^5.9.4",
-    "mongoose-seed": "^0.6.0",
-    "nodemon": "^2.0.2"
-  }
+    "express-session": "^1.17.0",
+    "mongodb": "^3.5.5",
+    "nodemon": "^2.0.2",
+    "validator": "^12.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "watch": "nodemon db",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
