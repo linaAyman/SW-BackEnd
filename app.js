@@ -1,6 +1,8 @@
  const  express = require('express')
  const session  = require('express-session')
  const MongoStore = require('connect-mongo')(session)
+ const flash = require ('connect-flash')
+ 
  let sessionOptions = session({
   secret:"h3hhhshjhjhak*/wqdj%sjuah",
   store: new MongoStore({client: require('./db')}),
@@ -10,6 +12,7 @@
  })
  const app = express()
  app.use(sessionOptions)
+ app.use(flash())
  //./ ye3ny eny ast7dam ely gomaha 
  const  router = require('./router')
  app.use(express.urlencoded({extended: false}))

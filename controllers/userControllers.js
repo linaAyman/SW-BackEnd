@@ -1,8 +1,8 @@
 const User = require('../models/User')
 
 exports.login = function login (req, res){
- let user = new User(req.body)
-  user.login().then(function(result){
+   let user = new User(req.body)
+   user.login().then(function(result){
     req.session.user = { username:user.data.username}
     req.session.save(function(){
     res.redirect('/')
@@ -10,8 +10,11 @@ exports.login = function login (req, res){
     })
 
   }).catch(function(error){
-
-    res.send(error)
+    req.flash('errors', error)
+    req.session.save(function(){
+      res.redirect('/')
+    })
+   
   })
  
 }
@@ -20,23 +23,33 @@ exports.logout = function logout (req,res){
   
    res.redirect('/')
 }
-exports.signUp= function signUp (req ,res){
+exports.register= function register(req , res){
 
  let user = new User(req.body)
- user.signUp();
+ user.register().then(() =>{
+  req.session.user = {username : user.data.username }
+  req.session.save(function(){
+    res.redirect('/')
+  })
+ }).catch( ( regErrors) => {
+    regErrors.forEach(function(error){
+    req.flash('regErrors', error)
+    })
+    req.session.save(function(){
+    res.redirect('/')
 
- if(user.errors.length){
-    res.send(user.errors);
-  }
-  else{
-    res.send('Thanks for your sbmuit');
+     })
 
-  }
+
+
+ })
+
 }
+
 exports.home = function home(req ,res){
 if(req.session.user){
-  res.render('home-dashboard')
+  res.render('home-dashboard',{username: req.session.user.username})
 }else{
-  res.render('home-guest')
+  res.render('home-guest',{errors: req.flash('errors') , regErrors: req.flash('regErrors')})
 }
 }
