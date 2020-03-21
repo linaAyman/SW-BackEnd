@@ -1,25 +1,52 @@
- const  express = require('express')
- const session  = require('express-session')
- const MongoStore = require('connect-mongo')(session)
- const flash = require ('connect-flash')
- 
- let sessionOptions = session({
-  secret:"h3hhhshjhjhak*/wqdj%sjuah",
-  store: new MongoStore({client: require('./db')}),
-  resave: false,
-  saveUninitialized :false,
-  cookie:{maxAge:1000 * 60 *60 *24 ,httpOnly: true}
- })
- const app = express()
- app.use(sessionOptions)
- app.use(flash())
- //./ ye3ny eny ast7dam ely gomaha 
- const  router = require('./router')
- app.use(express.urlencoded({extended: false}))
- app.use(express.static('public'))
- app.set('views', 'views')
- app.set('view engine','ejs')
-//ast7dam roueter fy home 
- app.use('/' , router);
- 
-module.exports = app
+  const express = require("express");
+  const app = express();
+  const morgan = require("morgan");
+  const bodyParser = require("body-parser");
+  const mongoose = require("mongoose");
+  
+  const userRoutes = require('./routes/user');
+  
+  mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  catch(error => handleError(error));
+  mongoose.set('useFindAndModify', false);
+
+  mongoose.Promise = global.Promise;
+  
+  app.use(morgan("dev"));
+  app.use('/uploads', express.static('uploads'));
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if (req.method === "OPTIONS") {
+      res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+      return res.status(200).json({});
+    }
+    next();
+  });
+  
+  // Routes which should handle requests
+
+  app.use("/user", userRoutes);
+  
+  app.use((req, res, next) => {
+    const error = new Error("Not found");
+    error.status = 404;
+    next(error);
+  });
+  
+  app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    res.json({
+      error: {
+        message: error.message
+      }
+    });
+  });
+  
+  module.exports = app;
