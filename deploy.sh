@@ -13,7 +13,7 @@ npm install mongoose
 npm install nodemon
 npm install joi
 npm install validator
-sudo pm2 start npm -- start
+sudo pm2 start app.js --watch
 exit
 
 EOF
