@@ -27,6 +27,7 @@ env:
 
 after_success:
   - chmod 400 testaws.pem
+  - eval "$(ssh-agent -s)"
   - ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -i testaws.pem ubuntu@ec2-3-17-150-160.us-east-2.compute.amazonaws.com
   - git clone https://github.com/linaAyman/SW-BackEnd.git
   - npm install
