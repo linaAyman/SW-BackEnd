@@ -17,7 +17,7 @@ install:
   - npm install mongoose
   - npm install nodemon
   - npm install joi
-  - nmp install validator
+  - npm install validator
 
 script:
   - npm build
@@ -34,5 +34,5 @@ after_success:
   - npm install mongoose
   - npm install nodemon
   - npm install joi
-  - nmp install validator
+  - npm install validator
   - npm run watch
