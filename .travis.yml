@@ -36,3 +36,11 @@ deploy:
   script: bash deploy.sh
   on:
     branch: master
+
+notifications:
+  email:
+    recipients:
+     - linaayman99@gmail.com
+     - Salmafarghaly131@gmail.com
+    on_success: change
+    on_failure: always
