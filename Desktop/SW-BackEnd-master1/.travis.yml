@@ -1,0 +1,46 @@
+language: node_js
+node_js:
+  - "stable"	
+sudo: required
+services:
+  - mongodb
+
+
+
+branches:
+  only:
+    - master  
+
+install:
+  - npm install
+  - npm install mongodb
+  - npm install mongoose
+  - npm install nodemon
+  - npm install joi
+  - npm install validator
+
+script:
+  - npm build
+
+env:
+  - SERVER_IP_ADDRESS=3.17.150.160
+
+before_deploy:
+  - chmod 400 testaws.pem
+  - eval "$(ssh-agent -s)"
+  
+
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: bash deploy.sh
+  on:
+    branch: master
+
+notifications:
+  email:
+    recipients:
+     - linaayman99@gmail.com
+     - Salmafarghaly131@gmail.com
+    on_success: change
+    on_failure: always
