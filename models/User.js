@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 //const config = require('config')
-const jwt = require('jsonwebtoken')
-const Joi = require('joi')
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
       type: String,
       required: true,
-      minlength: 3,
-      maxlength: 15
+      minlength: [1,'Username must be at least 1 characters.'],
+      maxlength: [15,'Username must be max 15 characters.']
     },
    
     email: {
@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
    birthDate:{
       type: Date,
       required: true,
-      default: Date.now
+     
     },
 
     gender:{
@@ -48,16 +48,15 @@ const userSchema = mongoose.Schema({
     isPremium :{
       type: Boolean,
       default: false
+    },
+    image:{
+     data: Buffer,
+     contentType: String,
+    
     }
-   /*image:{
-      type: String, 
-      default: url + 'public/profileImage/' + config.get('default')
-    }*/
-  
 });
 
-
-module.exports= mongoose.model('User', userSchema)
+module.exports= mongoose.model('User', userSchema);
 
 
  

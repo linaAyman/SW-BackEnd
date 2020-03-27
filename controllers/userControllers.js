@@ -1,11 +1,34 @@
 const mongoose = require("mongoose");
-const config = require('config')
 const bcrypt = require("bcryptjs");//this used for hashing the passwords to provide more secuirty
 const jwt = require("jsonwebtoken");
 const Joi = require('joi')
 const User = require('../models/User')
 const env = require("dotenv").config();
+const fs = require('fs');
+const imgPath = './public/profileImage/default.jpg';
+
+
+
+function joiValidate (req) {
+
+	const schema = {
+		name: Joi.string().min(3).max(30).required(),
+		password: Joi.string().min(8).max(80).alphanum().required(),
+    email: Joi.string().email().lowercase().required(),
+    birthDate: Joi.date().required().min('1-1-1900').iso(),
+    gender:Joi.string().required()
+	}
+	return Joi.validate(req, schema);
+}
+
+
+
+
   exports.userSignup =   (req, res, next) => {
+ 
+   const { error } = joiValidate(req.body)
+   if (error)
+    return res.status(400).send({ msg: error.details[0].message });
 
    User.find({ name: req.body.name  })
    .exec()
@@ -37,6 +60,8 @@ const env = require("dotenv").config();
                   birthDate:req.body.birthDate,
                   gender:req.body.gender
                 });
+                user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
+                user.image.contentType = 'jpg';
                 const token = jwt.sign(
                   { _id: user._id,
                     name: user.name, 
@@ -120,7 +145,7 @@ exports.userLogin = (req, res, next) => {
     });
 };
 
-/*exports.user_delete = (req, res, next) => {
+exports.userDelete = (req, res, next) => {
   User.remove({ _id: req.params.userId })
     .exec()
     .then(result => {
@@ -134,4 +159,4 @@ exports.userLogin = (req, res, next) => {
         error: err
       });
     });
-};*/
+};
