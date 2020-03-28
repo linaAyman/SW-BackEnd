@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-//const config = require('config')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
@@ -70,17 +69,17 @@ const userSchema = mongoose.Schema({
       
         key:{
           type: String,
-          default: 'Mestro'
+          default: 'Maestro'
         },
         value:{
           type: String,
-          default: 'https://open.Mestro.com/users/'
+          default: 'https://open.Maestro.com/users/'
         }
       
   },
   uri:{
     type: String,
-    default: 'Mestro:User:'
+    default: 'Maestro:User:'
      
   },
   href:{

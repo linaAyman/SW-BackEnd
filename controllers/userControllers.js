@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");//this used for hashing the passwords to provide more secuirty
-const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');//this used for hashing the passwords to provide more secuirty
+const jwt = require('jsonwebtoken');
 const Joi = require('joi')
 const User = require('../models/User')
-const env = require("dotenv").config();
+const env = require('dotenv').config();
 const fs = require('fs');
 const imgPath = './public/profileImage/default.jpg';
 
@@ -35,7 +35,7 @@ function joiValidate (req) {
     .then(user => {
       if (user.length >= 1) {
         return res.status(409).json({
-          message: "Username already exists"
+          message: 'Username already exists'
         });
       }  else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -53,9 +53,9 @@ function joiValidate (req) {
                   gender:req.body.gender
                 
                 });
-                user.uri= 'Mestro:User:'+ user._id.toString();
-                user.href = 'https://api.Mestro.com/v1/users/'+ user._id.toString();
-                user.externalUrls.value = 'https://open.Mestro.com/users/'+ user._id.toString();
+                user.uri= 'Maestro:User:'+ user._id.toString();
+                user.href = 'https://api.Maestro.com/v1/users/'+ user._id.toString();
+                user.externalUrls.value = 'https://open.Maestro.com/users/'+ user._id.toString();
                 user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
                 user.image.contentType = 'jpg';
                 const token = jwt.sign(
@@ -64,7 +64,7 @@ function joiValidate (req) {
                   },
                   process.env.JWTSECRET, 
                   {
-                    expiresIn: "7d"
+                    expiresIn: '7d'
                   }
 
                 );
@@ -74,7 +74,7 @@ function joiValidate (req) {
                   .then(result => {
                     console.log(result);
                     res.status(201).json({
-                      message: "User created",
+                      message: 'User created',
                       token: token
                     });
                   })
@@ -99,13 +99,13 @@ exports.userLogin = (req, res, next) => {
     .then(user => {
       if (user.length < 1) {
         return res.status(401).json({
-          message: "Auth failed"
+          message: 'Auth failed'
         });
       }
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (err) {
           return res.status(401).json({
-            message: "Auth failed"
+            message: 'Auth failed'
           });
         }
         if (result) {
@@ -116,16 +116,16 @@ exports.userLogin = (req, res, next) => {
             },
             process.env.JWTSECRET,
             {
-              expiresIn: "7d"
+              expiresIn: '7d'
             }
           );
           return res.status(200).json({
-            message: "Auth successful",
+            message: 'Auth successful',
             token: token
           });
         }
         res.status(401).json({
-          message: "Auth failed"
+          message: 'Auth failed'
         });
       });
     })
@@ -142,7 +142,7 @@ exports.userDelete = (req, res, next) => {
     .exec()
     .then(result => {
       res.status(200).json({
-        message: "User deleted"
+        message: 'User deleted'
       });
     })
     .catch(err => {
@@ -169,11 +169,11 @@ exports.userMailExist = (req, res, next) => {
     .then(user => {
       if (user.length >= 1) {
         return res.status(409).json({
-          message: "Mail exists"
+          message: 'Mail exists'
         });
       } else {
         return res.status(200).json({
-          message: "success"
+          message: 'success'
         });
       }
     })
