@@ -22,9 +22,6 @@ install:
 script:
   - npm build
 
-env:
-  - SERVER_IP_ADDRESS=3.17.150.160
-
 before_deploy:
   - chmod 400 testaws.pem
   - eval "$(ssh-agent -s)"
