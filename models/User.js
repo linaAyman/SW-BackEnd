@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
     },
 
     gender:{
-      type: String,
+      type: Boolean,
       required: true
     },
     followersCount: { 
@@ -53,7 +53,40 @@ const userSchema = mongoose.Schema({
      data: Buffer,
      contentType: String,
     
-    }
+    },
+    providInfo:{
+      type: Boolean,
+      default: false
+    },
+    country:{
+      type: String,
+      default: 'Egypt'
+    },
+    type:{
+      type: String,
+      default: 'user'
+    },
+    externalUrls:{
+      
+        key:{
+          type: String,
+          default: 'Mestro'
+        },
+        value:{
+          type: String,
+          default: 'https://open.Mestro.com/users/'
+        }
+      
+  },
+  uri:{
+    type: String,
+    default: 'Mestro:User:'
+     
+  },
+  href:{
+    type: String,
+    default:' https://api.Mestro.com/v1/users/'
+  }
 });
 
 module.exports= mongoose.model('User', userSchema);

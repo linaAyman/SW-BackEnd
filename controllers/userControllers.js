@@ -16,7 +16,7 @@ function joiValidate (req) {
 		password: Joi.string().min(8).max(80).alphanum().required(),
     email: Joi.string().email().lowercase().required(),
     birthDate: Joi.date().required().min('1-1-1900').iso(),
-    gender:Joi.string().required()
+    gender:Joi.boolean().required()
 	}
 	return Joi.validate(req, schema);
 }
@@ -37,15 +37,7 @@ function joiValidate (req) {
         return res.status(409).json({
           message: "Username already exists"
         });
-      } else{
-        User.find({ email: req.body.email })
-        .exec()
-        .then(user => {
-          if (user.length >= 1) {
-            return res.status(409).json({
-              message: "Mail exists"
-            });
-          } else {
+      }  else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
               if (err) {
                 return res.status(500).json({
@@ -59,7 +51,11 @@ function joiValidate (req) {
                   password: hash,
                   birthDate:req.body.birthDate,
                   gender:req.body.gender
+                
                 });
+                user.uri= 'Mestro:User:'+ user._id.toString();
+                user.href = 'https://api.Mestro.com/v1/users/'+ user._id.toString();
+                user.externalUrls.value = 'https://open.Mestro.com/users/'+ user._id.toString();
                 user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
                 user.image.contentType = 'jpg';
                 const token = jwt.sign(
@@ -91,12 +87,8 @@ function joiValidate (req) {
               }
             });
           }
-        });
-
-
-      }
     
-    });     
+        });     
          
    
 };
@@ -154,6 +146,38 @@ exports.userDelete = (req, res, next) => {
       });
     })
     .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+};
+
+exports.userLogout = (req, res, next) => {
+   
+    return res.status(200).json({
+      message: 'logging out success'
+     });
+
+};
+
+
+exports.userMailExist = (req, res, next) => {
+ 
+  User.find({ email: req.params.mail})
+    .exec()
+    .then(user => {
+      if (user.length >= 1) {
+        return res.status(409).json({
+          message: "Mail exists"
+        });
+      } else {
+        return res.status(200).json({
+          message: "success"
+        });
+      }
+    })
+     .catch(err => {
       console.log(err);
       res.status(500).json({
         error: err
