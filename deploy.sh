@@ -16,7 +16,7 @@ npm install joi
 npm install validator
 
 sudo pm2 delete app
-sudo pm2 start app.js --watch
+sudo pm2 start server.js --watch
 exit
 
 EOF
