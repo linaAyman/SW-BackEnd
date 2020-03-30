@@ -1,9 +1,10 @@
 {
-  "name": "complexApp",
+  "name": "Spotify",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "assert": "^2.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.3.0",
@@ -22,10 +23,14 @@
     "nodemon": "^2.0.2",
     "validator": "^12.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
+    "request": "^2.88.2"
+  },
   "scripts": {
     "watch": "nodemon server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,4 @@
-const { Search, validateSearch } = require('../models/search')
+const { Search, validateSearch } = require('../models/Search')
 const { Track }=require('../models/Track')
 const { Artist}=require('../models/Artist')
 const { Album }=require('../models/Album')
@@ -45,17 +45,17 @@ exports.search=async function(req,res){
                 trackResult=await Track
                     .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0})
                     .sort({ score: { $meta: "textScore" } })
-                    .populate('artists_id','name')
+                    .populate('artists_id','name');
                 
                 artistResult=await Artist
-                    .find({name:new RegExp('.*' + query + '.*', 'i')},{name:'name',type:'type',images:'images','_id':0})
+                    .find({name:new RegExp('.*' + query + '.*', 'i')},{name:'name',type:'type',images:'images','_id':0});
 
                 albumResult=await Album
                     .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0,images:'images'})
                     .sort({ score: { $meta: "textScore" } })
                     .populate('artists','name');
 
-                console.log(searchResult);
+                console.log(trackResult);
             }
             else
             {
@@ -63,10 +63,10 @@ exports.search=async function(req,res){
 
                 searchResult=await Track
                     .find({name:temp},{'_id':0,name:'name',type:'type'})
-                    .populate('artists_id','name')
+                    .populate('artists_id','name');
 
                 searchResult.push(await Artist
-                    .find({name:new RegExp('.*' + temp+ '.*', 'i')},{name:'name',type:'type',images:'images','_id':0}))
+                    .find({name:new RegExp('.*' + temp+ '.*', 'i')},{name:'name',type:'type',images:'images','_id':0}));
 
                 searchResult.push(await Album
                     .find({name:temp},{name:'name',type:'type' ,'_id':0,images:'images'})
