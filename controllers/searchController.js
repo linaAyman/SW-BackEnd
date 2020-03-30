@@ -1,4 +1,4 @@
-const { Search, validateSearch } = require('../models/search')
+const { Search, validateSearch } = require('../models/Search')
 const { Track }=require('../models/Track')
 const { Artist}=require('../models/Artist')
 const { Album }=require('../models/Album')
