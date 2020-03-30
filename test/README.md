@@ -10,7 +10,7 @@ https://buddy.works/guides/how-automate-nodejs-unit-tests-with-mocha-chai?utm_so
 # we will use request package in node.js to send requests to server so take a look for requests created in test-searchController.js file in test folder 
 
 
-# please follow the naming convention test-<controllername>.js  for example : test-userController.js
+please follow the naming convention test-<controllername>.js  for example : test-userController.js
 
 # to run the tests 
     *npm run watch
