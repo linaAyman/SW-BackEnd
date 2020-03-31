@@ -1,5 +1,7 @@
-# for deleting a remote branch 
+```bash
+for deleting a remote branch 
 *git push origin --delete <branch_name>
+```
 
 # for getting into master branch and exit another branch
 *git checkout -b master
