@@ -21,6 +21,7 @@ install:
 
 script:
   - npm build
+  - npm test
 
 before_deploy:
   - chmod 400 testaws.pem
@@ -40,4 +41,4 @@ notifications:
      - linaayman99@gmail.com
      - Salmafarghaly131@gmail.com
     on_success: change
-    on_failure: always
+    on_failure: change
