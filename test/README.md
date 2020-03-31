@@ -12,7 +12,8 @@ we will use request package in node.js to send requests to server so take a look
 
 please follow the naming convention test-<controllername>.js  for example : test-userController.js
 
-# to run the tests 
+# to run the tests
+    *npm install request
     *npm run watch
     *open new power shell by clicking "+" symbol in terminal
     *type in the new power shell  npm run test
