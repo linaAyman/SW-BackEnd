@@ -14,11 +14,12 @@ it('Search Feature Test#1', function(done) {
         }
       };
     request(options, function(error, response, body) {
-        var reqBody =body.toString();
+       if(body)
+       {
+        var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        console.log(reqBody)
         expect(reqBody.trackResult[0].name).to.equal('a dream is a wish your heart makes');
-        done();
+        done();}
     });
 });
 
@@ -31,12 +32,12 @@ it('Search Feature Test#2', function(done) {
         }
       };
     request(options, function(error, response, body) {
-        var reqBody =body.toString();
+      if(body){
+        var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        console.log(reqBody)
         expect(reqBody.trackResult[0].name).to.equal('til there was you');
         expect(reqBody.trackResult[1].name).to.equal('til there was you (sing-a-long)');
-        done();
+        done();}
     });
 });
 
@@ -49,12 +50,12 @@ it('Search Feature Test#3 / Artist Search test', function(done) {
         }
       };
     request(options, function(error, response, body) {
-        var reqBody =body.toString();
+      if(body){
+        var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        console.log(reqBody)
         expect(reqBody.artistResult[0].name).to.equal('Christina Aug');
         expect(reqBody.artistResult[1].name).to.equal('Christina Perri');
-        done();
+        done();}
     });
 });
 
