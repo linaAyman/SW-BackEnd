@@ -19,6 +19,7 @@ install:
   - npm install joi
   - npm install validator
   - npm install mocha chai --save-dev
+  - npm install request
 
 script:
   - npm build
