@@ -18,6 +18,7 @@ install:
   - npm install nodemon
   - npm install joi
   - npm install validator
+  - npm install mocha chai --save-dev
 
 script:
   - npm build
