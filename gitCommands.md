@@ -12,3 +12,7 @@ git checkout -b master
 ```bash
 git config --global core.autocrlf input
 ```
+##### for setting the origin repo 
+```bash
+git remote add origin <link of our repo>
+```
