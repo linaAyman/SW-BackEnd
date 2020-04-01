@@ -3,9 +3,9 @@
 git push origin --delete <branch_name>
 ```
 
-##### for getting into master branch and exit another branch
+##### for getting into another branch
 ```bash
-git checkout -b master
+git checkout <branch_name>
 ```
 
 ##### for changing end of file LF -> CRLF or visaverca
