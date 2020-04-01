@@ -8,7 +8,8 @@
   const playlistRoutes = require('./routes/playlist');
   const searchRoutes=require('./routes/search');
   const playerRoutes=require('./routes/player');
-  //const albumRoutes = require('./routes/album');
+  const meRoutes =require('./routes/me');
+ 
   
   mongoose.connect(`mongodb://localhost/MusicApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
@@ -40,10 +41,11 @@
   app.use("/playlist", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);
+  app.use("/me",meRoutes)
   ///app.use('/album', albumRoutes);
   
   app.use((req, res, next) => {
-    const error = new Error("Not found");
+    const error = new Error("the request you want isn't supported yet");
     error.status = 404;
     next(error);
   });

@@ -9,8 +9,8 @@ var ObjectId=mongoose.Types.ObjectId;
 ///==============================Saving a recently played track in play history object
 exports.saveTrack = async function saveTrack (req, res){
 
-    if(!req.query.trackId) return res.status(404).send({ msg: "trackId haven't been sent in the request" })
-    if(!req.query.contextUri) return res.status(404).send({ msg: "contextUri haven't been sent in the request" })
+    if(!req.query.trackId) return res.status(404).send({ message: "trackId haven't been sent in the request" })
+    if(!req.query.contextUri) return res.status(404).send({ message: "contextUri haven't been sent in the request" })
 
     const { error } = validateContext(req.query.contextUri)
     if (error) return res.status(404).send({ msg: error.details[0].message })
@@ -46,7 +46,7 @@ exports.saveTrack = async function saveTrack (req, res){
                         })
 
         }   
-        res.status(200).send('OK')
+        res.status(200).json({message:'OK'})
 
     }
     else{

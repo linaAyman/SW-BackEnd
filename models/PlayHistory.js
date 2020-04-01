@@ -47,8 +47,10 @@ function validatePlayHistory (playHistory) {
 function validateContext(context){
     const schema ={
         type : Joi.required().valid("track","playlist","album","artist"),
-        uri:Joi.required().String(),
-        externalUrl:Joi.required().String()
+        uri:Joi.required(),
+        uri:Joi.string(),
+        externalUrl:Joi.required(),
+        externalUrl:Joi.string()
     }
     return Joi.validate(context,schema)
 }
