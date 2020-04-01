@@ -7,6 +7,7 @@
   const userRoutes = require('./routes/user');
   const playlistRoutes = require('./routes/playlist');
   const searchRoutes=require('./routes/search');
+  const playerRoutes=require('./routes/player');
   //const albumRoutes = require('./routes/album');
   
   mongoose.connect(`mongodb://localhost/MusicApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
@@ -38,6 +39,7 @@
   app.use("/user", userRoutes);
   app.use("/playlist", playlistRoutes);
   app.use("/search",searchRoutes);
+  app.use("/player",playerRoutes);
   ///app.use('/album', albumRoutes);
   
   app.use((req, res, next) => {
