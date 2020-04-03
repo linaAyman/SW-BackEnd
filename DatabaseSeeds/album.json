@@ -1,0 +1,66 @@
+[
+  {
+    "albumType": "album",
+    "artists": [
+      {
+        "id": { "$oid": "6e85ce544676d8a0b48130b1" }
+      }
+    ],
+    "externalUrl": "http://3.137.69.49:3000/album/3xl0OvcSlc9Mwe5ToaFtD3",
+    "genres": ["pop","classical"],
+    "id": "3xl0OvcSlc9Mwe5ToaFtD3",
+    "image":  "https://i.scdn.co/image/ab67616d00001e02d32c61683be0aed19bafcf99",
+    "label": "Elektra (NEK)",
+    "name": "songs for carmella: lullabies & sing-a-longs",
+    "popularity": 50,
+    "releaseDate": "2019-01-17",
+    "releaseDatePrecision": "day",
+    "totalTracks": 20,
+    "tracks": {
+      "items": [
+        { "$oid": "5e85ce544676d8a0b48130b0" },
+        { "$oid": "5e85ce544676d8a0b48130b1" },
+        { "$oid": "5e85ce544676d8a0b48130b2" },
+        { "$oid": "5e85ce544676d8a0b48130b3" },
+        { "$oid": "5e85ce544676d8a0b48130b4" },
+        { "$oid": "5e85ce544676d8a0b48130b5" },
+        { "$oid": "5e85ce544676d8a0b48130b6" },
+        { "$oid": "5e85ce544676d8a0b48130b7" },
+        { "$oid": "5e85ce544676d8a0b48130b8" },
+        { "$oid": "5e85ce544676d8a0b48130b9" }
+      ],
+      "total": 10
+    },
+    "type": "album",
+    "uri": "Maestro:album:3xl0OvcSlc9Mwe5ToaFtD3"
+  },
+  {
+  "albumType": "single",
+  "artists": [
+    {
+      "id": { "$oid": "6e85ce544676d8a0b48130b4" }
+    }
+  ],
+  "externalUrl": "http://3.137.69.49:3000/album/75iQSBSaztFIAun9qLLCnb",
+  "genres": [],
+  "id": "75iQSBSaztFIAun9qLLCnb",
+  "image": "https://i.scdn.co/image/ab67616d00001e0234ce9a9dde9c057225509276",
+  "label": "Interscope Records*",
+  "name": "Girls Like You (feat. Cardi B)",
+  "popularity": 69,
+  "releaseDate": "2018-05-30",
+  "releaseDatePrecision": "day",
+  "totalTracks": 1,
+  "tracks": {
+    "items": [{
+            "$oid": "5e85ce534676d8a0b48130c4"
+      }],
+      "total": 1
+    },
+      "duration": 235545,
+      "previewUrl": "https://p.scdn.co/mp3-preview/c18516337e8690fcb73d3959cfd5474847ccf9d2?cid=162b7dc01f3a4a2ca32ed3cec83d1e02",
+      "trackNumber": 1,
+      "type": "album",
+      "uri": "Maestro:album:75iQSBSaztFIAun9qLLCnb"
+  }
+]
