@@ -1,0 +1,39 @@
+[
+
+  {
+    "_id": { "$oid": "5e848bf8da28c351f47c1ec8" },
+    "image":"https://i.scdn.co/image/9d52e773eb1d83027555fe33eab0740423f937e2",
+    "externalUrl": "http://3.137.69.49:3000/users/5e848bf8da28c351f47c1ec8",
+    "followersCount":  0,
+    "isPremium": false,
+    "providInfo": false,
+    "country": "Egypt",
+    "type": "user",
+    "uri": "Maestro:User:5e848bf8da28c351f47c1ec8",
+    "name": "Ayleeeeeeen 21 ",
+    "email": "arwa@gmail.com",
+    "password": "$2a$10$/8O5ll3Y3Bj3Uy.GcSk5kOKXfkR0ET/6qlrYXsurn1lW3rBcBESwG",
+    "birthDate": { "$date": { "$numberLong": "1072915200000" } },
+    "gender": true,
+    "createdAt": { "$date": { "$numberLong": "1585744888826" } },
+    "__v": { "$numberInt": "0" }
+  },
+  {
+    "_id": { "$oid": "5e85b116e1d0f825dc0c5f01" },
+    "image": "https://i.scdn.co/image/65459b708c6f80c0ca6699b17e9882f9fcdaee13",
+    "externalUrl": "http://3.137.69.49:3000/users/5e85b116e1d0f825dc0c5f01",
+    "followersCount": 0,
+    "isPremium": false,
+    "providInfo": false,
+    "country": "Egypt",
+    "type": "user",
+    "uri": "Maestro:User:5e85b116e1d0f825dc0c5f01",
+    "name": "mosho",
+    "email": "mosho@gmail.com",
+    "password": "$2a$10$jwhzSi2fkSsGUOQUykHAZOlqX.jpNNZju2kywr08KGXZWUWMeHkmy",
+    "birthDate": { "$date": { "$numberLong": "1094688000000" } },
+    "gender": true,
+    "createdAt": { "$date": { "$numberLong": "1585819926469" } },
+    "__v": { "$numberInt": "0" }
+  }
+]
