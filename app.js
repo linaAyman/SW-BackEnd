@@ -8,7 +8,7 @@
   const playlistRoutes = require('./routes/playlist');
   const searchRoutes=require('./routes/search');
   const artistRoutes = require('./routes/artist');
-  //const albumRoutes = require('./routes/album');
+  const albumRoutes = require('./routes/album');
   
   mongoose.connect(`mongodb://localhost/MusicApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
@@ -42,8 +42,7 @@
   app.use("/playlists/:id", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use('/artist/:id', artistRoutes);
-  
-  ///app.use('/album', albumRoutes);
+  app.use('/albums/:id', albumRoutes);
   
   app.use((req, res, next) => {
     const error = new Error("Not found");
