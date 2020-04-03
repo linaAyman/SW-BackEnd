@@ -9,4 +9,6 @@ router.post("/login", UserController.userLogin);
 router.delete("/:userId",checkAuth, UserController.userDelete);
 router.post("/logout" ,checkAuth,  UserController.userLogout);
 router.get("/mailExist/:mail" , UserController.userMailExist);
+router.get("/user",checkAuth, UserController.getCurrentUser);
+router.get("/users/:id",checkAuth,UserController.getOtherUser);
 module.exports = router;

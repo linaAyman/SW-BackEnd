@@ -36,7 +36,8 @@
   
   // Routes which should handle requests
 
-  app.use("/user", userRoutes);
+  app.use("", userRoutes);
+  //app.use("/users/:id",userRoutes);
   app.use("/playlist", playlistRoutes);
   app.use("/playlists/:id", playlistRoutes);
   app.use("/search",searchRoutes);
