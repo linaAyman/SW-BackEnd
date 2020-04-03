@@ -1,0 +1,85 @@
+[
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b0" },
+    "externalUrl":"http://3.137.69.49:3000/artist/0OdUWJ0sBjDrqHygGUXeCF",
+    "followers": 306565,
+    "genres": [ "indie folk", "indie pop" ],
+    "id": "0OdUWJ0sBjDrqHygGUXeCF",
+    "image": "https://i.scdn.co/image/2efc93d7ee88435116093274980f04ebceb7b527",
+    "name": "Band of Horses",
+    "popularity": 59,
+    "type": "artist",
+    "uri": "spotify:artist:0OdUWJ0sBjDrqHygGUXeCF"
+  },
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b1" },
+    "externalUrls":"http://3.137.69.49:3000/artist/7H55rcKCfwqkyDFH9wpKM6",
+    "followers": 2395276,
+    "genres": [ "neo mellow", "pop", "pop rock", "post-teen pop", "viral pop" ],
+    "id": "7H55rcKCfwqkyDFH9wpKM6",
+    "image": "https://i.scdn.co/image/8e91321105b4e88acc0b5264758e40e8192fae58",
+    "name": "Christina Perri",
+    "popularity": 74,
+    "type": "artist",
+    "uri": "spotify:artist:7H55rcKCfwqkyDFH9wpKM6"
+  },
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b2" },
+    "externalUrl":  "http://3.137.69.49:3000/artist/1vCWHaC5f2uS3yhpwWbIA6",
+    "followers": 17037478,
+    "genres": [ "big room", "dance pop", "edm", "pop", "tropical house" ],
+    "id": "1vCWHaC5f2uS3yhpwWbIA6",
+    "image": "https://i.scdn.co/image/9c0d8fa969a9f5db6ff860203d6880a125e501d2",
+    "name": "Avicii",
+    "popularity": 86,
+    "type": "artist",
+    "uri": "spotify:artist:1vCWHaC5f2uS3yhpwWbIA6"
+  },
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b3" },
+    "externalUrl": "http://3.137.69.49:3000/artist/64M6ah0SkkRsnPGtGiRAbb",
+    "followers": 4846810,
+    "genres": [ "dance pop","pop","post-teen pop"],
+    "id": "64M6ah0SkkRsnPGtGiRAbb",
+    "image": "https://i.scdn.co/image/d7846ef6807a6a5e449997e9d11e5bd8b2d2576a",
+    "name": "Christina Rexha",
+    "popularity": 84,
+    "type": "artist",
+    "uri": "spotify:artist:64M6ah0SkkRsnPGtGiRAbb"
+  },
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b4" },
+      "externalUrl": "http://3.137.69.49:3000/artist/04gDigrS5kc9YWfZHwBETP",
+      "followers": 4846810,
+    "genres": ["dance pop","rock"],
+      "id": "04gDigrS5kc9YWfZHwBETP",
+      "image": "https://i.scdn.co/image/57dba89591ae8a2a0f775e2168267c3a387a621c",
+      "name": "Marron 5",
+      "popularity": 123,
+      "type": "artist",
+      "uri": "spotify:artist:04gDigrS5kc9YWfZHwBETP"
+  },
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b5" },
+      "externalUrl": "http://3.137.69.49:3000/artist/19gmxCK2V3jLMi5fDYyKtS",
+      "followers": 34526,
+      "image":"https://i.scdn.co/image/ab67616d00001e0219ab0403aa0de6ee32b101ff",
+      "genres": ["classical"],
+      "id": "19gmxCK2V3jLMi5fDYyKtS",
+      "name": "Willamette Stone",
+      "type": "artist",
+      "uri": "spotify:artist:19gmxCK2V3jLMi5fDYyKtS"
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b6" },
+        "externalUrl": "http://3.137.69.49:3000/artist/12gmxCK2V3jLMi5fDYyKtS",
+        "followers": 34526233,
+        "image":"https://i.scdn.co/image/ab67616d00001e023ac7efd171037c32838c8cda",
+        "genres": ["Arabic"],
+        "id": "12gmxCK2V3jLMi5fDYyKtS",
+        "name": "Amr Diab",
+        "type": "artist",
+        "uri": "spotify:artist:12gmxCK2V3jLMi5fDYyKtS"
+      }
+
+]
