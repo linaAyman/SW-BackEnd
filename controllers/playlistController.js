@@ -37,6 +37,7 @@ exports.addTrack= async function(req,res){
     let playlistOwnerId = (playlistOwner[0].owner);
     let trackCount = await Playlist.find({id:temp},{'_id':0,'totalTracks':1},);
     let totalTracks = trackCount[0].totalTracks+1;
+   
     if(dID == playlistOwnerId )
         {
           
@@ -47,13 +48,16 @@ exports.addTrack= async function(req,res){
         uriArray.forEach(async function (value,index){
           let searchResult = await Track.findOne({uri:uriArray[index]},{'_id':1})
           TrackId=searchResult._id
-       
+          
           if(searchResult){
+         
             await Playlist
             .updateOne({_id:playlistId}, {$push:{'tracks':TrackId}}  );
-              await Playlist
+            totalTracks=totalTracks+index;
+            await Playlist
              .updateOne({_id:playlistId},{'totalTracks':totalTracks}  );
-            console.log( "total1")
+         
+            
           }
       });
 
