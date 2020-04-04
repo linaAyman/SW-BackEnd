@@ -44,7 +44,7 @@
   app.use('/albums/:id', albumRoutes);
   
   app.use((req, res, next) => {
-    const error = new Error("Not found");
+    const error = new Error("Your request isnt supported yet");
     error.status = 404;
     next(error);
   });
