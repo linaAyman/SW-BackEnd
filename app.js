@@ -10,7 +10,7 @@
   const artistRoutes = require('./routes/artist');
   const albumRoutes = require('./routes/album');
   
-  mongoose.connect(`mongodb://localhost/MusicApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  mongoose.connect(`mongodb://3.137.69.49/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
 
