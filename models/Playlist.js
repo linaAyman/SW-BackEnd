@@ -31,30 +31,33 @@ const playlistSchema = new mongoose.Schema({
         type: Number
     },
     followers: {
-        type: new mongoose.Schema({
-            href: {
-                type: String
-            },
-            total: {
-                type: Number
-            }
-        })
+        type: Number
+    },
+    totalTracks: {
+        type: Number
     },
     description: {
         type: String
     },
     owner: {
-        type:mongoose.Schema.Types.ObjectId, ref:'User'
+        type: mongoose.Schema.Types.ObjectId, ref:'User'
         ,
         required: true
     },
-    tracks:[{
+    tracks:{
+     items:[{  
         type: new mongoose.Schema({
          id: {type:mongoose.Schema.Types.ObjectId,ref:'Track'}
-        ,
-        added_at:{type:Date, default:Date.now}
+       
         })
-    }],
+         }],
+        
+    added_at:{type:Date, default:Date.now}
+        ,
+    total: {
+            type: Number
+        }
+    },
     genres: [String]
 })
 

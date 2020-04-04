@@ -6,6 +6,7 @@ const User = require('../models/User')
 const env = require('dotenv').config();
 const fs = require('fs');
 const imgPath = './public/profileImage/default.jpg';
+const {Playlist} = require('../models/Playlist')
 
 
 
@@ -187,7 +188,8 @@ exports.getCurrentUser = async (req,res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.decode(token);
   let dID = decoded._id;
-  let userInfo = await User.find({_id:dID}, {uri:0,_id:0, href:0,followersCount:0,type:0,providInfo:0,name:0,password:0,__v:0, createdAt:0,gender:0} );
+  let userInfo = await User
+  .find({_id:dID}, {uri:0,_id:0, href:0,followersCount:0,type:0,providInfo:0,name:0,password:0,__v:0, createdAt:0,gender:0} );
   console.log(userInfo)
   return res.send(userInfo)
    
@@ -197,9 +199,16 @@ exports.getOtherUser = async function(req,res){
   
   console.log(req.params.id)
   OtherUserId = req.params.id;
+ 
   try{
-  let otherUserInfo =  await User.find({_id:OtherUserId}, {uri:0,externalUrls:0,type:0,href:0, providInfo:0,password:0,__v:0, createdAt:0,gender:0} );
-    return res.send(otherUserInfo)
+  let otherUserInfo =  await User
+  .find({'_id':OtherUserId}, {uri:0,externalUrls:0,type:0,href:0, providInfo:0,password:0,__v:0, createdAt:0,gender:0} );
+  otherUserInfo
+  .push( await Playlist
+    .find( {'owner':OtherUserId}  , {_id:0,'id':1, 'name':1,'image':1}))
+    
+       
+  return res.send(otherUserInfo)
     
   }catch{
     const error = new Error("No such user");
