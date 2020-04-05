@@ -10,19 +10,19 @@
   const playerRoutes=require('./routes/player');
   const meRoutes =require('./routes/me');
 
-  /*let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+  let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
   mongoose
     .connect(db, {
       useCreateIndex: true,
       useNewUrlParser: true
     })
-    .then(() => winston.info(`Connected to MongoDB...`))*/
+    .then(() => winston.info(`Connected to MongoDB...`))
  
-mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+/*mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
 
-  mongoose.Promise = global.Promise;
+  mongoose.Promise = global.Promise;*/
 
   
   app.use(morgan("dev"));
