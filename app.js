@@ -10,7 +10,8 @@
   const playerRoutes=require('./routes/player');
   const meRoutes =require('./routes/me');
 
-  let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+ // let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+let db="mongodb://localhost/MaestroApp"
   mongoose
     .connect(db, {
       useCreateIndex: true,
