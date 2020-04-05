@@ -1,4 +1,4 @@
-  const express = require("express");
+ const express = require("express");
   const app = express();
   const morgan = require("morgan");
   const bodyParser = require("body-parser");
@@ -18,12 +18,12 @@
     })
     .then(() => winston.info(`Connected to MongoDB...`))
  
-/*mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+ 
+  /*mongoose.connect(`mongodb://localhost/MusicApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
 
   mongoose.Promise = global.Promise;*/
-
   
   app.use(morgan("dev"));
   app.use('/uploads', express.static('uploads'));
@@ -46,21 +46,14 @@
   // Routes which should handle requests
 
   app.use("/user", userRoutes);
-  //app.use("/users/:id",userRoutes);
   app.use("/playlist", playlistRoutes);
-  app.use("/playlists/:id", playlistRoutes);
-  app.use("/search",searchRoutes)
+  app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);
-  app.use('/artist/:id', artistRoutes);
-  app.use('/albums/:id', albumRoutes);
-  app.use("/me",meRoutes);
+  app.use("/me",meRoutes)
+  ///app.use('/album', albumRoutes);
   
-  
-
- 
   app.use((req, res, next) => {
-    const error = new Error("Your request isnt supported yet");
-
+    const error = new Error("the request you want isn't supported yet");
     error.status = 404;
     next(error);
   });
@@ -75,3 +68,5 @@
   });
   
   module.exports = app;
+
+
