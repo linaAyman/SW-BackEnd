@@ -14,9 +14,9 @@ const {Playlist} = require('../models/Playlist')
 function joiValidate (req) {
 
 	const schema = {
-		name: Joi.string().min(3).max(30).required(),
-		password: Joi.string().min(8).max(80).alphanum().required(),
     email: Joi.string().email().lowercase().required(),
+    password: Joi.string().min(8).max(80).alphanum().required(),
+    name: Joi.string().min(3).max(30).required(),
     birthDate: Joi.date().required().min('1-1-1900').iso(),
     gender:Joi.boolean().required()
 	}
