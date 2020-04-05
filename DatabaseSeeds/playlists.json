@@ -1,0 +1,46 @@
+[
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b2" },
+    "description": "playlist from the including all songs in if i stay movie",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimQUz8KFC8W6WrDiDnc",
+    "followers": 6047,
+    "id": "4qrimQUz8KFC8W6WrDiDnc",
+    "image": "https://i.scdn.co/image/ab67616d0000b273c7cd431638fcd90523df85c3",
+    "name": "If i stay(soundtrack)",
+    "owner": { "$oid": "5e848bf8da28c351f47c1ec8" },
+    "primaryColor": null,
+    "public": true,
+    "tracks": 
+      [
+        { "$oid": "5e85ce534676d8a0b48130c3" },
+        { "$oid": "5e85ce534676d8a0b48130c5" }
+      ]
+    ,
+
+    "totalTracks": 2,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimQUz8KFC8W6WrDiDnc"
+  },
+  {
+    "_id": { "$oid": "6e85ce544676d8a0b48130b3" },
+    "description": "playlist Exclusive Amr Diab",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnc",
+    "followers": 604733,
+    "id": "4qrimFUz8KFC8W6WrDiDnc",
+    "image": "https://i.scdn.co/image/ab67616d0000b273c7cd431638fcd90523df85c3",
+    "name": "New Songs Amr Diab",
+    "owner": { "$oid": "5e848bf8da28c351f47c1ec8" },
+    "primaryColor": null,
+    "public": true,
+    "tracks":  [
+        { "$oid": "5e85ce534676d8a0b48130c6" }
+      ]
+
+    ,
+    "totalTracks": 1,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnc"
+
+  }
+
+]

@@ -18,9 +18,7 @@ const playlistSchema = new mongoose.Schema({
         }
         )
     },
-    href: {
-        type: String,
-    },
+  
     type: {
         type: String,
         default: "playlist"
@@ -28,51 +26,37 @@ const playlistSchema = new mongoose.Schema({
     uri: {
         type: String,
     },
-    images: [{height: Number, url: String, width: Number}],
+    images: { url: String},
     popularity: {
         type: Number
     },
     followers: {
-        type: new mongoose.Schema({
-            href: {
-                type: String
-            },
-            total: {
-                type: Number
-            }
-        })
+        type: Number
+    },
+    totalTracks: {
+        type: Number
     },
     description: {
         type: String
     },
     owner: {
-        type: new mongoose.Schema({
-            diplay_name: String,
-            href: String,
-            id: String,
-            type: String,
-            uri: String,
-            external_urls:{
-                type:new mongoose.Schema({
-                    spotify :{
-                        type :String,
-                       // required:true
-                    }
-                }
-                )
-            }
-        }),
+        type: mongoose.Schema.Types.ObjectId, ref:'User'
+        ,
         required: true
     },
-    snapshot_id: {
-        type: String
-    },
-    tracks: {
+    tracks:{
+     items:[{  
         type: new mongoose.Schema({
-            href: String,
-            total: Number,
-            items: [{total: Number}]
+         id: {type:mongoose.Schema.Types.ObjectId,ref:'Track'}
+       
         })
+         }],
+        
+    added_at:{type:Date, default:Date.now}
+        ,
+    total: {
+            type: Number
+        }
     },
     genres: [String]
 })
