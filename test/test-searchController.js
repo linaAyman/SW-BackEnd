@@ -8,7 +8,7 @@ dotenv.config();
 it('Search Feature Test#1', function(done) {
     const options = {
         method:'GET',
-        url:'http://localhost:3000/search?query=dream+your+heart+makes',
+        url:'http://3.137.69.49:3000/search?query=dream+your+heart+makes',
         headers: {
           'Authorization': process.env.token
         }
@@ -26,7 +26,7 @@ it('Search Feature Test#1', function(done) {
 it('Search Feature Test#2', function(done) {
     const options = {
         method:'GET',
-        url:'http://localhost:3000/search?query=til+there+was+you',
+        url:'http://3.137.69.49:3000/search?query=til+there+was+you',
         headers: {
           'Authorization': process.env.token
         }
@@ -44,7 +44,7 @@ it('Search Feature Test#2', function(done) {
 it('Search Feature Test#3 / Artist Search test', function(done) {
     const options = {
         method:'GET',
-        url:'http://localhost:3000/search?query=christina',
+        url:'http://3.137.69.49:3000/search?query=christina',
         headers: {
           'Authorization': process.env.token
         }
@@ -53,8 +53,8 @@ it('Search Feature Test#3 / Artist Search test', function(done) {
       if(body){
         var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        expect(reqBody.artistResult[0].name).to.equal('Christina Aug');
-        expect(reqBody.artistResult[1].name).to.equal('Christina Perri');
+        expect(reqBody.artistResult[0].name).to.equal('Christina Perri');
+        expect(reqBody.artistResult[1].name).to.equal('Christina Rexha');
         done();}
     });
 });
