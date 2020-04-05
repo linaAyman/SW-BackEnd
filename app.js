@@ -45,7 +45,7 @@ mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useU
   
   // Routes which should handle requests
 
-  app.use("", userRoutes);
+  //app.use("", userRoutes);
   //app.use("/users/:id",userRoutes);
   app.use("/playlist", playlistRoutes);
   app.use("/playlists/:id", playlistRoutes);
