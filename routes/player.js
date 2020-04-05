@@ -6,5 +6,6 @@ const checkAuth = require('../middleware/checkAuth');
 
 
 router.post('/save-played-track',checkAuth,playerController.saveTrack);
+router.post('/play/:id',checkAuth,playerController.playTrack);
 
 module.exports = router;

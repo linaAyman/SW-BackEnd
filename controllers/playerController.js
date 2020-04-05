@@ -1,6 +1,7 @@
 var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHistory')
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
+var { Playlist }=require('../models/Playlist')
 var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
 
@@ -53,3 +54,27 @@ exports.saveTrack = async function saveTrack (req, res){
         return 
     }
 };
+
+exports.playTrack=async function(req,res){
+    const token = req.headers.authorization.split(" ")[1];
+    if(token){   
+        const decoded = jwt.decode(token)
+        let type=req.query.type
+        let index=req.query.index
+        if(type=="playlist"){
+
+
+        }
+
+
+
+
+
+        res.status(200).json({message:'OK'})
+    }
+    else{
+        return;
+    }
+
+
+}
