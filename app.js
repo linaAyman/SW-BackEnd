@@ -9,6 +9,7 @@
   const searchRoutes=require('./routes/search');
   const playerRoutes=require('./routes/player');
   const meRoutes =require('./routes/me');
+  const cors=require('cors');
 
  // let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
 let db="mongodb://localhost/MaestroApp"
@@ -52,7 +53,7 @@ let db="mongodb://localhost/MaestroApp"
   app.use("/player",playerRoutes);
   app.use("/me",meRoutes)
   ///app.use('/album', albumRoutes);
-  
+  app.use(cors());
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");
     error.status = 404;
