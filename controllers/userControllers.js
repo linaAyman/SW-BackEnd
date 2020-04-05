@@ -14,9 +14,9 @@ const rand =new RandHash;
 function joiValidate (req) {
 
 	const schema = {
-		name: Joi.string().min(3).max(30).required(),
-		password: Joi.string().min(8).max(80).alphanum().required(),
     email: Joi.string().email().lowercase().required(),
+		password: Joi.string().min(8).max(80).alphanum().required(),
+    name: Joi.string().min(3).max(30).required(),
     birthDate: Joi.date().required().min('1-1-1900').iso(),
     gender:Joi.boolean().required()
 	}
@@ -138,14 +138,10 @@ const smtpTransport = nodemailer.createTransport({
                         });
                      }
                 });
-               
               }
             });
           }
-    
-        });     
-         
-   
+        });      
 };
 
 exports.userLogin = (req, res, next) => {
@@ -235,7 +231,6 @@ exports.userVerifyMail = (req, res, next) => {
       message: 'Domain doesnot Match'
       });
     }
-
 };
 
 
@@ -334,7 +329,6 @@ exports.userChangePassword = (req, res, next) => {
 
                 }
               });
-
             }else{
               return res.status(401).json({
                 message: 'Please confirm the New password' 
@@ -343,7 +337,6 @@ exports.userChangePassword = (req, res, next) => {
 
           }
         });
-      
     })
      .catch(err => {
       console.log(err);
@@ -429,7 +422,6 @@ exports.userResetPassword = (req, res, next) => {
                 }
                });
               });
-             
               })
               .catch(err => {
                 console.log(err);
