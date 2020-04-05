@@ -10,18 +10,18 @@
   const artistRoutes = require('./routes/artist');
   const albumRoutes = require('./routes/album');
   
-  mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+ /* mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
-  mongoose.set('useFindAndModify', false);
+  mongoose.set('useFindAndModify', false);*/
 
   //mongoose.Promise = global.Promise;*/
-/*let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
   mongoose
     .connect(db, {
       useCreateIndex: true,
       useNewUrlParser: true
     })
-    .then(() => winston.info(`Connected to MongoDB...`))*/
+    .then(() => winston.info(`Connected to MongoDB...`))
   
   app.use(morgan("dev"));
   app.use('/uploads', express.static('uploads'));
