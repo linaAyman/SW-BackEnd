@@ -76,15 +76,19 @@ const userSchema = mongoose.Schema({
           default: 'https://open.Maestro.com/users/'
         }
       
-  },
-  uri:{
-    type: String,
-    default: 'Maestro:User:'
+    },
+    uri:{
+      type: String,
+      default: 'Maestro:User:'
      
-  },
-  href:{
-    type: String,
-    default:' https://api.Mestro.com/v1/users/'
+    },
+    href:{
+      type: String,
+      default:' https://api.Maestro.com/v1/users/'
+    },
+    active:{
+      type: Boolean,
+      default: false
   }
 });
 
