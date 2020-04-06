@@ -31,7 +31,7 @@ exports.likeSong=async function(req,res){
           
           console.log(tracksTemp)
           await YourLikedSongs.findOneAndUpdate({ user:decoded._id},{$addToSet:{'tracks':tracksTemp}});
-          return res.status(200).json({"message" :'OK'})
+          return res.status(201).json({"message" :'OK'})
     }
 }
 //----------------------Remove track from your liked songs---------------//
