@@ -77,7 +77,7 @@ const smtpTransport = nodemailer.createTransport({
                   error: err
                 });
               } else {
-                randGenerator();
+               randGenerator();
                const host = req.get('host');//just our locahost
                const link="http://"+host+"/user/verify?id="+rand.randNo;
                mailOptions={
@@ -207,8 +207,8 @@ exports.userVerifyMail = (req, res, next) => {
           User.updateOne({_id:rand.userId},{active: true})
           .exec()
           .then(result =>{
-            res.status(200).json({
-              message:"Email is been Successfully verified"
+             res.status(200).json({
+             message:"Email is been Successfully verified"
             });
             rand.remove({userID: rand.userId });
             
@@ -222,7 +222,7 @@ exports.userVerifyMail = (req, res, next) => {
     })
     .catch(err => {
        console.log("Email is not verified");
-      res.status(500).json({
+       res.status(500).json({
         error: err
       });
     });
@@ -317,7 +317,7 @@ exports.userChangePassword = (req, res, next) => {
                   .exec()
                   .then(result => {
                     res.status(200).json({
-                      message: 'You change password successfly'
+                    message: 'You change password successfly'
                     });
                   })
                   .catch(err => {
@@ -450,3 +450,47 @@ exports.userResetPassword = (req, res, next) => {
       });
     }
 };
+
+exports.userIsPremuim = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.decode(token);
+  console.log(decoded._id);
+  User.updateOne({_id: decoded._id},{isPremium : true})
+  .exec()
+  .then(result =>{
+   User
+    .findOne({_id: decoded._id})
+    .exec()
+    .then(user => {
+       mailOptions={
+        from: 'Do Not Reply '+process.env.MAESTROEMAIL,
+        to : user.email,//put user email
+        subject : "Premuim Subscribe",
+        html : "Hello.<br> Congratulations! You just have turned to our premuim subscribe <br>"
+      }
+        console.log(mailOptions);
+        smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error){
+          console.log(error);
+         return res.status(500).send({ msg: 'Unable to send Email' });                
+        }
+         else{
+          res.status(200).json({
+          message:"User is now Premuim"
+          });
+        }
+      });
+     })
+     .catch(err => {
+        res.status(401).json({
+        message: 'User isnot find'
+        });
+    });
+   })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+    error: err
+    });
+  });   
+ };
