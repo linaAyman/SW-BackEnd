@@ -32,10 +32,11 @@ let db="mongodb://localhost/MaestroApp"
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
-  app.use(cors({
+  /*app.use(cors({
    origin:"http://3.137.69.49/",
    credentials:true
-  }))
+  }))*/
+   app.use(cors());
   
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -58,7 +59,7 @@ let db="mongodb://localhost/MaestroApp"
   app.use("/player",playerRoutes);
   app.use("/me",meRoutes)
   ///app.use('/album', albumRoutes);
-  app.use(cors());
+ 
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");
     error.status = 404;
