@@ -33,7 +33,7 @@ let db="mongodb://localhost/MaestroApp"
   app.use(bodyParser.json());
 
   app.use(cors({
-   origin:"www.maestroweb.live",
+   origin:"http://3.137.69.49/",
    credentials:true
   }))
   
