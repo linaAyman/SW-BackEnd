@@ -14,11 +14,16 @@ const rand =new RandHash;
 function joiValidate (req) {
 
 	const schema = {
-    email: Joi.string().email().lowercase().required(),
-		password: Joi.string().min(8).max(80).alphanum().required(),
-    name: Joi.string().min(3).max(30).required(),
-    birthDate: Joi.date().required().min('1-1-1900').iso(),
-    gender:Joi.boolean().required()
+    email: 
+    Joi.string().email().lowercase().required(),
+    password: 
+    Joi.string().min(8).max(80).alphanum().required(),
+    name: 
+    Joi.string().min(3).max(30).required(),
+    birthDate:
+    Joi.date().required().min('1-1-1900').iso(),
+    gender:
+    Joi.boolean().required()
 	}
 	return Joi.validate(req, schema);
 }
