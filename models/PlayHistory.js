@@ -19,20 +19,23 @@ const playhistorySchema = new mongoose.Schema({
                     type : String,
                     required:true,
                 },
-                uri:{
-                    type : String
-                },
-                externalUrl:{
-                    type : String
-                }
+                id:{
+                    type: String, 
+                    required:true,
+                }/*,
+                curPlayingIndex:{
+                    type:Number,
+                    default:0
+                }*/
             }),
             required : true
-        },
-        itemPlaying: {
+        }
+        //,
+       /*itemPlaying: {
             type: mongoose.Schema.Types.ObjectId , 
             required:true,
             ref:'Track'
-        },
+        },*/
         
     }]
 })

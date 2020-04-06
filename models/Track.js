@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 
 const trackSchema = new mongoose.Schema({
-    artists_id:[{type: mongoose.Schema.Types.ObjectId , required:true,ref:'Artist'}],
+    artists:[{type: mongoose.Schema.Types.ObjectId , required:true,ref:'Artist'}],
     
     duration_ms:{
         type:Number,

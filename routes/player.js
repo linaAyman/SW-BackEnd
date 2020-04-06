@@ -5,6 +5,7 @@ const playerController = require('../controllers/playerController');
 const checkAuth = require('../middleware/checkAuth');
 
 
-router.post('/save-played-track',checkAuth,playerController.saveTrack);
+//router.post('/save-played-track',checkAuth,playerController.saveTrack);
+router.get('/play/:id',checkAuth,playerController.playFirstTrack);
 
 module.exports = router;

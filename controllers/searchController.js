@@ -44,13 +44,13 @@ exports.search=async function search(req,res){
                 trackResult=await Track
                                     .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0})
                                     .sort({ score: { $meta: "textScore" } })
-                                    .populate('artists_id','name');
+                                    .populate('artists','name');
                 
                 artistResult=await Artist
-                                        .find({name:new RegExp('.*' + query + '.*', 'i')},{name:'name',type:'type',images:'images','_id':0});
+                                        .find({name:new RegExp('.*' + query + '.*', 'i')},{name:'name',type:'type',images:'image','_id':0});
 
                 albumResult=await Album
-                                    .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0,images:'images'})
+                                    .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0,images:'image'})
                                     .sort({ score: { $meta: "textScore" } })
                                     .populate('artists','name');
 
