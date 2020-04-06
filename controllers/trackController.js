@@ -47,6 +47,6 @@ exports.dislikeSong=async function(req,res){
         
 
           await YourLikedSongs.updateOne({user:decoded._id},{$pull:{'tracks':{_id:tracksTemp}}});
-          return res.status(200).json({message :'OK'})
+          return res.status(200).json({message :'Deleted Successfully'})
     }
 }
