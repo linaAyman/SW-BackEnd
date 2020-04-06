@@ -61,8 +61,6 @@ const smtpTransport = nodemailer.createTransport({
  
 });
 
-
-
   exports.userSignup =   (req, res, next) => {
    const { error } = joiValidate(req.body)
    if (error)
@@ -106,7 +104,6 @@ const smtpTransport = nodemailer.createTransport({
                         password: hash,
                         birthDate:req.body.birthDate,
                         gender:req.body.gender
-                      
                       });
                       rand.userId=user._id;//to use it back in verify mail
                       rand.save().then().catch();
@@ -123,9 +120,7 @@ const smtpTransport = nodemailer.createTransport({
                         {
                           expiresIn: '7d'
                         }
-      
                       );
-                    
                       user
                         .save()
                         .then(result => {
@@ -146,7 +141,7 @@ const smtpTransport = nodemailer.createTransport({
               }
             });
           }
-        });      
+     });      
 };
 
 exports.userLogin = (req, res, next) => {
@@ -166,7 +161,6 @@ exports.userLogin = (req, res, next) => {
           });
         }
         if (result) {
-          
           const token = jwt.sign(
             { _id: user._id,
               name: user.name, 
@@ -216,7 +210,6 @@ exports.userVerifyMail = (req, res, next) => {
              message:"Email is been Successfully verified"
             });
             rand.remove({userID: rand.userId });
-            
            })
           .catch(err => {
             console.log(err);
@@ -238,8 +231,6 @@ exports.userVerifyMail = (req, res, next) => {
     }
 };
 
-
-
 exports.userDelete = (req, res, next) => {
   User.remove({ _id: req.params.id })
     .exec()
@@ -260,7 +251,6 @@ exports.userLogout = (req, res, next) => {
     return res.status(200).json({
       message: 'logging out success'
      });
-
 };
 
 
@@ -331,7 +321,6 @@ exports.userChangePassword = (req, res, next) => {
                       error: err
                     });
                   });
-
                 }
               });
             }else{
@@ -339,7 +328,6 @@ exports.userChangePassword = (req, res, next) => {
                 message: 'Please confirm the New password' 
               });
             }
-
           }
         });
     })
