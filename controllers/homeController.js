@@ -100,14 +100,14 @@ exports.getHome=async function(req,res){
 
 
     let Home=[];
-   // let categories=await getCategories();
-   // Home.push(categories[0])
-   // Home.push(categories[1])
-    //Home.push(categories[2])
+    let categories=await getCategories();
+    Home.push(categories[0])
+    Home.push(categories[1])
+    Home.push(categories[2])
     ///let mostpopular=
     Home.push(await getMostPopular(6));
    // let newReleases=await getNewReleases()
-    Home.push(await getNewReleases());
+    //Home.push(await getNewReleases());
     return res.status(200).json({Home})
 
 
