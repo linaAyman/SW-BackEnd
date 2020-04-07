@@ -38,7 +38,7 @@ async function getPlayHistory(userId){
 async function getCategories(){
     let Home=[];
     Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1, 'playlists':{$slice:7},'_id':0})
-                    .populate('playlists','name image id description -_id')
+                    .populate('playlists','name image type id description -_id')
     return Home;
 }
 async function getMostPopular(number){
@@ -107,7 +107,7 @@ exports.getHome=async function(req,res){
     ///let mostpopular=
     Home.push(await getMostPopular(6));
    // let newReleases=await getNewReleases()
-    //Home.push(await getNewReleases());
+    Home.push(await getNewReleases());
     return res.status(200).json({Home})
 
 
