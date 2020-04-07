@@ -6,4 +6,6 @@ Back end for spotify music app using MVC design pattern Node js ,express,Mongodb
 clone the project and write in terminal node server.js
 for running test files write in terminal npm run test
 
-### check the InstructionsAndCommands folder for more guide
+```bash
+check the "InstructionsAndCommands" folder for more guide
+```
