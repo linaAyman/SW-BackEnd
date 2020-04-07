@@ -37,7 +37,7 @@ async function getPlayHistory(userId){
 //=================================get 3 categories in home page================//
 async function getCategories(){
     let Home=[];
-    Home=await Category.findOne({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1, 'playlists':{$slice:7},'_id':0})
+    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1, 'playlists':{$slice:7},'_id':0})
                     .populate('playlists','name image id description -_id')
     return Home;
 }
