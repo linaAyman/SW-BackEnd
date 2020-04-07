@@ -1,5 +1,8 @@
 # Tools
-Back end for spotify music app using MVC design pattern Node js ,express,Mongodb,mongoose for schema , mocha & chai for unit testing&jdoc for function documentation
+Back end for spotify music app using MVC design pattern Node js ,express,Mongodb,mongoose for schema 
+mocha & chai for unit testing 
+jdoc for function documentation
+swagger for Api documentation
 
 
 # Instructions
