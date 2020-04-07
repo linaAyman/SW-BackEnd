@@ -12,10 +12,9 @@
   const homeRoutes=require('./routes/home')
   const cors=require('cors');
  
-  ///const { db, client } = await database.connect();
 
- //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
- let db="mongodb://localhost/MaestroApp"
+ let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+ //let db="mongodb://localhost/MaestroApp"
   /* mongoose
     .connect(db, {
       useCreateIndex: true,
