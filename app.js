@@ -16,24 +16,24 @@
 
  //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
  let db="mongodb://localhost/MaestroApp"
-   mongoose
+  /* mongoose
     .connect(db, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useFindAndModify:false,
       useUnifiedTopology: true
     })
-    .then(() => winston.info(`Connected to MongoDB...`))
+    .then(() => winston.info(`Connected to MongoDB...`))*/
     //const mongoConnectionSettings = config.read();
    // const migrated = up(db, client);
     //migrated.forEach(fileName => console.log('Migrated:', fileName));
  
  
-  /*mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
 
-  mongoose.Promise = global.Promise;*/
+  mongoose.Promise = global.Promise;
  
   
   app.use(morgan("dev"));
@@ -46,7 +46,6 @@
    origin:"http://3.137.69.49/",
    credentials:true
   }))*/
-   app.use(cors());
   
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
