@@ -10,3 +10,14 @@
 ###### follow steps in that link https://github.com/seppevs/migrate-mongo/blob/master/README.md
 
 ###### please Note : url for the database you can get from mongodb before connecting the port by default 27017 and change database name in config file
+
+
+##### for running the migrations on linux
+```bash
+download migration folder "tracks-migrations"
+write in terminal the following
+npm install -g migrate-mongo
+migrate-mongo
+cd <name of migration folder>
+migrate-mongo up
+```
