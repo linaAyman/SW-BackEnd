@@ -37,7 +37,7 @@ async function getPlayHistory(userId){
 //=================================get 3 categories in home page================//
 async function getCategories(){
     let Home=[];
-    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 , 'playlists':{$slice:7},'_id':0})
+    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1, 'playlists':{$slice:7},'_id':0})
                     .populate('playlists','name image id description -_id')
     return Home;
 }
@@ -49,7 +49,7 @@ async function getMostPopular(number){
                                         .sort({popularity: 1})
                                         console.log(popularPlaylists)
         let popular={
-            popularPlaylists:popularPlaylists,
+            playlists:popularPlaylists,
             description:"Most popular around world",
             name:"Most Popular Playlists"
         }
@@ -62,7 +62,7 @@ async function getNewReleases (){
                                .populate('artists','name id -_id')
                                .sort({releaseDate: -1})
     let releases={
-        releaseAlbums:releaseAlbums,
+        albums:releaseAlbums,
         description:"Newest Albums Released with your artits",
         name:"Released Albums"
     };
@@ -76,7 +76,7 @@ async function getNewReleases (){
 exports.seeAll=async function(req,res){
     if(req.params.name=="Chill"||req.params.name=="WorkOut"||req.params.name=="Happy"){
 
-        category=await Category.findOne({name:req.params.name},{'name':1 , 'playlists':1,'_id':0})
+        category=await Category.findOne({name:req.params.name},{'name':1 ,'type':1, 'playlists':1,'_id':0})
                         .populate('playlists','name image id description -_id')
         res.status(200).json({category});
 
