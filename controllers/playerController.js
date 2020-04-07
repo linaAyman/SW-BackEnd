@@ -8,11 +8,17 @@ var ObjectId=mongoose.Types.ObjectId;
 
 
 ///==============================Saving a recently played track in play history object
-exports.saveTrack=async function (playId,trackId,userId,type){
+exports.saveTrack=async function (req,res){
   
-        trackObjectId=await Track.find({id:trackId},{'_id':1})
+       /// trackObjectId=await Track.find({id:trackId},{'_id':1})
                             
-    
+
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.decode(token)
+        let userId=decoded._id
+        let playId=req.params.id
+        let type="playlist"
+        
         let isExistPlayHistory=await PlayHistory.find({userId:userId})
         let contextObject={
             type:type,

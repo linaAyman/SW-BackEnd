@@ -11,15 +11,30 @@
   const meRoutes =require('./routes/me');
   const homeRoutes=require('./routes/home')
   const cors=require('cors');
+  const {
+    init,
+    create,
+    database,
+    config,
+    up,
+    down,
+    status
+  } = require('migrate-mongo');
+  ///const { db, client } = await database.connect();
 
-  let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
-//let db="mongodb://localhost/MaestroApp"
-  mongoose
+ //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+ let db="mongodb://localhost/MaestroApp"
+   mongoose
     .connect(db, {
       useCreateIndex: true,
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useFindAndModify:false,
+      useUnifiedTopology: true
     })
     .then(() => winston.info(`Connected to MongoDB...`))
+    //const mongoConnectionSettings = config.read();
+   // const migrated = up(db, client);
+    //migrated.forEach(fileName => console.log('Migrated:', fileName));
  
  
   /*mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).

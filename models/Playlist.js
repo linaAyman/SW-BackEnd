@@ -46,20 +46,7 @@ const playlistSchema = new mongoose.Schema({
         ,
         required: true
     },
-    tracks:{
-     items:[{  
-        type: new mongoose.Schema({
-         id: {type:mongoose.Schema.Types.ObjectId,ref:'Track'}
-       
-        })
-         }],
         
-    added_at:{type:Date, default:Date.now}
-        ,
-    total: {
-            type: Number
-        }
-    },
     //tracks:{
    
         

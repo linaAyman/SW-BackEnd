@@ -26,12 +26,12 @@ exports.search=async function search(req,res){
                 exactMatch=true
 
         
-            const search = new Search({
+           /* const search = new Search({
                 userId: decoded._id,
                 query: query
             })
             await search.save()
-            console.log(exactMatch)
+            console.log(exactMatch)*/
             
             
             let trackResult=[]
