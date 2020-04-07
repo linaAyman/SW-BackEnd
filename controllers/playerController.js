@@ -89,31 +89,6 @@ exports.playFirstTrack=async function(req,res){
     else{
         return;
     }
-<<<<<<< HEAD
-=======
-};
-
-exports.playTrack=async function(req,res){
-    const token = req.headers.authorization.split(" ")[1];
-    if(token){   
-        const decoded = jwt.decode(token)
-        let type=req.query.type
-        let index=req.query.index
-        if(type=="playlist"){
-
-
-        }
-
-
-
-
-
-        res.status(200).json({message:'OK'})
-    }
-    else{
-        return;
-    }
->>>>>>> 4be7cd7a9cdff53ed661ccc3dc642c37a1551215
 
 
 }
