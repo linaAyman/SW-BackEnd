@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');//this used for hashing the passwords to provide more secuirty
+const trackController=require('../controllers/trackController')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi')
 const User = require('../models/User')
@@ -64,15 +65,17 @@ const smtpTransport = nodemailer.createTransport({
    const { error } = joiValidate(req.body)
    if (error)
     return res.status(400).send({ msg: error.details[0].message });
-   User
-     .find({ name: req.body.name  })
-     .exec()
-     .then(user => {
+    //this object is created for LikedSongLibrary
+   let userId;
+   User.find({ name: req.body.name  })
+   .exec()
+    .then(user => {
       if (user.length >= 1) {
         return res.status(409).json({
           message: 'Username already exists'
         });
-      }  else {
+      }  
+      else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
               if (err) {
                 return res.status(500).json({
@@ -129,6 +132,8 @@ const smtpTransport = nodemailer.createTransport({
                             message: 'User created',
                             token: token
                           });
+                            //creating the playlist liked songs playlist after creating the user
+                           trackController.createLikedSongs(user._id); 
                         })
                         .catch(err => {
                           console.log(err);

@@ -24,6 +24,6 @@ in The terminal Type the following commands
 mongoimport --db MaestroApp --collection users --file users.json
 mongoimport --db MaestroApp --collection tracks --file tracks.json
 mongoimport --db MaestroApp --collection playlists --file playlists.json
-mongoimport --db MaestroApp --collection artists.json --file artists.json
+mongoimport --db MaestroApp --collection artists --file artists.json
 mongoimport --db MaestroApp --collection albums --file albums.json
 ```
