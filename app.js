@@ -11,22 +11,9 @@
   const meRoutes =require('./routes/me');
   const homeRoutes=require('./routes/home')
   const albumRoutes=require('./routes/album')
+  const otherUser=require('./routes/otherUsers')
   const cors=require('cors');
-<<<<<<< HEAD
-  const otherUser = require('./routes/otherUsers');
-  const {
-    init,
-    create,
-    database,
-    config,
-    up,
-    down,
-    status
-  } = require('migrate-mongo');
-  ///const { db, client } = await database.connect();
-=======
  
->>>>>>> 48b86c69fb4275705edf78425d14aa4e82e29dce
 
  //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
  let db="mongodb://localhost/MaestroApp"

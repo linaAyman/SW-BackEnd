@@ -4,7 +4,7 @@ const env = require('dotenv').config();
 
 exports.getAlbum = async (req, res)=> {
     console.log(req.params.id)
-    let album = await Album.find({id: req.params.id},{'_id':0,'id':1,'name':1,'image':1,'label':0,'artists':1}).populate('artists','name -_id')
+    let album = await Album.find({id: req.params.id},{'_id':0,'id':1,'name':1,'image':1,'label':1,'artists':1}).populate('artists','name -_id')
      res.send(album)
   
 };
