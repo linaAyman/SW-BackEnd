@@ -61,7 +61,7 @@ exports.search=async function search(req,res){
 
                 searchResult=await Track
                                     .find({name:temp},{'_id':0,name:'name','id':1,type:'type'})
-                                    .populate('artists_id','name -_id');
+                                    .populate('artists','name -_id');
 
                 searchResult.push(await Artist
                                             .find({name:new RegExp('.*' + temp+ '.*', 'i')},{name:'name','id':1,type:'type',images:'images','_id':0}));

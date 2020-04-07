@@ -7,5 +7,6 @@ const checkAuth      = require('../middleware/checkAuth')
 //Like and dislike a track
 router.put('/tracks', checkAuth,trackController.likeSong);
 router.delete('/tracks',checkAuth, trackController.dislikeSong);
+router.get('/tracks',checkAuth,trackController.getlikedSong)
 
 module.exports = router;
