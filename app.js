@@ -10,7 +10,9 @@
   const playerRoutes=require('./routes/player');
   const meRoutes =require('./routes/me');
   const homeRoutes=require('./routes/home')
+  const albumRoutes=require('./routes/album')
   const cors=require('cors');
+  const otherUser = require('./routes/otherUsers');
   const {
     init,
     create,
@@ -77,8 +79,8 @@
   app.use("/player",playerRoutes);
   app.use("/me",meRoutes);
   app.use("/home",homeRoutes);
-  //app.use("/home",homeRoutes);
-  ///app.use('/album', albumRoutes);
+  app.use("/albums", albumRoutes);
+  app.use("/users", otherUser);
  
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");

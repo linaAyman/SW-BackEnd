@@ -15,4 +15,7 @@ router.post("/forgetPassword" ,checkAuth, UserController.userForgetPassword);
 router.post("/resetPassword"  ,checkAuth, UserController.userResetPassword);
 router.get("/user",checkAuth, UserController.getCurrentUser);
 router.get("/users/:id",checkAuth,UserController.getOtherUser);
+router.post("/editprofile",checkAuth,UserController.editProfile);
+router.get("",checkAuth, UserController.getCurrentUser);
+router.get("/profile",checkAuth,UserController.getEditInfo);
 module.exports = router;

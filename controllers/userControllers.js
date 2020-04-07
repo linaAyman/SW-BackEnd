@@ -4,6 +4,7 @@ const trackController=require('../controllers/trackController')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi')
 const User = require('../models/User')
+const {Playlist}=require('../models/Playlist')
 const env = require('dotenv').config();
 const fs = require('fs');
 const imgPath = './public/profileImage/default.jpg';
@@ -547,15 +548,117 @@ exports.userIsPremuim = (req, res, next) => {
 
 exports.getOtherUser = async function(req,res){
   
+ 
   console.log(req.params.id)
   OtherUserId = req.params.id;
  
   try{
   let otherUserInfo =  await User
-  .find({'_id':OtherUserId}, {uri:0,externalUrls:0,type:0,href:0, providInfo:0,password:0,__v:0, createdAt:0,gender:0} );
+  .find({'_id':OtherUserId}, {image:1,followersCount:1,country:1,isPremium:1,name:1,email:1,birthDate:1,_id:1,externalUrl:1} )
+
+  console.log(otherUserInfo)
   otherUserInfo
   .push( await Playlist
-    .find( {'owner':OtherUserId}  , {_id:0,'id':1, 'name':1,'image':1}))
+                  .find( {'owner':OtherUserId}  , {_id:0,'id':1, 'name':1,'image':1}))
+    
+       
+  return res.send(otherUserInfo)
+    
+  }
+  catch{
+    const error = new Error("No such user");
+    error.status = 404;
+    error.message= "No such user"
+    return res.send(error)
+  }
+};
+
+function validateEdit (req){
+  const schema = {
+    email: 
+    Joi.string().email().lowercase().required(),
+    password: 
+    Joi.string().min(8).max(80).alphanum().required(),
+    gender:
+    Joi.bool(),
+    birthDate:
+    Joi.date().min('1-1-1900').max('1-1-2009').iso(),
+    country:
+    Joi.string(),
+    phone:
+    Joi.string()
+  }
+  return Joi.validate(req, schema); 
+}
+
+function validateEditWithoutEmail (req){ //na2s el phone
+  const schema = {
+    email: 
+    Joi.string().email().lowercase().required(),
+    gender:
+    Joi.bool(),
+    birthDate:
+    Joi.date().min('1-1-1900').max('1-1-2009').iso(),
+    country:
+    Joi.string(),
+    phone:
+    Joi.string()
+  }
+  return Joi.validate(req, schema); 
+}
+
+exports.getCurrentUser = async (req,res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.decode(token);
+  let dID = decoded._id;
+  let userInfo
+  let loggedWithFb = await User.find({_id:dID},{loggedByFb:1})
+  console.log(loggedWithFb)
+  if(loggedWithFb==true){
+    userInfo = await User
+    .find({_id:dID}, {_id:0,image:1,isPremium:1,country:1,email:1,birthDate:1} );
+  }else{
+    userInfo = await User
+    .find({_id:dID}, {_id:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
+  }
+  console.log(userInfo)
+  return res.send(userInfo)
+   
+};
+
+
+exports.getEditInfo=async (req,res)=>{
+  const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.decode(token);
+    let userId = decoded._id;
+
+   let loggedWithFb = await User.find({_id:userId},{loggedByFb:1})
+   if(loggedWithFb==true){
+     userInfo = await User
+     .find({_id:userId}, {_id:0,image:1,gender:1,phone:1,country:1,email:1,birthDate:1} );
+   }
+   else{
+      userInfo = await User
+     .find({_id:userId}, {_id:0,image:1,gender:1,phone:1,country:1,email:1,birthDate:1} );
+   }
+   console.log(userInfo)
+   return res.send(userInfo);
+}	
+
+exports.getOtherUser = async function(req,res){
+  
+ 
+  console.log(req.params.id)
+  OtherUserId = req.params.id;
+ 
+  try{
+  let otherUserInfo =  await User
+  .find({'_id':OtherUserId}, {image:1,followersCount:1,country:1,isPremium:1,name:1,email:1,birthDate:1,_id:1,externalUrl:1} )
+
+  console.log(otherUserInfo)
+  otherUserInfo
+  .push( await Playlist
+                  .find( {'owner':OtherUserId}  , {_id:0,'id':1, 'name':1,'image':1}))
     
        
   return res.send(otherUserInfo)
@@ -566,4 +669,127 @@ exports.getOtherUser = async function(req,res){
     error.message= "No such user"
     return res.send(error)
   }
+};
+
+exports.editProfile =async (req,res)=>{
+    
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.decode(token);
+  let userId = decoded._id;
+  console.log(userId)
+ /* const { error } = validateEdit(req.body)
+  if (error){
+   return res.status(400).send({ msg: error.details[0].message });
+  }
+  else{
+    console.log(req.body.birthDate)
+    await User
+    .updateOne({_id:userId},{'birthDate':req.body.birthDate,'country':req.body.phone}  );
+    
+  }
+  await User
+  .updateOne({_id:userId},{'gender':req.body.gender,'country':req.body.country}  ); */
+  
+  User
+  .findOne({ _id: userId })
+  .exec()
+  .then(async user => {
+    if (user.length < 1) {
+      return res.status(401).json({
+        message: 'Auth failed1'
+      });
+    }
+    if(user.email==req.body.email){ //email didnt change
+      
+      const { error } = validateEditWithoutEmail(req.body)
+      if (error){
+      return res.status(400).send({ msg: error.details[0].message });
+      }
+      else{
+        try{
+                
+          await User
+          .updateOne({_id:userId},{'birthDate':req.body.birthDate,'gender':req.body.gender,'country':req.body.country}  );
+          return res.status(200).json({
+            message: 'Auth successful without email'
+        });
+        }catch{}
+      }        
+      res.status(401).json({
+        message: 'Auth failed'
+      });
+    } else { // email changed
+      bcrypt.compare(req.body.password, user.password, async (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: 'Auth failed2'
+          });
+        }
+        console.log(result)
+        if (result) {
+         
+          const { error } = validateEdit(req.body)
+          if (error){
+           return res.status(400).send({ msg: error.details[0].message });
+          }else{ 
+              try{
+                let userEmail=user.email
+                await User
+                  .updateOne({_id:userId},{'email':req.body.email,'birthDate':req.body.birthDate,'gender':req.body.gender,'country':req.body.country}  );
+                //Updated email info,  still missing verify mail
+                 randGenerator();
+               const host = req.get('host');//just our locahost
+               const link="http://"+host+"/user/verify?id="+rand.randNo;
+                mailOptions={
+                      from: 'Do Not Reply '+process.env.MAESTROEMAIL,
+                      to : req.body.email,//put user email
+                      subject : "Please confirm your Email account",
+                      html : "Hello,<br> Please Click on the link to verify your profile email has changed from this mail.<br>"+userEmail +" <a href="+link+">Click here to verify</a>"
+                  } 
+                console.log(mailOptions);
+                smtpTransport.sendMail(mailOptions, function(error, response){
+                  if(error){
+                      console.log(error);
+                      return res.status(500).send({ msg: 'Unable to send email' });     
+                  }
+                });
+                // sending mail to old email address
+                mailOptions2={
+                  from: 'Do Not Reply '+process.env.MAESTROEMAIL,
+                  to : userEmail,//put user email
+                  subject : "Please confirm your Email account",
+                  html : "Hello,<br> Please Click on the link to verify your profile email has changed to a new mail.<br>"+req.body.email+" <a href="+link+">Click here to verify</a>"
+              }
+                console.log(mailOptions2);
+                smtpTransport.sendMail(mailOptions2, function(error, response){
+                  if(error){
+                      console.log(error);
+                      return res.status(500).send({ msg: 'Unable to send email' });     
+                  }
+                });
+                  return res.status(200).json({
+                  message: 'Update successful'
+                  });
+            }catch{        }
+        }
+        }
+        res.status(401).json({
+          message: 'Auth failed3'
+        });
+      });
+
+    }
+  })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+
+/*  return res.status(200).json({
+    message: 'Update successful'       
+  });
+*/
+
 };
