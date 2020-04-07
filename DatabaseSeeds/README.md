@@ -21,9 +21,11 @@ and if you are already opening the mongodb then close it and open again to see t
 ##### This is for linux 
 ```bash
 in The terminal Type the following commands 
-mongoimport --db MaestroApp --collection users --file users.json
-mongoimport --db MaestroApp --collection tracks --file tracks.json
-mongoimport --db MaestroApp --collection playlists --file playlists.json
-mongoimport --db MaestroApp --collection artists --file artists.json
-mongoimport --db MaestroApp --collection albums --file albums.json
+mongoimport --db MaestroApp --collection users --file users.json --jsonArray
+mongoimport --db MaestroApp --collection tracks --file tracks.json --jsonArray
+mongoimport --db MaestroApp --collection playlists --file playlists.json --jsonArray
+mongoimport --db MaestroApp --collection artists --file artists.json --jsonArray
+mongoimport --db MaestroApp --collection albums --file albums.json --jsonArray
+mongoimport --db MaestroApp --collection categories --file categories.json --jsonArray
+
 ```
