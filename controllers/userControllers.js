@@ -58,7 +58,6 @@ const smtpTransport = nodemailer.createTransport({
       user: process.env.MAESTROEMAIL,//change 
       pass: process.env.PASSWORD
   }
- 
 });
 
   exports.userSignup =   (req, res, next) => {
@@ -121,6 +120,7 @@ const smtpTransport = nodemailer.createTransport({
                           expiresIn: '7d'
                         }
                       );
+                      user.token = token ;
                       user
                         .save()
                         .then(result => {
@@ -248,9 +248,24 @@ exports.userDelete = (req, res, next) => {
 };
 
 exports.userLogout = (req, res, next) => {
-    return res.status(200).json({
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.decode(token);
+  console.log(decoded._id);
+  User.updateOne({_id:decoded._id},{token: null})
+  .exec()
+  .then(result =>{
+     res.status(200).json({
       message: 'logging out success'
-     });
+    });
+    rand.remove({userID: rand.userId });
+   })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });   
+    
 };
 
 
@@ -299,6 +314,7 @@ exports.userChangePassword = (req, res, next) => {
             });
           }
           if(result){
+            if(req.body.newPassword != req.body.oldPassword ){
             if(req.body.newPassword == req.body.confirmedPassword){
               bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
                 if (err) {
@@ -328,6 +344,11 @@ exports.userChangePassword = (req, res, next) => {
                 message: 'Please confirm the New password' 
               });
             }
+          }else{
+            return res.status(401).json({
+              message: 'Please enter anthor new password' 
+            });
+           }
           }
         });
     })
@@ -339,31 +360,51 @@ exports.userChangePassword = (req, res, next) => {
     });
 };
 
-exports.userForgetPassword = (req, res, next) => {   
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.decode(token);
-  randGenerator();
-  rand.userId = decoded._id;
-  console.log( rand.userId)
-  console.log( rand.randNo)
-  rand.save().then().catch();
-  const host = req.get('host');
-  const link ="http://"+host+"/user/resetPassword?id="+rand.randNo;
-   mailOptions={
-    from: 'Do Not Reply '+process.env.MAESTROEMAIL,
-    to : req.body.email,//put user email
-    subject : "Reset your password",
-    html : "Hello.<br>No need to worry, you can reset your Maestro password by clicking the link below:<br><a href="+link+">Reset password</a><br1>   Your username is:"+decoded._id+"</br1> </br2>  If you didn't request a password reset, feel free to delete this email and carry on enjoying your music!</br2>"
-  }
-  console.log(mailOptions);
-  smtpTransport.sendMail(mailOptions, function(error, response){
-  if(error){
-    console.log(error);
-    return res.status(500).send({ msg: 'Unable to send Email' });                
-  }else{
-    return res.status(201).json({message: 'send msg successfuly'});
-   }
+exports.userForgetPassword = (req, res, next) => {  
+  console.log(  req.params.mail )
+  User
+  .findOne({ email: req.params.mail})
+  .exec()
+  .then(user => {
+    if (user.length < 1) {
+      return res.status(401).json({
+        message: 'The Mail doesnot Exist'
+      });
+      }
+      console.log( user._id )
+      console.log( user.email )
+      console.log(  req.params.mail )
+      randGenerator();
+      rand.userId = user._id ;
+      console.log( rand.userId)
+      console.log( rand.randNo)
+      rand.save().then().catch();
+      const host = req.get('host');
+      const link ="http://"+host+"/user/resetPassword?id="+rand.randNo;
+       mailOptions={
+        from: 'Do Not Reply '+process.env.MAESTROEMAIL,
+        to : user.email,//put user email
+        subject : "Reset your password",
+        html : "Hello.<br>No need to worry, you can reset your Maestro password by clicking the link below:<br><a href="+link+">Reset password</a><br1>   Your username is:"+user._id+"</br1> </br2>  If you didn't request a password reset, feel free to delete this email and carry on enjoying your music!</br2>"
+      }
+      console.log(mailOptions);
+      smtpTransport.sendMail(mailOptions, function(error, response){
+      if(error){
+        console.log(error);
+        return res.status(500).send({ msg: 'Unable to send Email' });                
+      }else{
+        return res.status(201).json({message: 'send msg successfuly'});
+       }
+      });
+    
+  })
+   .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
   });
+ 
 };
 
 
