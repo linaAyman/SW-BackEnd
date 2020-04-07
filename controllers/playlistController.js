@@ -10,16 +10,15 @@ const dot = require('dot-object');
 
 exports.getPlaylist = async (req, res)=> {
     console.log(req.params.id)
-    let playlist = await Playlist.find({id: req.params.id},{'name':1,'_id':0,'image':1,'id':1})
+    let playlist = await Playlist.find({id: req.params.id})
      res.send(playlist)
   
 };
 exports.getAllTracks=async(req,res)=>{
     let tracks=await Playlist.findOne({id:req.params.id},{'tracks':1,'_id':0})
-                             .populate({path:'tracks',select:'name image id artists previewUrl url-_id',
-                              populate:{path:'artists',select:'name id -_id'}});
+                             .populate({path:'tracks',select:'name image id artists previewUrl url-_id', populate:{path:'artists',select:'name id -_id'}});
 
-    console.log(tracks)
+    
     return res.status(200).send(tracks)
 };
 exports.addTrack= async function(req,res){
