@@ -412,7 +412,6 @@ exports.userForgetPassword = (req, res, next) => {
  
 };
 
-
 exports.userResetPassword = (req, res, next) => { 
   console.log(req.protocol+":/"+req.get('host'));
   if((req.protocol+"://"+req.get('host'))==("http://"+req.get('host'))){
@@ -439,8 +438,17 @@ exports.userResetPassword = (req, res, next) => {
               .updateOne({_id:rand.userId},{password: hash})
               .exec()
               .then(result => {
+                const token = jwt.sign(
+                  { _id: rand.userId
+                  },
+                  process.env.JWTSECRET,
+                  {
+                    expiresIn: '7d'
+                  }
+                );
                 res.status(200).json({
-                  message: 'You reset password successfly'
+                  message: 'You reset password successfly',
+                  token: token
                 });
               rand.remove({userID: rand.userId });
               User
