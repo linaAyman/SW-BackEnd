@@ -37,7 +37,7 @@ async function getPlayHistory(userId){
 //=================================get 3 categories in home page================//
 async function getCategories(){
     let Home=[];
-    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 , 'type':1,'playlists':{$slice:7},'_id':0})
+    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1, 'playlists':{$slice:7},'_id':0})
                     .populate('playlists','name image type id description -_id')
     return Home;
 }
@@ -55,26 +55,12 @@ async function getMostPopular(number){
         }
         return popular;
 }
-/*async function getNewReleases (){
-  
-    let releaseAlbums = await Album
-                               .find({},{'_id':0,'name':1,'id':1,'description':1,'image':1,'type':1})
-                               .populate('artists','name id -_id')
-                               .sort({releaseDate: -1})
-    let releases={
-        albums:releaseAlbums,
-        description:"Newest Albums Released with your artits",
-        name:"Released Albums"
-    };
-    console.log(releases)
-    return releases
-}*/
 async function getNewReleases (){
   
     let releaseAlbums = await Album
                                .find({},{'_id':0,'name':1,'id':1,'label':1,'image':1,'type':1})
                                .populate('artists','name id -_id')
-                               .sort({releaseDate: -1})
+                              
     let releases={
         albums:releaseAlbums,
         description:"Newest Albums Released with your artits",
@@ -90,8 +76,8 @@ async function getNewReleases (){
 exports.seeAll=async function(req,res){
     if(req.params.name=="Chill"||req.params.name=="WorkOut"||req.params.name=="Happy"){
 
-        category=await Category.findOne({name:req.params.name},{'name':1 ,'playlists':1,'_id':0})
-                        .populate('playlists','name type image id description -_id')
+        category=await Category.findOne({name:req.params.name},{'name':1 ,'type':1, 'playlists':1,'_id':0})
+                        .populate('playlists','name image id description -_id')
         res.status(200).json({category});
 
     }
@@ -126,4 +112,7 @@ exports.getHome=async function(req,res){
 
 
 }
+
+
+
 
