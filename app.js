@@ -56,6 +56,7 @@
   app.use("/player",playerRoutes);
   app.use("/me",meRoutes);
   app.use("/home",homeRoutes);
+  //app.use("/home",homeRoutes);
   ///app.use('/album', albumRoutes);
   
   app.use((req, res, next) => {

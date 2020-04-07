@@ -19,7 +19,8 @@
   
       "totalTracks": 2,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimQUz8KFC8W6WrDiDnc"
+      "uri": "Maestro:playlist:4qrimQUz8KFC8W6WrDiDnc",
+      "popularity":113
     },
     {
       "_id": { "$oid": "6e85ce544676d8a0b48130b3" },
@@ -39,7 +40,9 @@
       ,
       "totalTracks": 1,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnc"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnc",
+      "popularity":114
+
   
     },
     {
@@ -63,8 +66,8 @@
       ,
       "totalTracks": 4,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnd"
-  
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnd",
+      "popularity":78
     },
     {
       "_id": { "$oid": "6e85ce544676d8a0b48130b5" },
@@ -87,7 +90,8 @@
       ,
       "totalTracks": 4,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDne"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDne",
+      "popularity":143
   
     },
     {
@@ -113,7 +117,8 @@
       ,
       "totalTracks": 5,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnf"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnf",
+      "popularity":13
   
     },
     {
@@ -139,7 +144,8 @@
       ,
       "totalTracks": 5,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnf"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnf",
+      "popularity":53
   
     },
     {
@@ -165,7 +171,8 @@
       ,
       "totalTracks": 5,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDng"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDng",
+      "popularity":123
   
     },
     {
@@ -188,7 +195,8 @@
         ],
       "totalTracks": 3,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnh"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnh",
+      "popularity":153
   
     },
     {
@@ -211,7 +219,8 @@
           ],
         "totalTracks": 2,
         "type": "playlist",
-        "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDni"
+        "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDni",
+        "popularity":166
     
       
     },
@@ -235,7 +244,8 @@
         ],
       "totalTracks": 2,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnj"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnj",
+      "popularity":173
   
     
   },
@@ -259,7 +269,8 @@
       ],
     "totalTracks": 2,
     "type": "playlist",
-    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnh"
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnh",
+    "popularity":73
   
   
   },
@@ -285,7 +296,8 @@
         ],
       "totalTracks": 3,
       "type": "playlist",
-      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDma"
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDma",
+      "popularity":23
   
   },
   {
@@ -311,12 +323,13 @@
       ],
     "totalTracks": 5,
     "type": "playlist",
-    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmb"
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmb",
+    "popularity":83
   
   },
   {
   
-    "_id": { "$oid": "6e85ce544676d8a0b48130be" },
+    "_id": { "$oid": "6e85ce544676d8a0b48130ce" },
     "description": "Happy and Workout and Chill",
     "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDmc",
     "followers": 604733,
@@ -337,7 +350,8 @@
       ],
     "totalTracks": 5,
     "type": "playlist",
-    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmc"
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmc",
+    "popularity":93
   
   },
   {
@@ -363,7 +377,8 @@
       ],
     "totalTracks": 5,
     "type": "playlist",
-    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDme"
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDme",
+    "popularity":23
   
   },{
     "_id": { "$oid": "6e85ce544676d8a0b48130c1" },
@@ -387,7 +402,8 @@
       ],
     "totalTracks": 5,
     "type": "playlist",
-    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmf"
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmf",
+    "popularity":17
     
   
   }
