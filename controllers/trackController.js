@@ -31,7 +31,11 @@ exports.likeSong=async function(req,res){
           
           console.log(tracksTemp)
           await YourLikedSongs.findOneAndUpdate({ user:decoded._id},{$addToSet:{'tracks':tracksTemp}});
+<<<<<<< HEAD
           return res.status(200).json({"message" :'OK'})
+=======
+          return res.status(201).json({"message" :'OK'})
+>>>>>>> 4be7cd7a9cdff53ed661ccc3dc642c37a1551215
     }
 }
 //----------------------Remove track from your liked songs---------------//
@@ -47,6 +51,10 @@ exports.dislikeSong=async function(req,res){
         
 
           await YourLikedSongs.updateOne({user:decoded._id},{$pull:{'tracks':{_id:tracksTemp}}});
+<<<<<<< HEAD
           return res.status(200).json({"message" :'OK'})
+=======
+          return res.status(200).json({"message" :'Deleted Successfully'})
+>>>>>>> 4be7cd7a9cdff53ed661ccc3dc642c37a1551215
     }
 }

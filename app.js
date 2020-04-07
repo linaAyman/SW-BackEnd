@@ -1,4 +1,4 @@
-  const express = require("express");
+ const express = require("express");
   const app = express();
   const morgan = require("morgan");
   const bodyParser = require("body-parser");
@@ -12,28 +12,34 @@
   const homeRoutes=require('./routes/home')
   const cors=require('cors');
 
-  //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
-  let db="mongodb://localhost/MaestroApp"
- /* mongoose
+  let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+//let db="mongodb://localhost/MaestroApp"
+  mongoose
     .connect(db, {
       useCreateIndex: true,
       useNewUrlParser: true
     })
-    .then(() => winston.info(`Connected to MongoDB...`))*/
+    .then(() => winston.info(`Connected to MongoDB...`))
  
  
-  mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  /*mongoose.connect(db, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
 
-  mongoose.Promise = global.Promise;
-  app.use(cors());
-
-
+  mongoose.Promise = global.Promise;*/
+ 
+  
   app.use(morgan("dev"));
   app.use('/uploads', express.static('uploads'));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(cors());
+
+  /*app.use(cors({
+   origin:"http://3.137.69.49/",
+   credentials:true
+  }))*/
+   app.use(cors());
   
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -58,7 +64,7 @@
   app.use("/home",homeRoutes);
   //app.use("/home",homeRoutes);
   ///app.use('/album', albumRoutes);
-  
+ 
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");
     error.status = 404;
@@ -75,3 +81,5 @@
   });
   
   module.exports = app;
+
+
