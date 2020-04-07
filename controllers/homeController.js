@@ -2,6 +2,7 @@ var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHi
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
 var { Playlist }=require('../models/Playlist')
+var {Category}=require('../models/Category')
 var {checkAuth}=require('../middleware/checkAuth')
 var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
@@ -33,18 +34,29 @@ async function getPlayHistory(userId){
     return recentlyPlayed;
 }
 
+async function getCategories(){
+    let Home=[];
+    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 , 'playlists':{$slice:7},'_id':0})
+                            .populate('playlists','name image id description -_id')
+    return Home;
+}
+exports.seeAllCategory=async function(req,res){
+    
+}
+
 
 //===============================Loading the home page========================//
 exports.getHome=async function(req,res){
 
 
-    const token = req.headers.authorization.split(" ")[1];
+    /*const token = req.headers.authorization.split(" ")[1];
     let recentlyPlayed=[];
     if(token){
             const decoded = jwt.decode(token);
             recentlyPlayed=await getPlayHistory(decoded._id)
-    }
-    return res.status(200).json({recentlyPlayed})
+    }*/
+    let Home=await getCategories()
+    return res.status(200).json({Home})
 
 
 }

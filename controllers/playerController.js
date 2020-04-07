@@ -8,7 +8,7 @@ var ObjectId=mongoose.Types.ObjectId;
 
 
 ///==============================Saving a recently played track in play history object
-async function  saveTrack (playId,trackId,userId,type){
+exports.saveTrack=async function (playId,trackId,userId,type){
   
         trackObjectId=await Track.find({id:trackId},{'_id':1})
                             
@@ -62,7 +62,7 @@ exports.playFirstTrack=async function(req,res){
                     return res.status(404).json({message:"This playlist doesn't exist"})
             
             let trackObjectId=await Playlist.aggregate([{$match:{"id":playId}},
-                                                    {$project:{track:{$arrayElemAt:['$tracks',parseInt(index)]}}}])
+                                                        {$project:{track:{$arrayElemAt:['$tracks',parseInt(index)]}}}])
 
                                                   
 

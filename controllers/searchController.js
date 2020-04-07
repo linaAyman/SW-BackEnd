@@ -42,17 +42,17 @@ exports.search=async function search(req,res){
             if(!exactMatch){
 
                 trackResult=await Track
-                                    .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0})
+                                    .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name','id':1,type:'type' ,'_id':0})
                                     .sort({ score: { $meta: "textScore" } })
                                     .populate('artists','name');
                 
                 artistResult=await Artist
-                                        .find({name:new RegExp('.*' + query + '.*', 'i')},{name:'name',type:'type',images:'image','_id':0});
+                                        .find({name:new RegExp('.*' + query + '.*', 'i')},{name:'name','id':1,type:'type',images:'image','_id':0});
 
                 albumResult=await Album
-                                    .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name',type:'type' ,'_id':0,images:'image'})
+                                    .find({$text:{$search:query}},{ score: { $meta: "textScore" },name:'name','id':1,type:'type' ,'_id':0,images:'image'})
                                     .sort({ score: { $meta: "textScore" } })
-                                    .populate('artists','name');
+                                    .populate('artists','name -_id');
 
                 console.log(trackResult);
             }
@@ -60,15 +60,15 @@ exports.search=async function search(req,res){
                 let temp=query.substr(1,query.length-2)
 
                 searchResult=await Track
-                                    .find({name:temp},{'_id':0,name:'name',type:'type'})
-                                    .populate('artists_id','name');
+                                    .find({name:temp},{'_id':0,name:'name','id':1,type:'type'})
+                                    .populate('artists_id','name -_id');
 
                 searchResult.push(await Artist
-                                            .find({name:new RegExp('.*' + temp+ '.*', 'i')},{name:'name',type:'type',images:'images','_id':0}));
+                                            .find({name:new RegExp('.*' + temp+ '.*', 'i')},{name:'name','id':1,type:'type',images:'images','_id':0}));
 
                 searchResult.push(await Album
-                                            .find({name:temp},{name:'name',type:'type' ,'_id':0,images:'images'})
-                                            .populate('artists','name'))
+                                            .find({name:temp},{name:'name','id':1,type:'type' ,'_id':0,images:'images'})
+                                            .populate('artists','name -_id'))
         
             }
             var searchResult={

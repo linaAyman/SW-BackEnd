@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 const Joi = require('joi')
 
 const playlistSchema = new mongoose.Schema({
+ 
+    tracks:[{type: mongoose.Schema.Types.ObjectId , required:true,ref:'Track'}],
     name: {
         type: String,
         required: true
@@ -50,12 +52,7 @@ const playlistSchema = new mongoose.Schema({
         type: Number
     },
     //tracks:{
-    tracks:[{  
-        type: new mongoose.Schema({
-         id: {type:mongoose.Schema.Types.ObjectId,ref:'Track'}
-       
-        })
-         }],
+   
         
     /*added_at:{type:Date, default:Date.now}
         ,

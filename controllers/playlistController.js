@@ -10,3 +10,10 @@ exports.getPlaylist = async (req, res)=> {
      res.send(playlist)
   
 };
+exports.getAllTracks=async(req,res)=>{
+    let tracks=await Playlist.findOne({id:req.params.id},{'tracks':1,'_id':0})
+                             .populate({path:'tracks',select:'name image id artists previewUrl url-_id',populate:{path:'artists',select:'name id -_id'}});
+
+    console.log(tracks)
+    return res.status(200).send(tracks)
+};

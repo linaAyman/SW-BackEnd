@@ -1,0 +1,62 @@
+[
+    {  
+        "name" : "Chill",
+        "id" : "4arbmCUD8eFg8h6irJikn1",
+        "image" : "",
+        "playlists":[{
+         
+            "id": { "$oid": " 6e85ce544676d8a0b48130b4" }
+         },{
+            "id": { "$oid": "6e85ce544676d8a0b48130b5" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130b6" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130b7" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130b8" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130b9" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130ba" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130bb" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130bc" }
+         },{
+          "id": { "$oid": "6e85ce544676d8a0b48130bd" }
+         }]
+      },
+      {
+        "name" : "Happy",
+        "id" : "4arbmCUD8eFg8h6irJikn2",
+        "image" :"",
+        "playlists":[{
+          "id": { "$oid": "6e85ce544676d8a0b48130be" }
+        },{
+          "id": { "$oid": "6e85ce544676d8a0b48130bf" }
+        },{
+          "id": { "$oid": "6e85ce544676d8a0b48130b1" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130b4" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130b3" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130b5" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130b2" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130c1" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130c2" }
+          },{"id": { "$oid": "6e85ce544676d8a0b48130c3" }}]
+      },
+      {
+          "name" : "WorkOut",
+          "id" : "4arbmCUD8eFg8h6irJikn3",
+          "image" : "",
+          "playlists":[{
+            "id": { "$oid": "6e85ce544676d8a0b48130c4" }
+          },{
+            "id": { "$oid": "6e85ce544676d8a0b48130c5" }
+          },{
+            "id": { "$oid": "6e85ce544676d8a0b48130c6" }
+            },{"id": { "$oid": "6e85ce544676d8a0b48130c7" }
+            },{"id": { "$oid": "6e85ce544676d8a0b48130ca" }
+            },{"id": { "$oid": "6e85ce544676d8a0b48130b1" }
+            },{"id": { "$oid": "6e85ce544676d8a0b48130b2" }
+            },{"id": { "$oid": "6e85ce544676d8a0b48130b3" }}]
+  } ]
