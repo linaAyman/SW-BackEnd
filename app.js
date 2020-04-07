@@ -1,21 +1,41 @@
-  const express = require("express");
+const express = require("express");
   const app = express();
   const morgan = require("morgan");
   const bodyParser = require("body-parser");
   const mongoose = require("mongoose");
-  
+  const winston=require('winston')  
   const userRoutes = require('./routes/user');
-  
-  mongoose.connect(`mongodb://localhost/MaestroApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
+  const playlistRoutes = require('./routes/playlist');
+  const searchRoutes=require('./routes/search');
+  const playerRoutes=require('./routes/player');
+  const meRoutes =require('./routes/me');
+  const cors=require('cors');
+
+ let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
+//let db="mongodb://localhost/MaestroApp"
+  mongoose
+    .connect(db, {
+      useCreateIndex: true,
+      useNewUrlParser: true
+    })
+    .then(() => winston.info(`Connected to MongoDB...`))
+ 
+ 
+  /*mongoose.connect(`mongodb://localhost/MusicApp`, { useNewUrlParser: true ,useUnifiedTopology: true ,useCreateIndex: true  }).
   catch(error => handleError(error));
   mongoose.set('useFindAndModify', false);
-
-  mongoose.Promise = global.Promise;
+  mongoose.Promise = global.Promise;*/
   
   app.use(morgan("dev"));
   app.use('/uploads', express.static('uploads'));
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+
+  /*app.use(cors({
+   origin:"http://3.137.69.49/",
+   credentials:true
+  }))*/
+   app.use(cors());
   
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -33,9 +53,14 @@
   // Routes which should handle requests
 
   app.use("/user", userRoutes);
-  
+  app.use("/playlist", playlistRoutes);
+  app.use("/search",searchRoutes);
+  app.use("/player",playerRoutes);
+  app.use("/me",meRoutes)
+  ///app.use('/album', albumRoutes);
+ 
   app.use((req, res, next) => {
-    const error = new Error("Not found");
+    const error = new Error("the request you want isn't supported yet");
     error.status = 404;
     next(error);
   });

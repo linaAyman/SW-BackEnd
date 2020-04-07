@@ -13,4 +13,6 @@ router.get("/verify" ,checkAuth, UserController.userVerifyMail);
 router.post("/changePassword" ,checkAuth, UserController.userChangePassword);
 router.post("/forgetPassword" ,checkAuth, UserController.userForgetPassword);
 router.post("/resetPassword"  ,checkAuth, UserController.userResetPassword);
+router.get("/user",checkAuth, UserController.getCurrentUser);
+router.get("/users/:id",checkAuth,UserController.getOtherUser);
 module.exports = router;
