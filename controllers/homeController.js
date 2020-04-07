@@ -211,7 +211,7 @@ exports.getHome=async function(req,res){
             const decoded = jwt.decode(token);
             recentlyPlayed=await getPlayHistory(decoded._id)
     }*/
-    let Home=[];
+   /* let Home=[];
     let categories=await getCategories();
     Home.push(categories[0])
     Home.push(categories[1])
