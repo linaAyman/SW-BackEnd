@@ -115,6 +115,7 @@ const smtpTransport = nodemailer.createTransport({
                       user.externalUrls.value = 'https://open.Maestro.com/users/'+ user._id.toString();
                       user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
                       user.image.contentType = 'jpg';
+		      user.maestroId = randomHash.generate(30);
                       const token = jwt.sign(
                         { _id: user._id,
                           name: user.name, 
