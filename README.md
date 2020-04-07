@@ -1,8 +1,9 @@
 # Tools
 Back end for spotify music app using MVC design pattern Node js ,express,Mongodb,mongoose for schema , mocha & chai for unit testing&jdoc for function documentation
 
-# Notes
-HINT:in app.js In mongoose.connection("put here your name of mongodb ex:/localhost:Mestroapp/   if your datbase name not "Mestroapp"  replace it to your database name to not make an error for you")
 
-Please take a look in gitCommands file , we will add in them all commands needed
-and Migration Commands file contain steps needed to perform migrations
+# Instructions
+clone the project and write in terminal node server.js
+for running test files write in terminal npm run test
+
+### check the InstructionsAndCommands folder for more guide
