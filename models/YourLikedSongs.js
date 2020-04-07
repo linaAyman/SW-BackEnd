@@ -12,15 +12,10 @@ const yourLikedSongsSchema = new mongoose.Schema({
          ref:'User'
     },
     tracks:[{
-        trackId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Track',
         //required : true
-        },
-    addedAt:{
-        type:Date,
-        default:Date.now
-    },
+        
     }],
     type:{
         type:String,
