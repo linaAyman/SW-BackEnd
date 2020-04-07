@@ -58,7 +58,7 @@ async function getMostPopular(number){
 async function getNewReleases (){
   
     let releaseAlbums = await Album
-                               .find({},{'_id':0,'name':1,'id':1,'description':1,'image':1,'type':1})
+                               .find({},{'_id':0,'name':1,'id':1,'label':1,'image':1,'type':1})
                                .populate('artists','name id -_id')
                                .sort({releaseDate: -1})
     let releases={
