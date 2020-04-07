@@ -57,7 +57,7 @@ exports.getlikedSong=async function(req,res){
     const token = req.headers.authorization.split(" ")[1];
     if(token){   
           const decoded = jwt.decode(token);
-          let tracksTemp=await YourLikedSongs.findOne({user:decoded._id},{'tracks':1,'_id':0}).populate('tracks','name image id -_id')
+          let tracksTemp=await YourLikedSongs.findOne({user:decoded._id},{'tracks':1,'_id':0}).populate('tracks','name image url previewUrl id -_id')
           return res.status(200).json({tracksTemp})
     }
 }
