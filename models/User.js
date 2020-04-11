@@ -97,6 +97,9 @@ const userSchema = mongoose.Schema({
   phone:{
     type: String,
     default: null
+  },
+  maestroId:{
+    type: String 
   }
 });
 

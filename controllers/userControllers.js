@@ -106,6 +106,7 @@ const smtpTransport = nodemailer.createTransport({
       pass: process.env.PASSWORD
   } 
 });
+<<<<<<< HEAD
 /**
 * UserController signup 
 *@memberof module:controllers/userControllers
@@ -209,6 +210,96 @@ exports.userSignup =   (req, res, next) => {
            });
          }
     });      
+=======
+
+  exports.userSignup =   (req, res, next) => {
+   const { error } = joiValidate(req.body)
+   if (error)
+    return res.status(400).send({ msg: error.details[0].message });
+    //this object is created for LikedSongLibrary
+   let userId;
+   User.find({ name: req.body.name  })
+   .exec()
+    .then(user => {
+      if (user.length >= 1) {
+        return res.status(409).json({
+          message: 'Username already exists'
+        });
+      }  
+      else {
+            bcrypt.hash(req.body.password, 10, (err, hash) => {
+              if (err) {
+                return res.status(500).json({
+                  error: err
+                });
+              } else {
+               randGenerator();
+               const host = req.get('host');//just our locahost
+               const link="http://"+host+"/user/verify?id="+rand.randNo;
+               mailOptions={
+                    from: 'Do Not Reply '+process.env.MAESTROEMAIL,
+                    to : req.body.email,//put user email
+                    subject : "Please confirm your Email account",
+                    html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+                }
+               console.log(mailOptions);
+               smtpTransport.sendMail(mailOptions, function(error, response){
+               if(error){
+                  console.log(error);
+                  return res.status(500).send({ msg: 'Unable to send email' });     
+                  
+               }else{
+                      //here that the message send successfulyy so the user can sign up  
+                      const user = new User({
+                        _id: new mongoose.Types.ObjectId(),
+                        name:req.body.name,
+                        email: req.body.email,
+                        password: hash,
+                        birthDate:req.body.birthDate,
+                        gender:req.body.gender
+                      });
+                      rand.userId=user._id;//to use it back in verify mail
+                      rand.save().then().catch();
+                      user.uri= 'Maestro:User:'+ user._id.toString();
+                      user.href = 'https://api.Maestro.com/v1/users/'+ user._id.toString();
+                      user.externalUrls.value = 'https://open.Maestro.com/users/'+ user._id.toString();
+                      user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
+                      user.image.contentType = 'jpg';
+		      user.maestroId = randomHash.generate(30);
+                      const token = jwt.sign(
+                        { _id: user._id,
+                          name: user.name, 
+                        },
+                        process.env.JWTSECRET, 
+                        {
+                          expiresIn: '7d'
+                        }
+                      );
+                      user.token = token ;
+                      user
+                        .save()
+                        .then(result => {
+                          console.log(result);
+                          res.status(201).json({
+                            message: 'User created',
+                            token: token
+                          });
+                            //creating the playlist liked songs playlist after creating the user
+                           trackController.createLikedSongs(user._id); 
+                        })
+                        .catch(err => {
+                          console.log(err);
+                          res.status(500).json({
+                            error: err
+                          });
+                        });
+                     }
+                });
+              }
+            });
+          }
+     });      
+>>>>>>> a5f5976a89ad81b85ac73669d916593e769715cb
 };
 /**
 * UserController login 
