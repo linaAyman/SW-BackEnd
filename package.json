@@ -31,12 +31,15 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "jsdoc": "^3.6.4",
     "mocha": "^7.1.1",
     "request": "^2.88.2"
   },
   "scripts": {
     "watch": "nodemon server",
-    "test": "mocha"
+    "test": "mocha",
+    "unitTest":"mocha",
+    "docs":"./node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "keywords": [],
   "author": "",

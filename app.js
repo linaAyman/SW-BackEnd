@@ -12,6 +12,7 @@
   const homeRoutes=require('./routes/home')
   const albumRoutes=require('./routes/album')
   const otherUser=require('./routes/otherUsers')
+  const artistRoutes=require('./routes/artist')
   const cors=require('cors');
  
 
@@ -71,6 +72,7 @@
   app.use("/home",homeRoutes);
   app.use("/albums", albumRoutes);
   app.use("/users", otherUser);
+  app.use("/artists",artistRoutes);
  
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");

@@ -1,3 +1,8 @@
+
+/**
+*@module searchController
+*/
+
 const { Search, validateSearch } = require('../models/Search')
 const { Track }=require('../models/Track')
 const { Artist}=require('../models/Artist')
@@ -9,6 +14,14 @@ const jwt = require('jsonwebtoken')
 //-------------------------------------------------Search Feature-------------------------------//
 //------------------- get /search
 //----returns object of 3 arrays 
+/**
+ * searchController search
+ * @memberof module:searchController
+ * @function {search} searches for artists/albums/tracks either by a regular expression of by exact match
+ * @param {req.headers.authorization} token to identify user and use hos id later in saving recent search
+ * @param {string} req.query.query string to search for it
+ * @returns {arrayOfArrays} searchResult(trackResult,artistResult,albumResult) 
+ */
 exports.search=async function search(req,res){
     
     const { error } = validateSearch(req.query)

@@ -1,3 +1,7 @@
+/**
+*@module playerController
+*/
+
 var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHistory')
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
@@ -6,9 +10,17 @@ var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
 
 
-
-///==============================Saving a recently played track in play history object
+/**
+ * playerController saveTrack
+ * @memberof module:playerController
+ * @function saveTrack
+ * @param {token} req.headers.authorization the token to identify user by and save the given track in his recently played category to be showed in home later
+ * @param {id} req.params.id the id of playlist or track to be saved that he listened to it it will be id of playlist if he listened to this track within a playlist
+ * 
+ */
 exports.saveTrack=async function (req,res){
+
+
   
        /// trackObjectId=await Track.find({id:trackId},{'_id':1})
                             
@@ -45,12 +57,19 @@ exports.saveTrack=async function (req,res){
                         .updateOne({userId:userId},{$push:{History:{
                         context:contextObject}}})//,
                        /// itemPlaying:trackObjectId[0]._id}}
-                        
-
         }   
        
 };
-//========================================For playing a shuffle playlist=============================//
+//========================================For playing a playlist=============================//
+/**
+ * playerController playFirstTrack returns the first track in playlist to be played and save the track sent to user to be played in his history
+ *@memberof module:playerController
+ *@function playFirstTrack
+ *@param {token} req.headers.authorization the token to identify user by and save the given track in his recently played category to be showed in home later
+ *@param {id} req.params.id the id of playlist or track to be saved that he listened to it it will be id of playlist if he listened to this track within a playlist
+ *@param {status} res.status 200 on success 404 if the playlist or track id is not valid or not sent
+ *@param{track} track object on success contains url/image/name/id/artists
+ */
 exports.playFirstTrack=async function(req,res){
     const token = req.headers.authorization.split(" ")[1];
     if(token){   

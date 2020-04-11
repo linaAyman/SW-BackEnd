@@ -1,3 +1,7 @@
+/**
+*@module homeController
+*/
+
 var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHistory')
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
@@ -9,6 +13,14 @@ var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
 
 //=================================get play history from database=========================//
+/**
+ * homeController getPlayHistory
+ * @memberof module:homeController
+ * @function getPlayHistory
+ * @param { req.headers.authorization} token the token to identify user by and save the given track in his recently played category to be showed in home later
+ * @param {objectId} userId of user to get his recently played playlists and tracks
+ * @returns {array } recentlyPlayed of recently played tracks and playlists
+ */
 async function getPlayHistory(userId){
 
     let historyDocument=await PlayHistory.findOne({userId:userId},{'History':1,'_id':0})
@@ -35,14 +47,33 @@ async function getPlayHistory(userId){
     return recentlyPlayed;
 }
 //=================================get 3 categories in home page================//
-async function getCategories(){
+/**
+ * homeController getCategories
+ * @memberof module:homeController
+ * @function getCategories
+ * @returns {array} Home the three categories in database (Chill/WorkOut/Happy)
+ */
+async function getCategories() {
+    
     let Home=[];
-    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1, 'playlists':{$slice:7},'_id':0})
-                    .populate('playlists','name image type id description -_id')
+    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1,'totalPlaylists':1, 'playlists':{$slice:7},'_id':0})
+                    .populate('playlists','name image type id  description -_id')
+    //console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    ///console.log(Home)
     return Home;
-}
+};
+
+//exports.getTCategory=getCategories;
+
+/**
+ * homeController getMostPopular
+ * @memberof module:homeController
+ * @function {getMostPopular} returns the most popular playlists specified by given number
+ * @param { number} number of popular playlists to be returned
+ * @returns {array}  popular array of popular playlists 
+ */
 async function getMostPopular(number){
-    console.log(number)
+   
         let popularPlaylists = await Playlist
                                         .find({},{'_id':0,'name':1,'id':1,'description':1,'image':1,'type':1})
                                         .limit(number)
@@ -55,6 +86,12 @@ async function getMostPopular(number){
         }
         return popular;
 }
+/**
+ * homeController getNewReleases
+ * @memberof module:homeController
+ * @function {getNewReleases} get the newly released albums
+ * @returns {array} releases array of albums
+ */
 async function getNewReleases (){
   
     let releaseAlbums = await Album
@@ -73,10 +110,20 @@ async function getNewReleases (){
 
 
 //==================================for see all in home page==================//
+/**
+ * homeController seeAll
+ * @memberof module:homeController
+ * @function {seeAll} give name of category view all it's playlists 
+ * @param {name} req.params.name, name of category to see all it's playlists
+ * @returns {code} status, 200 on success ,404 for invalid category name
+ * @returns {array} category, if name is Chill/WorkOut/Happy
+ * @returns {array} playlists, if name is most popular playlists
+ * @returns {array} albums, if name is released albums
+ */
 exports.seeAll=async function(req,res){
     if(req.params.name=="Chill"||req.params.name=="WorkOut"||req.params.name=="Happy"){
 
-        category=await Category.findOne({name:req.params.name},{'name':1 ,'type':1, 'playlists':1,'_id':0})
+        category=await Category.findOne({name:req.params.name},{'name':1 ,'type':1,'totalPlaylists':1 ,'playlists':1,'_id':0})
                         .populate('playlists','name image id description -_id')
         res.status(200).json({category});
 
@@ -96,6 +143,12 @@ exports.seeAll=async function(req,res){
 
 
 //===============================Loading the home page========================//
+/**
+ * homeController getHome
+ * @memberof module:homeController
+ * @function {getHome} returns all cards in the Home categories,popular playlists and released albums
+ * @returns {array} Home array of all categories to be viewed in home each categoru has 6 playlists
+ */
 exports.getHome=async function(req,res){
 
 
