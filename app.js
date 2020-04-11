@@ -66,6 +66,7 @@
 
   app.use("/user", userRoutes);
   app.use("/playlist", playlistRoutes);
+  app.use("/playlists/:id", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);
   app.use("/artist/:id",artistRoutes);
