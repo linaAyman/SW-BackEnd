@@ -12,6 +12,7 @@
   const homeRoutes=require('./routes/home')
   const albumRoutes=require('./routes/album')
   const otherUser=require('./routes/otherUsers')
+  const artistRoutes=require('./routes/artist')
   const cors=require('cors');
  
 
@@ -67,6 +68,7 @@
   app.use("/playlist", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);
+  app.use("/artist/:id",artistRoutes);
   app.use("/me",meRoutes);
   app.use("/home",homeRoutes);
   app.use("/albums", albumRoutes);
