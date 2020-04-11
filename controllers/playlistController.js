@@ -61,7 +61,7 @@ exports.addTrack= async function(req,res){
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.decode(token);
     let dID = decoded._id;
-   /* const token1 = jwt.sign(
+    const token1 = jwt.sign(
       { _id:  "5e848bf8da28c351f47c1ec8" ,
         name: "Ayleeeeeeen 21 ", 
       },
@@ -71,7 +71,7 @@ exports.addTrack= async function(req,res){
       }
     );
     res.send(token1)
-    console.log(token1)*/
+    console.log(token1)/*
     let query = req.baseUrl;
     let temp = query.substr(11,query.length-2);
   try
@@ -117,3 +117,4 @@ exports.addTrack= async function(req,res){
 
  
   } 
+*/
