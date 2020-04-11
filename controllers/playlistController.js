@@ -36,7 +36,8 @@ exports.addTrack= async function(req,res){
       }
     );
     res.send(token1)
-   // console.log(token1)/*
+   // console.log(token1)
+    /*
     let query = req.baseUrl;
     let temp = query.substr(11,query.length-2);
   try
@@ -79,7 +80,7 @@ exports.addTrack= async function(req,res){
   
       return res.sendStatus(403);
     }
-
+*/
  
   } 
-*/
+
