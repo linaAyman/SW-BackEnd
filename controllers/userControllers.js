@@ -500,9 +500,9 @@ exports.userChangePassword = (req, res, next) => {
  */
 
 exports.userForgetPassword = (req, res, next) => {  
-  console.log(  req.params.mail )
+  console.log(  req.params.email )
   User
-  .findOne({ email: req.params.mail})
+  .findOne({ email: req.params.email})
   .exec()
   .then(user => {
     if (user.length < 1) {
@@ -512,7 +512,7 @@ exports.userForgetPassword = (req, res, next) => {
       }
       console.log( user._id )
       console.log( user.email )
-      console.log(  req.params.mail )
+      console.log(  req.params.email )
       randGenerator();
       rand.userId = user._id ;
       console.log( rand.userId)
