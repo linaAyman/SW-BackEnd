@@ -518,7 +518,7 @@ exports.userForgetPassword = (req, res, next) => {
       console.log( rand.userId)
       console.log( rand.randNo)
       rand.save().then().catch();
-      const host = req.get('host');
+      const host = req.hostname;
       const link ="http://"+host+"/account.mayestro/reset-password/"+rand.randNo;
        mailOptions={
         from: 'Do Not Reply '+process.env.MAESTROEMAIL,
