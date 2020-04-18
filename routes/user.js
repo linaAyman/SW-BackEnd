@@ -11,7 +11,7 @@ router.post("/logout" ,checkAuth,  UserController.userLogout);
 router.get("/mailExist/:mail" , UserController.userMailExist);
 router.get("/verify" ,checkAuth, UserController.userVerifyMail);
 router.post("/changePassword" ,checkAuth, UserController.userChangePassword);
-router.get("/forgetPassword/:mail" , UserController.userForgetPassword);
+router.get("/forgetPassword/:email" , UserController.userForgetPassword);
 router.post("/resetPassword"  ,UserController.userResetPassword);
 router.get("/user",checkAuth, UserController.getCurrentUser);
 router.get("/users/:id",checkAuth,UserController.getOtherUser);
