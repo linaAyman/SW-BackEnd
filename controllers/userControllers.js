@@ -250,6 +250,7 @@ exports.userLogin = (req, res, next) => {
               expiresIn: '7d'
             }
           );
+	   user.token = token;
           return res.status(200).json({
             message: 'Auth successful',
             token: token
