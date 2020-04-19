@@ -241,6 +241,7 @@ exports.userLogin = (req, res, next) => {
           });
         }
         if (result) {
+
           const token = jwt.sign(
             { _id: user._id,
               name: user.name, 
@@ -250,15 +251,20 @@ exports.userLogin = (req, res, next) => {
               expiresIn: '7d'
             }
           );
-	   user.token = token;
-          return res.status(200).json({
-            message: 'Auth successful',
-            token: token
-          });
+          User.updateOne({email: req.body.email},{token: token})
+          .exec()
+          .then(result =>{
+              return res.status(200).json({
+              message: 'Auth successful',
+              token: token
+            });
+           })
+          .catch(err => {
+            res.status(401).json({
+              message: 'Auth failed'
+            });
+          });  
         }
-        res.status(401).json({
-          message: 'Auth failed'
-        });
       });
     })
     .catch(err => {
