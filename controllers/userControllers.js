@@ -241,6 +241,7 @@ exports.userLogin = (req, res, next) => {
           });
         }
         if (result) {
+
           const token = jwt.sign(
             { _id: user._id,
               name: user.name, 
@@ -250,14 +251,20 @@ exports.userLogin = (req, res, next) => {
               expiresIn: '7d'
             }
           );
-          return res.status(200).json({
-            message: 'Auth successful',
-            token: token
-          });
+          User.updateOne({email: req.body.email},{token: token})
+          .exec()
+          .then(result =>{
+              return res.status(200).json({
+              message: 'Auth successful',
+              token: token
+            });
+           })
+          .catch(err => {
+            res.status(401).json({
+              message: 'Auth failed'
+            });
+          });  
         }
-        res.status(401).json({
-          message: 'Auth failed'
-        });
       });
     })
     .catch(err => {
@@ -500,9 +507,9 @@ exports.userChangePassword = (req, res, next) => {
  */
 
 exports.userForgetPassword = (req, res, next) => {  
-  console.log(  req.params.mail )
+  console.log(  req.params.email )
   User
-  .findOne({ email: req.params.mail})
+  .findOne({ email: req.params.email})
   .exec()
   .then(user => {
     if (user.length < 1) {
@@ -512,14 +519,14 @@ exports.userForgetPassword = (req, res, next) => {
       }
       console.log( user._id )
       console.log( user.email )
-      console.log(  req.params.mail )
+      console.log(  req.params.email )
       randGenerator();
       rand.userId = user._id ;
       console.log( rand.userId)
       console.log( rand.randNo)
       rand.save().then().catch();
-      const host = req.get('host');
-      const link ="http://"+host+"/user/resetPassword?id="+rand.randNo;
+      const host = req.hostname;
+      const link ="http://"+host+"/account.mayestro/reset-password/"+rand.randNo;
        mailOptions={
         from: 'Do Not Reply '+process.env.MAESTROEMAIL,
         to : user.email,//put user email
