@@ -771,7 +771,6 @@ exports.getCurrentUser = async (req,res) => {
   let dID = decoded._id;
   let userInfo
   let loggedWithFb = await User.find({_id:dID},{loggedByFb:1})
-  console.log(loggedWithFb)
   if(loggedWithFb==true){
     userInfo = await User
     .find({_id:dID}, {_id:0,image:1,isPremium:1,country:1,email:1,birthDate:1} );
@@ -871,6 +870,8 @@ exports.editProfile =async (req,res)=>{
         message: 'Auth failed1'
       });
     }
+    console.log(user.email)
+    console.log(req.body.email)
     if(user.email==req.body.email){ //email didnt change
       
       const { error } = validateEditWithoutEmail(req.body)
@@ -894,7 +895,7 @@ exports.editProfile =async (req,res)=>{
       bcrypt.compare(req.body.password, user.password, async (err, result) => {
         if (err) {
           return res.status(401).json({
-            message: 'Auth failed2'
+            message: 'Auth failed Please enter a password'
           });
         }
         console.log(result)
@@ -906,10 +907,10 @@ exports.editProfile =async (req,res)=>{
           }else{ 
               try{
                 let userEmail=user.email
-                await User
-                  .updateOne({_id:userId},{'email':req.body.email,'birthDate':req.body.birthDate,'gender':req.body.gender,'country':req.body.country}  );
                 //Updated email info,  still missing verify mail
-                 randGenerator();
+               randGenerator();
+               rand.userId=user._id;//to use it back in verify mail
+               rand.save().then().catch();
                const host = req.get('host');//just our locahost
                const link="http://"+host+"/user/verify?id="+rand.randNo;
                 mailOptions={
@@ -919,10 +920,15 @@ exports.editProfile =async (req,res)=>{
                       html : "Hello,<br> Please Click on the link to verify your profile email has changed from this mail.<br>"+userEmail +" <a href="+link+">Click here to verify</a>"
                   } 
                 console.log(mailOptions);
-                smtpTransport.sendMail(mailOptions, function(error, response){
+                await smtpTransport.sendMail(mailOptions, async function(error, response){
                   if(error){
                       console.log(error);
                       return res.status(500).send({ msg: 'Unable to send email' });     
+                  }
+                  else { // 
+                    await User
+                    .updateOne({_id:userId},{'email':req.body.email,'birthDate':req.body.birthDate,'gender':req.body.gender,'country':req.body.country}  );
+              
                   }
                 });
                 // sending mail to old email address
