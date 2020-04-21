@@ -1,0 +1,413 @@
+[
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b2" },
+      "description": "playlist from the including all songs in if i stay movie",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimQUz8KFC8W6WrDiDnc",
+      "followers": 6047,
+      "id": "4qrimQUz8KFC8W6WrDiDnc",
+      "image": "https://i.scdn.co/image/ab67616d0000b273c7cd431638fcd90523df85c3",
+      "name": "If i stay(soundtrack)",
+      "owner": { "$oid": "5e848bf8da28c351f47c1ec8" },
+      "primaryColor": null,
+      "public": true,
+      "tracks": 
+        [
+          { "$oid": "5e85ce534676d8a0b48130c3" },
+          { "$oid": "5e85ce534676d8a0b48130c5" }
+        ]
+      ,
+  
+      "totalTracks": 2,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimQUz8KFC8W6WrDiDnc",
+      "popularity":113
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b3" },
+      "description": "playlist Exclusive Amr Diab",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnc",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDnc",
+      "image": "https://i.scdn.co/image/ab67616d0000b273c7cd431638fcd90523df85c3",
+      "name": "New Songs Amr Diab",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce534676d8a0b48130c6" }
+        ]
+  
+      ,
+      "totalTracks": 1,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnc",
+      "popularity":114
+
+  
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b4" },
+      "description": "Some Comfort Tracks to relax",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnd",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDnd",
+      "image": "https://i.scdn.co/image/ab67706f00000002a86f06fb337166fc5047efee",
+      "name": "Comfort Zone",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce534676d8a0b48130c6" },
+          { "$oid": "5e85ce544676d8a0b48130b1" },
+          { "$oid": "5e85ce544676d8a0b48130b2" },
+          { "$oid": "5e85ce544676d8a0b48130b3" }
+        ]
+  
+      ,
+      "totalTracks": 4,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnd",
+      "popularity":78
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b5" },
+      "description": "Relax your Mind",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDne",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDne",
+      "image": "https://i.scdn.co/image/ab67616d00001e029df54b112dfa5da467239db0",
+      "name": "Relaxtion",
+      "owner": { "$oid": "5e848bf8da28c351f47c1ec8" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce534676d8a0b48130c6" },
+          { "$oid": "5e85ce544676d8a0b48130b4" },
+          { "$oid": "5e85ce544676d8a0b48130b5" },
+          { "$oid": "5e85ce544676d8a0b48130b6" }
+        ]
+  
+      ,
+      "totalTracks": 4,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDne",
+      "popularity":143
+  
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b6" },
+      "description": "get a Peacful Mind with our playlist",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnf",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDnf",
+      "image": "https://i.scdn.co/image/ab67616d0000b273c7cd431638fcd90523df85c3",
+      "name": "Peacful Mind",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce544676d8a0b48130be" },
+          { "$oid": "5e85ce544676d8a0b48130ba" },
+          { "$oid": "5e85ce544676d8a0b48130bc" },
+          { "$oid": "5e85ce544676d8a0b48130bd" },
+          { "$oid": "5e85ce544676d8a0b48130bb" }
+  
+        ]
+  
+      ,
+      "totalTracks": 5,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnf",
+      "popularity":13
+  
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b7" },
+      "description": "Take A Rest",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnf",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDnf",
+      "image": "https://i.scdn.co/image/ab67616d00001e02ba5db46f4b838ef6027e6f96",
+      "name": "Rest",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce544676d8a0b48130b1" },
+          { "$oid": "5e85ce544676d8a0b48130b2" },
+          { "$oid": "5e85ce544676d8a0b48130b3" },
+          { "$oid": "5e85ce544676d8a0b48130b4" },
+          { "$oid": "5e85ce544676d8a0b48130b5" }
+  
+        ]
+  
+      ,
+      "totalTracks": 5,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnf",
+      "popularity":53
+  
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b8" },
+      "description": "Make a good and Sweet Moments",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDng",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDng",
+      "image": "https://i.scdn.co/image/ab67616d00001e02ba5db46f4b838ef6027e6f96",
+      "name": "Sweet Moments",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce544676d8a0b48130be" },
+          { "$oid": "5e85ce544676d8a0b48130ba" },
+          { "$oid": "5e85ce544676d8a0b48130bc" },
+          { "$oid": "5e85ce544676d8a0b48130bd" },
+          { "$oid": "5e85ce544676d8a0b48130bb" }
+  
+        ]
+  
+      ,
+      "totalTracks": 5,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDng",
+      "popularity":123
+  
+    },
+    {
+      "_id": { "$oid": "6e85ce544676d8a0b48130b9" },
+      "description": "Good hours to spend with music",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnh",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDnh",
+      "image": "https://i.scdn.co/image/ab67616d00001e020a8faf02e33a80f13070b58a",
+      "name": "Sweet Moments",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce534676d8a0b48130c6" },
+          { "$oid": "5e85ce534676d8a0b48130c5" },
+          { "$oid": "5e85ce534676d8a0b48130c4" }
+       
+  
+        ],
+      "totalTracks": 3,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnh",
+      "popularity":153
+  
+    },
+    {
+      
+        "_id": { "$oid": "6e85ce544676d8a0b48130ba" },
+        "description": "Time to chill out with perfect songs",
+        "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDni",
+        "followers": 604733,
+        "id": "4qrimFUz8KFC8W6WrDiDni",
+        "image": "https://i.scdn.co/image/ab67616d00001e020a8faf02e33a80f13070b58a",
+        "name": "chill songs",
+        "owner": { "$oid": "555555555555555555555555" },
+        "primaryColor": null,
+        "public": true,
+        "tracks":  [
+            { "$oid": "5e85ce544676d8a0b48130c0" },
+            { "$oid": "5e85ce544676d8a0b48130c1" }
+         
+    
+          ],
+        "totalTracks": 2,
+        "type": "playlist",
+        "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDni",
+        "popularity":166
+    
+      
+    },
+    {
+      
+      "_id": { "$oid": "6e85ce544676d8a0b48130bb" },
+      "description": "get yourself some energy",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnj",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDnj",
+      "image": "https://i.scdn.co/image/ab67616d00001e0284c0ae5b34bc3fe4238c3bdd",
+      "name": "Energy",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce544676d8a0b48130c2" },
+          { "$oid": "5e85ce544676d8a0b48130c3" }
+       
+  
+        ],
+      "totalTracks": 2,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnj",
+      "popularity":173
+  
+    
+  },
+  {
+      
+    "_id": { "$oid": "6e85ce544676d8a0b48130bc" },
+    "description": "get yourself some energy",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDnh",
+    "followers": 604733,
+    "id": "4qrimFUz8KFC8W6WrDiDnh",
+    "image": "https://i.scdn.co/image/ab67616d00001e023b52eca47232bedfbb5e9443",
+    "name": "Energy",
+    "owner": { "$oid": "555555555555555555555555" },
+    "primaryColor": null,
+    "public": true,
+    "tracks":  [
+        { "$oid": "5e85ce544676d8a0b48130c4" },
+        { "$oid": "5e85ce544676d8a0b48130b3" }
+     
+  
+      ],
+    "totalTracks": 2,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDnh",
+    "popularity":73
+  
+  
+  },
+  {
+    
+      
+      "_id": { "$oid": "6e85ce544676d8a0b48130bd" },
+      "description": "New Songs Exclusive Happy and chill",
+      "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDma",
+      "followers": 604733,
+      "id": "4qrimFUz8KFC8W6WrDiDma",
+      "image": "https://i.scdn.co/image/ab67616d00001e0225ba01b18a41bcc562209e42",
+      "name": "Moments",
+      "owner": { "$oid": "555555555555555555555555" },
+      "primaryColor": null,
+      "public": true,
+      "tracks":  [
+          { "$oid": "5e85ce544676d8a0b48130c0" },
+          { "$oid": "5e85ce544676d8a0b48130b1" },
+          { "$oid": "5e85ce544676d8a0b48130b2" }
+       
+    
+        ],
+      "totalTracks": 3,
+      "type": "playlist",
+      "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDma",
+      "popularity":23
+  
+  },
+  {
+  
+    "_id": { "$oid": "6e85ce544676d8a0b48130be" },
+    "description": "New Songs Mood Adjust ",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDmb",
+    "followers": 604733,
+    "id": "4qrimFUz8KFC8W6WrDiDmb",
+    "image": "https://i.scdn.co/image/ab67616d00001e0225ba01b18a41bcc562209e42",
+    "name": "Keep Up",
+    "owner": { "$oid": "555555555555555555555555" },
+    "primaryColor": null,
+    "public": true,
+    "tracks":  [
+        { "$oid": "5e85ce544676d8a0b48130c5" },
+        { "$oid": "5e85ce544676d8a0b48130ba" },
+        { "$oid": "5e85ce544676d8a0b48130bb" },
+        { "$oid": "5e85ce544676d8a0b48130bf" },
+        { "$oid": "5e85ce544676d8a0b48130be" }
+     
+  
+      ],
+    "totalTracks": 5,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmb",
+    "popularity":83
+  
+  },
+  {
+  
+    "_id": { "$oid": "6e85ce544676d8a0b48130ce" },
+    "description": "Happy and Workout and Chill",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDmc",
+    "followers": 604733,
+    "id": "4qrimFUz8KFC8W6WrDiDmc",
+    "image": "https://i.scdn.co/image/ab67616d00001e0213480e8127119dcb882eb53d",
+    "name": "Happy days",
+    "owner": { "$oid": "555555555555555555555555" },
+    "primaryColor": null,
+    "public": true,
+    "tracks":  [
+        { "$oid": "5e85ce544676d8a0b48130ca" },
+        { "$oid": "5e85ce544676d8a0b48130b1" },
+        { "$oid": "5e85ce544676d8a0b48130bb" },
+        { "$oid": "5e85ce544676d8a0b48130bf" },
+        { "$oid": "5e85ce544676d8a0b48130b0" }
+     
+  
+      ],
+    "totalTracks": 5,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmc",
+    "popularity":93
+  
+  },
+  {
+  
+    "_id": { "$oid": "6e85ce544676d8a0b48130c0" },
+    "description": "do some excerise",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDme",
+    "followers": 604733,
+    "id": "4qrimFUz8KFC8W6WrDiDme",
+    "image": "https://i.scdn.co/image/ab67616d00001e0241e9614560815b11c1ca543d",
+    "name": "Sport Music",
+    "owner": { "$oid": "555555555555555555555555" },
+    "primaryColor": null,
+    "public": true,
+    "tracks":  [
+        { "$oid": "5e85ce544676d8a0b48130c0" },
+        { "$oid": "5e85ce544676d8a0b48130b1" },
+        { "$oid": "5e85ce544676d8a0b48130b2" },
+        { "$oid": "5e85ce544676d8a0b48130b3" },
+        { "$oid": "5e85ce544676d8a0b48130b4" }
+     
+  
+      ],
+    "totalTracks": 5,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDme",
+    "popularity":23
+  
+  },{
+    "_id": { "$oid": "6e85ce544676d8a0b48130c1" },
+    "description": "May be Happy now",
+    "externalUrl": "http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDmf",
+    "followers": 604733,
+    "id": "4qrimFUz8KFC8W6WrDiDmf",
+    "image": "https://i.scdn.co/image/ab67616d00001e0205559264ebef3889709826cf",
+    "name": "HAPPY PERSON",
+    "owner": { "$oid": "555555555555555555555555" },
+    "primaryColor": null,
+    "public": true,
+    "tracks":  [
+        { "$oid": "5e85ce544676d8a0b48130c1" },
+        { "$oid": "5e85ce544676d8a0b48130b2" },
+        { "$oid": "5e85ce544676d8a0b48130b4" },
+        { "$oid": "5e85ce544676d8a0b48130c0" },
+        { "$oid": "5e85ce544676d8a0b48130b3" }
+     
+  
+      ],
+    "totalTracks": 5,
+    "type": "playlist",
+    "uri": "Maestro:playlist:4qrimFUz8KFC8W6WrDiDmf",
+    "popularity":17
+    
+  
+  }
+  
+  
+  ]
+  
