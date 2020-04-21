@@ -1,0 +1,51 @@
+{
+  "name": "complexApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.2.0",
+    "crypto": "^1.0.1",
+    "date": "^1.0.2",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "fs": "0.0.1-security",
+    "joi": "^14.3.1",
+    "jsdoc": "^3.6.4",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^7.1.1",
+    "moment": "^2.24.0",
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.5",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.4.6",
+    "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-facebook-token": "^3.3.0",
+    "random-hash": "^4.0.1",
+    "random-key": "^0.3.2",
+    "request": "^2.88.2",
+    "sinon": "^9.0.2",
+    "validator": "^12.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-http": "^1.0.0"
+  },
+  "scripts": {
+    "watch": "nodemon server",
+    "test": "mocha",
+    "unit-test": "mocha",
+    "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
