@@ -14,7 +14,8 @@
   const otherUser=require('./routes/otherUsers')
   const artistRoutes=require('./routes/artist')
   const cors=require('cors');
- 
+  const  FBlogin = require('./routes/FBlogin');
+  const  passport = require('passport');
 
  //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
  let db="mongodb://localhost/MaestroApp"
@@ -61,7 +62,16 @@
     }
     next();
   });
-  
+  passport.serializeUser(function(user, done) {
+    done(null, user._id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    user.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
+  app.use(passport.initialize());  
   // Routes which should handle requests
 
   app.use("/user", userRoutes);
@@ -75,7 +85,8 @@
   app.use("/albums", albumRoutes);
   app.use("/users", otherUser);
   app.use("/artists",artistRoutes);
- 
+  app.use("/auth",FBlogin);
+
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");
     error.status = 404;
