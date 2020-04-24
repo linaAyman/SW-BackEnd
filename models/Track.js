@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const trackSchema = new mongoose.Schema({
     artists:[{type: mongoose.Schema.Types.ObjectId , required:true,ref:'Artist'}],
     
-    duration_ms:{
+    duration:{
         type:Number,
        // required:true
     },
@@ -33,7 +33,7 @@ const trackSchema = new mongoose.Schema({
         text:true,
         required:true
     },
-    track_number:{  
+    trackNumber:{  
         type :Number,
         //required:true
     },

@@ -6,14 +6,27 @@ const searchSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
- /* userId: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
-  },*/
-  query: {
-    type: String,
     required: true,
-    maxlength: 40
+    ref:'User'
+  },
+  // type: {
+  //   type: String,
+  //   required: true
+  // },
+  searchedItems:[{
+    id:{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true},
+    type:{
+      type: String,
+      required: true
+    }
+  }],
+  countSearchedItems:{
+    type:Number,
+    default:1
   }
 })
 
