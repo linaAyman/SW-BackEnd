@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+
 const userSchema = mongoose.Schema({
   _id: {type:mongoose.Schema.Types.ObjectId,required:true},
   name: {
     type: String,
-    required: true,
-    minlength: [1,'Username must be at least 1 characters.'],
-    maxlength: [15,'Username must be max 15 characters.']
+    required: true
   },
   email: {
     type: String,
@@ -27,12 +26,15 @@ const userSchema = mongoose.Schema({
   },
  birthDate:{
     type: Date,
-    required: true,
-   
+    required: true
   },
   gender:{
     type: Boolean,
     required: true
+  },
+  maestroId:{
+    type: String ,
+    default: null
   },
   followersCount: { 
     type: Number, 
@@ -86,7 +88,11 @@ const userSchema = mongoose.Schema({
      token:{
       type: String,
       default: null
+     },
+     id:{
+      type: String
      }
+
   },
  token:{
     type: String,
@@ -99,9 +105,6 @@ const userSchema = mongoose.Schema({
   phone:{
     type: String,
     default: null
-  },
-  maestroId:{
-    type: String 
   }
 });
 
