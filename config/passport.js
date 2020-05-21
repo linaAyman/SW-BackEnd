@@ -7,7 +7,7 @@ const FacebookTokenStrategy = require('passport-facebook-token');
 const User = require('../models/User');
 const config = require('../facebookAuth');
 var random = require('random-key');
-const moment = require('moment');
+
 /**
 * this function convert the gender from female/male to boolean type to match the user schema
 *@memberof module:config/passport
