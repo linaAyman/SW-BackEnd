@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 
 const userSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: {type:mongoose.Schema.Types.ObjectId,required:true},
   name: {
     type: String,
     required: true
@@ -45,8 +45,10 @@ const userSchema = mongoose.Schema({
     default: false
   },
   image:{
-   data: Buffer,
-   contentType: String
+    type: String,
+    required:false
+  // data: Buffer,
+   ///contentType: String
   },
   providInfo:{
     type: Boolean,

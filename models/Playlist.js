@@ -6,6 +6,7 @@ const playlistSchema = new mongoose.Schema({
     tracks:[{type: mongoose.Schema.Types.ObjectId , required:true,ref:'Track'}],
     name: {
         type: String,
+        text:true,
         required: true
     },
     id: {

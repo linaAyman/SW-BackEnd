@@ -194,35 +194,4 @@ exports.getlikedSong=async function(req,res){
     }
 }
 
- //-----------------------------Like a track-------------------------//   
-/*exports.likeSong=async function(req,res){
 
-    
-    if(!req.body.id) return res.status(404).send({ message: "trackId haven't been sent in the request" })
-    console.log(req.body.id)
-    const token = req.headers.authorization.split(" ")[1];
-    if(token){  
-
-          const decoded = jwt.decode(token);
-          let tracksTemp=await Track.findOne({id:req.body.id},{trackId:'_id'})
-          console.log(tracksTemp)
-          await YourLikedSongs.findOneAndUpdate({ user:decoded._id},{$addToSet:{'tracks':tracksTemp._id}});
-          return res.status(201).json({"message" :'OK'})
-    }
-}
-//----------------------Remove track from your liked songs---------------//
-exports.dislikeSong=async function(req,res){
-
-    
-    if(!req.body.id) return res.status(404).send({ msg: "trackId haven't been sent in the request" })
-    console.log(req.body.id)
-    const token = req.headers.authorization.split(" ")[1];
-    if(token){   
-          const decoded = jwt.decode(token);
-          let tracksTemp=await Track.findOne({id:req.body.id},{trackId:'_id'})
-        
-          console.log(tracksTemp)  
-          await YourLikedSongs.updateOne({user:decoded._id},{$pull:{tracks:tracksTemp._id}});
-          return res.status(200).json({"message" :'Deleted Successfully'})
-    }
-}*/
