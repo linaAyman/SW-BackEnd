@@ -45,6 +45,7 @@ const trackSchema = new mongoose.Schema({
     },
     name:{
         type :String,
+         text:true,
       
     },
     type:{
