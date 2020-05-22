@@ -1,22 +1,21 @@
 /**
  * @module playlistController
  */
-const mongoose = require('mongoose')
-const config = require('config')
-const joi = require('joi')
+const getOID=require('../middleware/getOID');
+const {Library}=require('../models/Library')
 /**
  * A model for playlst 
  * @model playlist
  */
 const {Playlist} = require('../models/Playlist')
-const env = require('dotenv').config();
+const mongoose=require('mongoose');
+
 /**
  * A model for track 
  * @model track
  */
 const { Track }=require('../models/Track')
 const jwt = require("jsonwebtoken");
-const dot = require('dot-object');
 
 /**
  * @async
@@ -33,6 +32,7 @@ exports.getPlaylist = async (req, res)=> {
      res.send(playlist)
   
 };
+
 /**
  * @async
  *  @memberof module:playlistController
@@ -118,4 +118,47 @@ exports.addTrack= async function(req,res){
 
  
   } 
+//================================================Create Playlist=================================//
 
+exports.createPlaylist=async function(req,res){
+  
+  const userOID=getOID(req);
+  //if user object ID is 555555555555555555555555 then Spotify is the owner of playlist
+  console.log(userOID);
+
+  const playlist=new Playlist({
+    name:req.query.name,
+    id: mongoose.Types.ObjectId(),
+    owner:userOID,
+    totalTracks:0,
+    popularity:0,
+    description:"",
+    followers:0
+    //add image
+  })
+
+  //save playlist in database
+  await playlist.save();
+  
+
+  //save the created playlist in Library
+  await Library.findOneAndUpdate({user:userOID},{$push:{playlists:playlist._id}});
+  console.log(await Library.findOne({user:userOID}))
+  return res.status(200).json({message :'OK'})
+
+};
+
+//===================================================Like Playlist =======================////////////////
+exports.likePlaylist=async function(req,res){
+
+  let playlistToLike=req.body.id;
+  if(!playlistToLike) return res.status(404).send({ message: "PlayListId haven't been sent in the request" })
+  const userOID=getOID(req);  // find user object ID 
+
+  //find object ID of the playlist
+  let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
+  //add playlist to array of user's playlists in Library
+  await Library.findOneAndUpdate({ user:userOID},{$push:{'playlists':playlistsTemp._id}});
+  return res.status(201).json({message :'OK'})
+
+};

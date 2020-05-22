@@ -4,6 +4,7 @@
 
 const joi = require('joi')
 const {Album} = require('../models/Album')
+const {Library}=require('../models/Library')
 const env = require('dotenv').config();
 /**
  * @async
@@ -35,4 +36,21 @@ exports.getTracks=async(req,res)=>{
     console.log(tracks)
     return res.status(200).send(tracks)
  };
+ exports.likeAlbum=async (req,res)=>{
  
+
+     let albumToLike=req.body.id;
+     if(!albumToLike) return res.status(404).send({ message: "albumId haven't been sent in the request" })
+    
+     const token = req.headers.authorization.split(" ")[1];
+     if(token){  
+           const decoded = jwt.decode(token);
+           let albumsTemp=await Album.findOne({id:req.body.id},{'_id':1})
+           console.log(albumsTemp)
+        //    await Library.findOneAndUpdate({ user:decoded._id},{$addToSet:{'albums':albumsTemp._id}});
+           await Library.findOneAndUpdate({ user:decoded._id},{$push:{albums:{$each:[albumsTemp],$position:0}}});
+        //    await Search.findOneAndUpdate({userId:decoded._id},{$push:{searchedItems:{$each:[searchedObject],$position:0}}})
+           return res.status(201).json({message :'OK'})
+     }
+
+ };

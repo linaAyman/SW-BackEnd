@@ -3,7 +3,11 @@ const router = express.Router();
 
 const UserController = require('../controllers/userControllers');
 const checkAuth = require('../middleware/checkAuth');
+const playlistController=require('../controllers/playlistController');
 
+
+
+router.post("/createPlaylist",checkAuth,playlistController.createPlaylist);
 router.post("/signup", UserController.userSignup);
 router.post("/login", UserController.userLogin);
 router.delete("/:id",checkAuth, UserController.userDelete);

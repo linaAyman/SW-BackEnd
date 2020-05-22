@@ -5,6 +5,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');//this used for hashing the passwords to provide more secuirty
 const trackController=require('../controllers/trackController')
+const libraryController=require('../controllers/libraryController')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi')
 const User = require('../models/User')
@@ -173,8 +174,8 @@ exports.userSignup =   (req, res, next) => {
                      user.uri= 'Maestro:User:'+ user._id.toString();
                      user.href = 'https://api.Maestro.com/v1/users/'+ user._id.toString();
                      user.externalUrls.value = 'https://open.Maestro.com/users/'+ user._id.toString();
-                     user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
-                     user.image.contentType = 'jpg';
+                    //  user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
+                    //  user.image.contentType = 'jpg';
                      user.maestroId = randomHash.generate(30);
                      const token = jwt.sign(
                        { _id: user._id,
@@ -196,6 +197,7 @@ exports.userSignup =   (req, res, next) => {
                          });
                            //creating the playlist liked songs playlist after creating the user
                          trackController.createLikedSongs(user._id); 
+                         libraryController.createLibrary(user._id);
                        })
                        .catch(err => {
                          console.log(err);

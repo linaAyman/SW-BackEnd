@@ -20,6 +20,7 @@ const env = require('dotenv').config();
  */
 exports.createLikedSongs =async function (userId)
 {
+    console.log("GGGGGGGGGGGGGGGGGGGGGGQQQQQQQQQQQQQQQQQQQQWWWWWWWWWWWWWW")
     let tracksTemp=[];
     const yourLikedSongs = new YourLikedSongs ({
             tracks:tracksTemp,

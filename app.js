@@ -74,8 +74,8 @@
   app.use(passport.initialize());  
   // Routes which should handle requests
 
+
   app.use("/user", userRoutes);
-  app.use("/playlist", playlistRoutes);
   app.use("/playlists/:id", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);

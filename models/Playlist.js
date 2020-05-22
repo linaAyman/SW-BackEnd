@@ -13,23 +13,23 @@ const playlistSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    external_urls:{
-        type: new mongoose.Schema({
-            spotify: {
-                type: String,
-            }
-        }
-        )
-    },
+    // external_urls:{
+    //     type: new mongoose.Schema({
+    //         spotify: {
+    //             type: String,
+    //         }
+    //     }
+    //     )
+    // },
   
     type: {
         type: String,
         default: "playlist"
     },
-    uri: {
-        type: String,
-    },
-    images: { url: String},
+    // uri: {
+    //     type: String,
+    // },
+    image: { type: String},
     popularity: {
         type: Number
     },
@@ -45,7 +45,7 @@ const playlistSchema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId, ref:'User',
         required: true
-    },
+    }
         
     //tracks:{
    
@@ -56,7 +56,7 @@ const playlistSchema = new mongoose.Schema({
             type: Number
         }*/
   //  },
-    genres: [String]
+    // genres: [String]
 })
 
 //TODO: validation function
