@@ -4,38 +4,49 @@ const mongoose = require('mongoose')
 
 
 const trackSchema = new mongoose.Schema({
-    artists:[{type: mongoose.Schema.Types.ObjectId , required:true,ref:'Artist'}],
-    
+    artists:[{
+        type :String
+      //  type: mongoose.Schema.Types.ObjectId 
+       // ,ref:'Artist'
+    }],
+    Album:{
+        type: mongoose.Schema.Types.ObjectId ,
+        ref:'Album',
+      
+    },
     duration:{
         type:Number,
-       // required:true
+    },
+    url:{
+        type :String
+    },
+    AlbumName:{
+     type: String
+
     },
     external_urls:{
-        type:new mongoose.Schema({
-            spotify :{
-                type :String,
-               // required:true
+  
+            key:{
+              type: String,
+              default: 'Maestro'
+            },
+            value:{
+              type: String,
+
             }
-        }
-        )
+       
     },
     href:{
         type:String,
-       // required:true
     },
     id:{
-        type:String,
-        required:true,
-        //unique:true
+        type: String
+  
     },
     name:{
         type :String,
-        text:true,
-        required:true
-    },
-    trackNumber:{  
-        type :Number,
-        //required:true
+         text:true,
+      
     },
     type:{
         type:String,
@@ -44,25 +55,24 @@ const trackSchema = new mongoose.Schema({
     },
     uri:{
         type:String,
-        //required:true
+     
+    },
+    explicit:{
+       type: Boolean,
+       default:false
+
+    },
+    preview_url:{
+       type: String    
+    },
+
+    music:{
+        type: Object
+    },
+    genre:{
+        type: String  
     }
 
-    
-})
+});
+module.exports = mongoose.model('Track', trackSchema);
 
-
-const Track = mongoose.model('Track', trackSchema)
-
-function validateTrack (track) {
-  const schema = {
-    name: Joi.string()
-      .min(1)
-      .max(15)
-      .required(),
-  }
-
-  return Joi.validate(track, schema)
-}
-
-exports.Track = Track
-exports.validateTrack = validateTrack
