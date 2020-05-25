@@ -8,7 +8,7 @@
  * @model artist
  */
 
-const { Artist}=require('../models/Artist')
+const  Artist =require('../models/Artist')
 /**
  * @async 
  * @function
