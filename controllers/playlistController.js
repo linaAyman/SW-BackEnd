@@ -58,10 +58,8 @@ exports.getAllTracks=async(req,res)=>{
  */
 exports.addTrack= async function(req,res){
 
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.decode(token);
-    let dID = decoded._id;
-    /*const token1 = jwt.sign(
+  const userOID=getOID(req);
+  /*const token1 = jwt.sign(
       { _id:  "5e848bf8da28c351f47c1ec8" ,
         name: "Ayleeeeeeen 21 ", 
       },
@@ -82,7 +80,7 @@ exports.addTrack= async function(req,res){
     let trackCount = await Playlist.find({id:temp},{'_id':0,'totalTracks':1},);
     let totalTracks = trackCount[0].totalTracks+1;
    
-    if(dID == playlistOwnerId )
+    if(userOID == playlistOwnerId )
         {
           
         let inputUris = req.query.uris;
@@ -162,8 +160,19 @@ exports.likePlaylist=async function(req,res){
   return res.status(201).json({message :'OK'})
 
 };
-
+/*
 exports.removeTrack=async function(req,res){
+
+ // const userOID=getOID(req);
+  
+ try{   
+
+  /*let playlistOwner = await Playlist.find({id:req.params.id},{'_id':0, 'owner':1});
+  let playlistOwnerId = (playlistOwner[0].owner);
+  console.log("showing users id "+playlistOwnerId)
+
+  if(userOID == playlistOwnerId )*/
+ exports.removeTrack=async function(req,res){
 
   console.log("hello")
   console.log(req.body.tracks)    
@@ -171,11 +180,11 @@ exports.removeTrack=async function(req,res){
  try{   
         const decoded = jwt.decode(token);
         track = req.body.tracks
-        let tracksTemp
        // track.forEach(async function (value,index){
-          tracksTemp = await Track.find({id:track},{'_id':1})
+        console.log(track[0])
+        let tracksTemp = await Track.find({id:track},{_id:1})
         //})
-        
+      
         console.log("tracks id "+tracksTemp)
         console.log(req.params.id)  
         tracksTemp.forEach(async function (value,index){

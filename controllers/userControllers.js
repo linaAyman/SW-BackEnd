@@ -5,6 +5,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');//this used for hashing the passwords to provide more secuirty
 const trackController=require('../controllers/trackController')
+const notificationController=require('../controllers/notificationController')
 const libraryController=require('../controllers/libraryController')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi')
@@ -198,6 +199,7 @@ exports.userSignup =   (req, res, next) => {
                            //creating the playlist liked songs playlist after creating the user
                          trackController.createLikedSongs(user._id); 
                          libraryController.createLibrary(user._id);
+                         notificationController.createNotification(user._id);
                        })
                        .catch(err => {
                          console.log(err);

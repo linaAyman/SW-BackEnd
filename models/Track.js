@@ -69,5 +69,18 @@ const trackSchema = new mongoose.Schema({
     }
 
 });
-module.exports = mongoose.model('Track', trackSchema);
+//module.exports = mongoose.model('Track', trackSchema);
+const Track = mongoose.model('Track', trackSchema)
 
+function validateTrack (track) {
+  const schema = {
+    name: Joi.string()
+      .min(1)
+      .max(15)
+      .required(),
+  }
+
+  return Joi.validate(track, schema)
+}
+exports.Track = Track
+exports.validateTrack = validateTrack
