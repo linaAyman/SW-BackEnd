@@ -4,10 +4,9 @@ const mongoose = require('mongoose')
 
 
 const trackSchema = new mongoose.Schema({
-    artists:[{
-        type :String
-      //  type: mongoose.Schema.Types.ObjectId 
-       // ,ref:'Artist'
+   artists:[{
+        type : mongoose.Schema.Types.ObjectId 
+       ,ref:'Artist'
     }],
     Album:{
         type: mongoose.Schema.Types.ObjectId ,
@@ -19,10 +18,6 @@ const trackSchema = new mongoose.Schema({
     },
     url:{
         type :String
-    },
-    AlbumName:{
-     type: String
-
     },
     external_urls:{
   
@@ -45,7 +40,7 @@ const trackSchema = new mongoose.Schema({
     },
     name:{
         type :String,
-         text:true,
+         text:true
       
     },
     type:{
