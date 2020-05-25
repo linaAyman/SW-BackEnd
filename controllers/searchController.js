@@ -223,6 +223,7 @@ exports.saveSearch=async function(req,res){
             //check if this search exist before and delete it to save the new search about this item
             let item=await Search.findOne({userId:decoded._id,searchedItems:{$elemMatch:{id:searchedObjectId}}})
             await Search.findOneAndUpdate({userId:decoded._id},{"$pull":{"searchedItems":{id:searchedObjectId}}})
+        // Recent search
             await Search.findOneAndUpdate({userId:decoded._id},{$push:{searchedItems:{$each:[searchedObject],$position:0}}})
             if(!item)await Search.updateOne({userId:decoded._id},{$inc:{countSearchedItems:1}})
         }

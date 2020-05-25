@@ -7,5 +7,6 @@ router.get('/:id/tracks',playlistController.getAllTracks);
 router.get('/:id', playlistController.getPlaylist);
 router.post('/tracks' ,checkAuth,playlistController.addTrack);
 // router.put("/createPlaylist",checkAuth,playlistController.createPlaylist);
+router.delete('/:id/tracks' ,playlistController.removeTrack);
 
 module.exports = router;
