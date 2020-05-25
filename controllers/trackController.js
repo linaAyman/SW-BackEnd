@@ -195,4 +195,19 @@ exports.getlikedSong=async function(req,res){
     }
 }
 
-
+/**
+ * @memberof module:trackController
+ * @function {showByGenre} get tracks of requested genre for user
+ * @param {req.params.genre} genre to get the tracks of that genre
+ */
+//----------------------Get tracks of the requested genre--------------//////
+exports.showByGenre = async (req, res)=> {
+  //console.log(req.params.id)
+  let reqGenre = req.params.genre;
+  console.log(reqGenre);
+  let result = await Track.find({genre: reqGenre})
+  if (result.length == 0)
+   res.send({message: "There's no such tracks for that genre"})
+  else
+   res.send(result)
+  };
