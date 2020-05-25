@@ -31,7 +31,7 @@ exports.uploadSong = async (req, res) => {
         while (count < req.body.artist.length) {
           const ourArtist = await Artist.findOne({ name: req.body.artist[count] });
           if (ourArtist)
-            ids[count] = ourArtist.id;
+            ids[count] =ourArtist._id;
           count++;
         }
         try {
