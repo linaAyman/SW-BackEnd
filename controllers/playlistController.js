@@ -160,48 +160,36 @@ exports.likePlaylist=async function(req,res){
   return res.status(201).json({message :'OK'})
 
 };
-/*
+
 exports.removeTrack=async function(req,res){
 
- // const userOID=getOID(req);
+  const userOID=getOID(req);
   
- try{   
-
-  /*let playlistOwner = await Playlist.find({id:req.params.id},{'_id':0, 'owner':1});
+  let playlistOwner = await Playlist.find({id:req.params.id},{'_id':0, 'owner':1});
   let playlistOwnerId = (playlistOwner[0].owner);
-  console.log("showing users id "+playlistOwnerId)
+ 
+  if(userOID == playlistOwnerId ){
+  try{   
+          track = req.body.tracks
+        // track.forEach(async function (value,index){
+          let tracksTemp = await Track.find({id:track},{_id:1})
+          //})
+        
+          tracksTemp.forEach(async function (value,index){
+          await Playlist
+          .updateOne({id:req.params.id},{$pull:{tracks:tracksTemp[index]._id}} );
+          })
+          let totalTracks = await Playlist.find({id:req.params.id},{tracks:1,_id:1})
+          await Playlist
+          .updateOne({id:req.params.id},{'totalTracks':totalTracks[0].tracks.length}  );
 
-  if(userOID == playlistOwnerId )*/
- exports.removeTrack=async function(req,res){
-
-  console.log("hello")
-  console.log(req.body.tracks)    
-  const token = req.headers.authorization.split(" ")[1];
- try{   
-        const decoded = jwt.decode(token);
-        track = req.body.tracks
-       // track.forEach(async function (value,index){
-        console.log(track[0])
-        let tracksTemp = await Track.find({id:track},{_id:1})
-        //})
+          return res.sendStatus(200);//.json({"message" :'Deleted Successfully'})
       
-        console.log("tracks id "+tracksTemp)
-        console.log(req.params.id)  
-        tracksTemp.forEach(async function (value,index){
-        await Playlist
-        .updateOne({id:req.params.id},{$pull:{tracks:tracksTemp[index]._id}} );
-        })
-        console.log("hello")
-        let totalTracks = await Playlist.find({id:req.params.id},{tracks:1,_id:1})
-        console.log("hello")
-        console.log("total tracks"+totalTracks[0].tracks.length)  
-        console.log("tracks in playlist "+ totalTracks[0].tracks)
-        await Playlist
-        .updateOne({id:req.params.id},{'totalTracks':totalTracks[0].tracks.length}  );
-
-        return res.sendStatus(200);//.json({"message" :'Deleted Successfully'})
+     } catch{
+      return res.sendStatus(404);//.json({"message" :'Auth failed'})
+    
+  }} else{
+    return res.sendStatus(403);    
   }
-  catch{
-    return res.sendStatus(404);//.json({"message" :'Auth failed'})
-  }
+ 
 }
