@@ -17,6 +17,7 @@
   const  FBlogin = require('./routes/FBlogin');
   const  passport = require('passport');
   const trackRoutes = require('./routes/track'); 
+  const followRoutes=require('./routes/follow');
  //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
  let db="mongodb://localhost/MaestroApp"
   /* mongoose
@@ -87,6 +88,7 @@
   app.use("/artists",artistRoutes);
   app.use("/auth",FBlogin);
   app.use("/track",  trackRoutes);
+  app.use("/follow", followRoutes);
   
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");
