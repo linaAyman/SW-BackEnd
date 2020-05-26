@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');//this used for hashing the passwords to prov
 const trackController=require('../controllers/trackController')
 const notificationController=require('../controllers/notificationController')
 const libraryController=require('../controllers/libraryController')
+const followController = require('../controllers/followController')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi')
 const User = require('../models/User')
@@ -201,7 +202,7 @@ exports.userSignup =   (req, res, next) => {
                          //creating the playlist liked songs playlist after creating the user
                          followController.createFollow(user._id);
                          libraryController.createLibrary(user._id);
-                         notificationController.createNotification(user._id);
+                         notificationController.CreateNewNotification(user._id);
                        })
                        .catch(err => {
                          console.log(err);

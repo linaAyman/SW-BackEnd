@@ -1,6 +1,7 @@
 const joi = require('joi')
 const {Follow} = require('../models/Follow')
 const {Artist} = require('../models/Artist')
+const notificationController = require('../controllers/notificationController')
 const jwt = require('jsonwebtoken')
 const env = require('dotenv').config();
 
@@ -26,6 +27,7 @@ exports.addFollow = async (req, res)=> {
     console.log(followingTemp)
 
     await Follow.findOneAndUpdate({ user: decoded._id},{$addToSet: {followingIds: followingTemp._id}});
+    notificationController.addFollowNotification(uID,followingTemp)
     return res.status(201).json({message :'OK'})
 };
 

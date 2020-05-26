@@ -15,6 +15,7 @@ const mongoose=require('mongoose');
  * @model track
  */
 const { Track }=require('../models/Track')
+const notificationController = require('../controllers/notificationController')
 const jwt = require("jsonwebtoken");
 
 /**
@@ -157,10 +158,19 @@ exports.likePlaylist=async function(req,res){
   let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
   //add playlist to array of user's playlists in Library
   await Library.findOneAndUpdate({ user:userOID},{$push:{'playlists':playlistsTemp._id}});
+  // notification to playlist owner that the user liked his playlist
+  notificationController.addLikeNotification(playlistsTemp,userOID);
+
   return res.status(201).json({message :'OK'})
 
 };
-
+//-------------------------Delete track from Playlist----------------------------------//
+/**
+ * @memberof module:playlistController
+ * @function {removeTrack} to delete a track from existing playlist 
+ * @param req 
+ * @param res
+ */
 exports.removeTrack=async function(req,res){
 
   const userOID=getOID(req);
@@ -171,9 +181,7 @@ exports.removeTrack=async function(req,res){
   if(userOID == playlistOwnerId ){
   try{   
           track = req.body.tracks
-        // track.forEach(async function (value,index){
           let tracksTemp = await Track.find({id:track},{_id:1})
-          //})
         
           tracksTemp.forEach(async function (value,index){
           await Playlist
