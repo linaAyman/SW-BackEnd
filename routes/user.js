@@ -9,6 +9,7 @@ const playlistController=require('../controllers/playlistController');
 
 router.post("/createPlaylist",checkAuth,playlistController.createPlaylist);
 router.post("/signup", UserController.userSignup);
+router.post("/signupArtist", UserController.userSignupArtist);
 router.post("/login", UserController.userLogin);
 router.delete("/:id",checkAuth, UserController.userDelete);
 router.post("/logout" ,checkAuth,  UserController.userLogout);
