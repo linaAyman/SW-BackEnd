@@ -674,7 +674,7 @@ exports.userIsPremuim = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.decode(token);
   console.log(decoded._id);
-  User.updateOne({_id: decoded._id},{isPremium : true})
+  User.updateOne({_id: decoded._id},{type : 'premium'})
   .exec()
   .then(result =>{
    User
