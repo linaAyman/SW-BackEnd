@@ -5,33 +5,90 @@
 const mongoose = require('mongoose')
 const config = require('config')
 const joi = require('joi')
-const Track = require('../models/Track')
-const {YourLikedSongs}=require('../models/YourLikedSongs')
+const { Track } = require('../models/Track')
+const { YourLikedSongs } = require('../models/YourLikedSongs')
 var jwt = require('jsonwebtoken')
 const env = require('dotenv').config();
 var randomHash = require('random-key');
-const Album = require('../models/Album');
-const Artist = require('../models/Artist');
+const { Album } = require('../models/Album');
+const { Artist } = require('../models/Artist');
 const mm = require('music-metadata');
 const util = require('util');
+const User = require('../models/User');
+const decode_id = require('../middleware/getOID');
+/**
+* Trackcontroller valdiation
+*@memberof module:controllers/trackControllers
+*@param {string}   req.body.genre     artist enters genre of track
+*@param {string}   req.body.name      artist enters name of track
+*@param {array}   req.body.artist    artist enters his name and other artist coontribute in the song
+*@param {file}     req.body.music     artist enters track as (mp3,wav,mpeg or wave)
+*@param {file}  req.body.image     artist enters image of the track as (jpg,jpeg or png) 
+*/
+function Validate(req) {
+  const schema = {
+    genre:
+      Joi.string().min(1).max(80).required(),
+    name:
+      Joi.string().min(3).max(30).required(),
+    artist:
+      Joi.array().items(Joi.string()).required(),
+    music:
+      Joi.required(),
+    image:
+      Joi.required()
+  }
+  return Joi.validate(req, schema);
+};
+exports.validateSong = Validate;
+/**
+* Trackcontroller uploadSong
+*@memberof module:controllers/trackControllers
+*@function uploadSong
+*@param {function} checkAuth           Function for validate authenticatation
+*@param {object}  req                  Express request object
+*@param {object}  res                  response of track object
+*/
 
+/**here we just upload solo songs an it's image and assume that the artists' names are unique*/
 
-/**here we just upload solo songs and assume that the artist's names are unique*/
 exports.uploadSong = async (req, res) => {
-    const fileURL = req.file.destination + '/' + req.file.filename;
+  /**check who uploads the song */
+  const decodedID = decode_id(req);
+  const UserCheck = await User.findOne({ _id: decodedID });
+  if (UserCheck.type == 'artist') {
+    /**first valdiate data that the artist entered */
+    const { error } = Validate({
+      genre: req.body.genre,
+      name: req.body.name,
+      artist: req.body.artist,
+      music: req.files['music'],
+      image: req.files['image']
+    })
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
+    }
+    const musicArray = req.files['music'];
+    const imageArray = req.files['image'];
+    const fileURL = musicArray[0].destination + '/' + musicArray[0].filename;
+    const imageURL = imageArray[0].destination + '/' + imageArray[0].filename;
     var count = 0;
-  
+
     try {
+      /**check if the track doesnot exist before */
       let ourTrack = await Track.find({ url: fileURL });
       if (ourTrack.length >= 1) {
         res.status(404).json({ message: "The song exists before" });
       }
       else {
         var ids = new Array();
+        console.log(req.body.artist.length);
         while (count < req.body.artist.length) {
+          /**search for artists by their names as we assumed that their names are unique */
           const ourArtist = await Artist.findOne({ name: req.body.artist[count] });
-          if (ourArtist)
-            ids[count] =ourArtist._id;
+          if (ourArtist) {
+            ids[count] = ourArtist._id;
+          }
           count++;
         }
         try {
@@ -40,30 +97,89 @@ exports.uploadSong = async (req, res) => {
             name: req.body.name,
             url: fileURL,
             artists: ids,
-            genre: req.body.genre
+            genre: req.body.genre,
+            imageURL: imageURL
           });
-  
           getAudioDurationInSeconds(track.url).then((duration) => {
             track.duration = duration * 1000;// to be in miliseconds
           });
           track.external_urls.value = 'https://open.Maestro.com/tracks' + track.id;
           track.uri = 'Maestro:track:' + track.id;
           track.href = 'https://api.Maestro.com/v1/tracks/' + track.id;
-  
-  
           let newTrack = await track.save();
           res.status(200).json({ data: newTrack });
         } catch (err) {
           res.status(404).json({ error: err });
         }
-  
+
       }
     } catch (err) {
       res.status(500).json({ error: err });
     }
-  };
-  
-  exports.deleteTrack = async (req, res) => {
+  } else {
+    res.status(404).json({ message: "only artists can upload songs" });
+  }
+};
+
+/**
+* Trackcontroller editTrack
+*@memberof module:controllers/trackControllers
+*@function editTrack
+*@param {function} checkAuth           Function for validate authenticatation
+*@param {object}  req                  Express request object
+*@param {object}  res                  Express response 
+*/
+exports.editTrack = async (req, res) => {
+  const decodedID = decode_id(req);
+  const UserCheck = await User.findOne({ _id: decodedID });
+  if (UserCheck.type == 'artist') {
+    const { error } = Validate({
+      genre: req.body.genre,
+      name: req.body.name,
+      artist: req.body.artist,
+      music: req.files['music'],
+      image: req.files['image']
+    })
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
+    }
+    const musicArray = req.files['music'];
+    const imageArray = req.files['image'];
+    const fileURL = musicArray[0].destination + '/' + musicArray[0].filename;
+    const imageURL = imageArray[0].destination + '/' + imageArray[0].filename;
+    try {
+      var ids = new Array();
+      var count = 0;
+      while (count < req.body.artist.length) {
+        const ourArtist = await Artist.findOne({ name: req.body.artist[count] });
+        if (ourArtist) {
+          ids[count] = ourArtist._id;
+        }
+        count++;
+      }
+
+      let updatedTrack = await Track.updateOne({ id: req.params.trackId }, { name: req.body.name, url: fileURL, artists: ids, genre: req.body.genre, imageURL: imageURL });
+      res.status(200).json(updatedTrack);
+    } catch (err) {
+      res.status(404).json(err);
+    }
+  } else {
+    res.status(404).json({ message: "only artists can Edit songs" });
+  }
+};
+
+/**
+* Trackcontroller deleteTrack
+*@memberof module:controllers/trackControllers
+*@function deleteTrack
+*@param {function} checkAuth           Function for validate authenticatation
+*@param {object}  req                  Express request object
+*@param {object}  res                  Express response 
+*/
+exports.deleteTrack = async (req, res) => {
+  const decodedID = decode_id(req);
+  const UserCheck = await User.findOne({ _id: decodedID });
+  if (UserCheck.type == 'artist') {
     try {
       const id = req.params.trackId;
       let result = await Track.deleteOne({ id: id });
@@ -71,52 +187,40 @@ exports.uploadSong = async (req, res) => {
     } catch (err) {
       res.status(500).json(err);
     }
-  };
-  
-  exports.getTrack = async (req, res) => {
-    try {
-      let ourTrack = await Track.findOne({ id: req.params.trackId });
-      if (ourTrack) {
-        mm.parseFile(ourTrack.url)
-          .then(metadata => {
-            console.log(util.inspect(metadata, { showHidden: false, depth: null }));
-            res.status(200).json({ data: metadata });
-          })
-          .catch(err => {
-            res.status(404).json({ error: err.message });
-          });
-  
-      }
-      else {
-        res.status(500).json({ message: "the song id is wrong" });
-  
-      }
-    } catch (err) {
-      res.status(500).json(err);
+  } else {
+    res.status(404).json({ message: "only artists can delete their songs" });
+  }
+};
+
+/**
+* Trackcontroller getTrack
+*@memberof module:controllers/trackControllers
+*@function getTrack
+*@param {function} checkAuth           Function for validate authenticatation
+*@param {object}  req                  Express request object
+*@param {object}  res                  response of track object
+*/
+exports.getTrack = async (req, res) => {
+  try {
+    let ourTrack = await Track.findOne({ id: req.params.trackId });
+    if (ourTrack) {
+      mm.parseFile(ourTrack.url)
+        .then(metadata => {
+          res.status(200).json({ data: metadata });
+        })
+        .catch(err => {
+          res.status(404).json({ error: err.message });
+        });
     }
-  };
-  
-  exports.editTrack = async (req, res) => {
-    try {
-      var ids = new Array();
-      var count = 0;
-      while (count < req.body.artist.length) {
-        const ourArtist = await Artist.findOne({ name: req.body.artist[count] });
-        if (ourArtist) {
-          ids[count] = ourArtist.id;
-        }
-        count++;
-      }
-      const fileURL = req.file.destination + '/' + req.file.filename;
-      let updatedTrack = await Track.updateOne({ id: req.params.trackId }, { name: req.body.name, url: fileURL, artists: ids, genre: req.body.genre });
-      res.status(200).json(updatedTrack);
-    } catch (err) {
-      res.status(404).json(err);
+    else {
+      res.status(500).json({ message: "the song's id is wrong" });
+
     }
-  };
-  
-  
-  
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 //-------------------------create the "Your liked songs" playlist after user sign up----------------------------------//
 /**
  * @memberof module:trackController
@@ -124,15 +228,13 @@ exports.uploadSong = async (req, res) => {
  * @param {objectId} userId user that we want to create "yourLikedSongs" playlist for
  *
  */
-exports.createLikedSongs =async function (userId)
-{
-    console.log("GGGGGGGGGGGGGGGGGGGGGGQQQQQQQQQQQQQQQQQQQQWWWWWWWWWWWWWW")
-    let tracksTemp=[];
-    const yourLikedSongs = new YourLikedSongs ({
-            tracks:tracksTemp,
-            user: userId
-    });
-    yourLikedSongs.save()
+exports.createLikedSongs = async function (userId) {
+  let tracksTemp = [];
+  const yourLikedSongs = new YourLikedSongs({
+    tracks: tracksTemp,
+    user: userId
+  });
+  yourLikedSongs.save()
 
 }
 //------------------Like a track---------------------//
@@ -142,20 +244,20 @@ exports.createLikedSongs =async function (userId)
  * @param {req.headers.authorization} token to get objectId of the user from
  * @param {req.body.id} id trackId that user want to save it
  */
-exports.likeSong=async function(req,res){
+exports.likeSong = async function (req, res) {
 
-    let trackToLike=req.body.id;
-    if(!trackToLike) return res.status(404).send({ message: "trackId haven't been sent in the request" })
-   
-    const token = req.headers.authorization.split(" ")[1];
-    if(token){  
+  let trackToLike = req.body.id;
+  if (!trackToLike) return res.status(404).send({ message: "trackId haven't been sent in the request" })
 
-          const decoded = jwt.decode(token);
-          let tracksTemp=await Track.findOne({id:req.body.id},{trackId:'_id'})
-          console.log(tracksTemp)
-          await YourLikedSongs.findOneAndUpdate({ user:decoded._id},{$addToSet:{'tracks':tracksTemp._id}});
-          return res.status(201).json({message :'OK'})
-    }
+  const token = req.headers.authorization.split(" ")[1];
+  if (token) {
+
+    const decoded = jwt.decode(token);
+    let tracksTemp = await Track.findOne({ id: req.body.id }, { trackId: '_id' })
+    console.log(tracksTemp)
+    await YourLikedSongs.findOneAndUpdate({ user: decoded._id }, { $addToSet: { 'tracks': tracksTemp._id } });
+    return res.status(201).json({ message: 'OK' })
+  }
 }
 //----------------------Remove track from your liked songs---------------//
 /**
@@ -164,20 +266,20 @@ exports.likeSong=async function(req,res){
  * @param {req.headers.authorization} token to get objectId of the user from
  * @param {req.body.id} id trackId that user want to remove it
  */
-exports.dislikeSong=async function(req,res){
+exports.dislikeSong = async function (req, res) {
 
-    
-    if(!req.body.id) return res.status(404).send({ msg: "trackId haven't been sent in the request" })
-    console.log(req.body.id)
-    const token = req.headers.authorization.split(" ")[1];
-    if(token){   
-          const decoded = jwt.decode(token);
-          let tracksTemp=await Track.findOne({id:req.body.id},{trackId:'_id'})
-        
-          console.log(tracksTemp)  
-          await YourLikedSongs.updateOne({user:decoded._id},{$pull:{tracks:tracksTemp._id}});
-          return res.status(200).json({"message" :'Deleted Successfully'})
-    }
+
+  if (!req.body.id) return res.status(404).send({ msg: "trackId haven't been sent in the request" })
+  console.log(req.body.id)
+  const token = req.headers.authorization.split(" ")[1];
+  if (token) {
+    const decoded = jwt.decode(token);
+    let tracksTemp = await Track.findOne({ id: req.body.id }, { trackId: '_id' })
+
+    console.log(tracksTemp)
+    await YourLikedSongs.updateOne({ user: decoded._id }, { $pull: { tracks: tracksTemp._id } });
+    return res.status(200).json({ "message": 'Deleted Successfully' })
+  }
 }
 /**
  * @memberof module:trackController
@@ -185,14 +287,14 @@ exports.dislikeSong=async function(req,res){
  * @param {req.headers.authorization} token to get objectId of the user from
  */
 //----------------------Get Liked Song Library--------------//////
-exports.getlikedSong=async function(req,res){
+exports.getlikedSong = async function (req, res) {
 
-    const token = req.headers.authorization.split(" ")[1];
-    if(token){   
-          const decoded = jwt.decode(token);
-          let tracksTemp=await YourLikedSongs.findOne({user:decoded._id},{'tracks':1,'_id':0}).populate('tracks','name image url previewUrl id -_id')
-          return res.status(200).json({tracksTemp})
-    }
+  const token = req.headers.authorization.split(" ")[1];
+  if (token) {
+    const decoded = jwt.decode(token);
+    let tracksTemp = await YourLikedSongs.findOne({ user: decoded._id }, { 'tracks': 1, '_id': 0 }).populate('tracks', 'name image url previewUrl id -_id')
+    return res.status(200).json({ tracksTemp })
+  }
 }
 
 /**
@@ -201,13 +303,13 @@ exports.getlikedSong=async function(req,res){
  * @param {req.params.genre} genre to get the tracks of that genre
  */
 //----------------------Get tracks of the requested genre--------------//////
-exports.showByGenre = async (req, res)=> {
+exports.showByGenre = async (req, res) => {
   //console.log(req.params.id)
   let reqGenre = req.params.genre;
   console.log(reqGenre);
-  let result = await Track.find({genre: reqGenre})
+  let result = await Track.find({ genre: reqGenre })
   if (result.length == 0)
-   res.send({message: "There's no such tracks for that genre"})
+    res.send({ message: "There's no such tracks for that genre" })
   else
-   res.send(result)
-  };
+    res.send(result)
+};

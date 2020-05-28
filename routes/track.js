@@ -1,16 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const checkAuth = require('../middleware/checkAuth');
-
 const trackController = require("../controllers/trackController");
 const upload = require("../middleware/multer");
 
 
-
-router.post("/upload", upload.upload.single("music"), trackController.uploadSong);
-router.delete("/:trackId", trackController.deleteTrack);
-router.get("/:trackId",trackController.getTrack );
-router.post("/edit/:trackId",upload.upload.single("music"),trackController.editTrack );//maybe upload modifed song
+router.post("/upload",checkAuth,upload.upload.fields([{name:"music", maxCount: 1},{name: 'image', maxCount: 1}]),trackController.uploadSong);
+router.post("/edit/:trackId",checkAuth,upload.upload.fields([{name:"music", maxCount: 1},{name: 'image', maxCount: 1}]),trackController.editTrack );//maybe upload modifed song
+router.delete("/:trackId", checkAuth,trackController.deleteTrack);
+router.get("/:trackId",checkAuth,trackController.getTrack );
 router.get('/:genre', checkAuth, trackController.showByGenre);
 
 module.exports = router;
