@@ -76,6 +76,10 @@ const trackSchema = new mongoose.Schema({
    },
    imageURL:{
     type: String  
+   },
+   trackNumber:
+   {
+       type: Number
    }
 
 });

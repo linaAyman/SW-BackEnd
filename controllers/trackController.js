@@ -16,6 +16,7 @@ const mm = require('music-metadata');
 const util = require('util');
 const User = require('../models/User');
 const decode_id = require('../middleware/getOID');
+const { getAudioDurationInSeconds } = require('get-audio-duration');
 /**
 * Trackcontroller valdiation
 *@memberof module:controllers/trackControllers
@@ -157,8 +158,14 @@ exports.editTrack = async (req, res) => {
         }
         count++;
       }
-
-      let updatedTrack = await Track.updateOne({ id: req.params.trackId }, { name: req.body.name, url: fileURL, artists: ids, genre: req.body.genre, imageURL: imageURL });
+      let updatedTrack = await Track.updateOne( { id: req.params.trackId }, 
+        { 
+          name: req.body.name,
+          url: fileURL,
+          artists: ids,
+          genre: req.body.genre,   
+          imageURL: imageURL
+        });
       res.status(200).json(updatedTrack);
     } catch (err) {
       res.status(404).json(err);
