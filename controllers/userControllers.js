@@ -738,7 +738,7 @@ function validateEdit (req){
       country:
       Joi.string(),
       phone:
-      Joi.string()
+      Joi.string().phoneNumber()
     }
     return Joi.validate(req, schema); 
   }
@@ -764,7 +764,7 @@ function validateEdit (req){
       country:
       Joi.string(),
       phone:
-      Joi.string()
+      Joi.string().phoneNumber()
     }
     return Joi.validate(req, schema); 
   }
