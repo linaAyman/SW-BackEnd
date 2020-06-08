@@ -46,6 +46,7 @@ exports.addFollow = async (req, res)=> {
     return res.status(201).json({message :'OK'})
 };
 
+//------------------Get user's followers & people they follow---------------------//
 /**
  * @memberof module:followController
  * @function {getFollowIds} get following & followers of the user
@@ -63,3 +64,26 @@ exports.getFollowIds = async function(req,res){
           return res.status(200).json({follow})
     }
 }
+
+//------------------Make the Unfollow Action---------------------//
+/**
+ * @memberof module:followController
+ * @function {unfollow} user unfollows another rquested user
+ * @param {req.headers.authorization} token to get objectId of the user from
+ * @param {req.params.id} id userId that user want to remove it
+ */
+exports.unfollow = async function (req, res) {
+
+if (!req.params.id) return res.status(404).send({ msg: "userId haven't been sent in the request" })
+    console.log(req.params.id)
+
+    const token = req.headers.authorization.split(" ")[1];
+    if (token) {
+      const decoded = jwt.decode(token);
+      let followingTemp = await User.findOne({maestroId: req.params.id }, {'_id': 1})
+  
+      console.log(followingTemp)
+      await Follow.updateOne({ user: decoded._id }, { $pull: {followingIds: followingTemp._id} });
+      return res.status(200).json({ "message": 'Deleted Successfully' })
+    }
+  }
