@@ -15,6 +15,7 @@ const mongoose=require('mongoose');
  * @model track
  */
 const { Track }=require('../models/Track')
+const notificationController = require('../controllers/notificationController')
 const jwt = require("jsonwebtoken");
 
 /**
@@ -58,10 +59,8 @@ exports.getAllTracks=async(req,res)=>{
  */
 exports.addTrack= async function(req,res){
 
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.decode(token);
-    let dID = decoded._id;
-    /*const token1 = jwt.sign(
+  const userOID=getOID(req);
+  /*const token1 = jwt.sign(
       { _id:  "5e848bf8da28c351f47c1ec8" ,
         name: "Ayleeeeeeen 21 ", 
       },
@@ -82,7 +81,7 @@ exports.addTrack= async function(req,res){
     let trackCount = await Playlist.find({id:temp},{'_id':0,'totalTracks':1},);
     let totalTracks = trackCount[0].totalTracks+1;
    
-    if(dID == playlistOwnerId )
+    if(userOID == playlistOwnerId )
         {
           
         let inputUris = req.query.uris;
@@ -159,6 +158,46 @@ exports.likePlaylist=async function(req,res){
   let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
   //add playlist to array of user's playlists in Library
   await Library.findOneAndUpdate({ user:userOID},{$push:{'playlists':playlistsTemp._id}});
+  // notification to playlist owner that the user liked his playlist
+  notificationController.addLikeNotification(playlistsTemp,userOID);
+
   return res.status(201).json({message :'OK'})
 
 };
+//-------------------------Delete track from Playlist----------------------------------//
+/**
+ * @memberof module:playlistController
+ * @function {removeTrack} to delete a track from existing playlist 
+ * @param req 
+ * @param res
+ */
+exports.removeTrack=async function(req,res){
+
+  const userOID=getOID(req);
+  
+  let playlistOwner = await Playlist.find({id:req.params.id},{'_id':0, 'owner':1});
+  let playlistOwnerId = (playlistOwner[0].owner);
+ 
+  if(userOID == playlistOwnerId ){
+  try{   
+          track = req.body.tracks
+          let tracksTemp = await Track.find({id:track},{_id:1})
+        
+          tracksTemp.forEach(async function (value,index){
+          await Playlist
+          .updateOne({id:req.params.id},{$pull:{tracks:tracksTemp[index]._id}} );
+          })
+          let totalTracks = await Playlist.find({id:req.params.id},{tracks:1,_id:1})
+          await Playlist
+          .updateOne({id:req.params.id},{'totalTracks':totalTracks[0].tracks.length}  );
+
+          return res.sendStatus(200);//.json({"message" :'Deleted Successfully'})
+      
+     } catch{
+      return res.sendStatus(404);//.json({"message" :'Auth failed'})
+    
+  }} else{
+    return res.sendStatus(403);    
+  }
+ 
+}

@@ -17,6 +17,7 @@
   const  FBlogin = require('./routes/FBlogin');
   const  passport = require('passport');
   const trackRoutes = require('./routes/track'); 
+  const followRoutes=require('./routes/follow');
  //let db="mongodb+srv://maestroApplication:BACk1ENd1@cluster0-zwzxg.mongodb.net/MaestroApp?retryWrites=true&w=majority"
  let db="mongodb://localhost/MaestroApp"
   /* mongoose
@@ -39,6 +40,7 @@
   mongoose.Promise = global.Promise;
  
   app.use('/uploads', express.static('uploads'));
+  app.use('/images', express.static('/images'));
   app.use(morgan("dev"));
   app.use('/uploads', express.static('uploads'));
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -77,6 +79,7 @@
 
   app.use("/user", userRoutes);
   app.use("/playlists/:id", playlistRoutes);
+  app.use("/playlist", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);
   app.use("/me",meRoutes);
@@ -86,6 +89,7 @@
   app.use("/artists",artistRoutes);
   app.use("/auth",FBlogin);
   app.use("/track",  trackRoutes);
+  app.use("/follow", followRoutes);
   
   app.use((req, res, next) => {
     const error = new Error("the request you want isn't supported yet");

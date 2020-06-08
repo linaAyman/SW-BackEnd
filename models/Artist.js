@@ -38,5 +38,5 @@ const artistSchema = new mongoose.Schema({
     genres:[String]
 
 })
-module.exports = mongoose.model('Artist',artistSchema);
-
+const Artist = mongoose.model('Artist', artistSchema)
+exports.Artist = Artist
