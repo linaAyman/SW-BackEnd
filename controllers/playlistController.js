@@ -18,6 +18,13 @@ const { Track }=require('../models/Track')
 const notificationController = require('../controllers/notificationController')
 const jwt = require("jsonwebtoken");
 
+function validate(req) {
+  const schema = {
+    image:
+      Joi.required()
+  }
+  return Joi.validate(req, schema);
+};
 /**
  * @async
  * @memberof module:playlistController
@@ -201,3 +208,20 @@ exports.removeTrack=async function(req,res){
   }
  
 }
+/**need edit ya salma */
+exports.editplaylist= async (req, res)=> {
+  const { error } = validate({
+    image: req.files['image']
+  })
+  if (error) {
+    return res.status(400).send({ message: error.details[0].message });
+  }
+  const imageArray = req.files['image'];
+
+    if (imageArray[0].destination != "./images") {
+      return res.status(400).send({ message: "You should enter correct format in image" });
+    }
+
+  const imageURL_0 = imageArray[0].destination + '/' + imageArray[0].filename;
+
+};
