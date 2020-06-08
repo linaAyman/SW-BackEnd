@@ -9,6 +9,10 @@ const followSchema= mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Artist' 
  }],
+ followerIds:[{
+   type: mongoose.Schema.Types.ObjectId,
+   ref: 'Artist'
+ }],
  type:{
     type: String,
     default: "following"
