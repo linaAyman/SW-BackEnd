@@ -46,45 +46,40 @@ async function getPlayHistory(userId){
     }
     return recentlyPlayed;
 }
-//=================================get 3 categories in home page================//
 /**
- * homeController getCategories
- * @memberof module:homeController
- * @function getCategories
- * @returns {array} Home the three categories in database (Chill/WorkOut/Happy)
- */
-async function getCategories() {
-    
-    let Home=[];
-    Home=await Category.find({name:{$in:["WorkOut","Chill","Happy"]}},{'name':1 ,'type':1,'totalPlaylists':1, 'playlists':{$slice:7},'_id':0})
-                    .populate('playlists','name image type id  description -_id')
-    //console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-    ///console.log(Home)
-    return Home;
-};
-
-//exports.getTCategory=getCategories;
-
-/**
- * homeController getMostPopular
+ * homeController getMostPopular given offset and limit to be used in popular playlists which is in home page and see more 
  * @memberof module:homeController
  * @function {getMostPopular} returns the most popular playlists specified by given number
- * @param { number} number of popular playlists to be returned
- * @returns {array}  popular array of popular playlists 
+ * @param { offset} index of first playlist to be retrieved
+ * @param { limit } number of playlists to be retrieved 
+ * @returns {array} popular array of popular playlists 
  */
-async function getMostPopular(number){
+async function getMostPopular(offset,limit){
    
+ 
         let popularPlaylists = await Playlist
-                                        .find({},{'_id':0,'name':1,'id':1,'description':1,'image':1,'type':1})
-                                        .limit(number)
-                                        .sort({popularity: 1})
-                                        console.log(popularPlaylists)
+                                        .find({},{'_id':0,'name':1,'id':1,'description':1,'image':1,'type':1,'popularity':1})
+                                        .sort({popularity:-1})
+
+        var end=parseInt(limit)+parseInt(offset); // end index of array
+
         let popular={
-            playlists:popularPlaylists,
+            playlists:popularPlaylists.slice(offset,end),
             description:"Most popular around world",
             name:"Most Popular Playlists"
         }
+        
         return popular;
+}
+
+exports.seeMoreMostPopular=async function(req,res){
+    let offset=req.query.offset;
+    let limit=req.query.limit;
+    let arrMostPopular=await getMostPopular(offset,limit);
+    let playlists=arrMostPopular.playlists;
+    let description=arrMostPopular.description;
+    let name=arrMostPopular.name;
+    return res.status(200).json({playlists,description,name});
 }
 /**
  * homeController getNewReleases
@@ -106,40 +101,36 @@ async function getNewReleases (){
     console.log(releases)
     return releases
 }
-
-
-
-//==================================for see all in home page==================//
 /**
- * homeController seeAll
+ * homeController get playlists in categories for home page and see more
  * @memberof module:homeController
- * @function {seeAll} give name of category view all it's playlists 
+ * @function {getCategories} give name of category view all it's playlists 
  * @param {name} req.params.name, name of category to see all it's playlists
+ * @param {limit} number of playlists to be returned from category
+ * @param {offset} number of array elements to skip
  * @returns {code} status, 200 on success ,404 for invalid category name
  * @returns {array} category, if name is Chill/WorkOut/Happy
- * @returns {array} playlists, if name is most popular playlists
- * @returns {array} albums, if name is released albums
  */
-exports.seeAll=async function(req,res){
-    if(req.params.name=="Chill"||req.params.name=="WorkOut"||req.params.name=="Happy"){
 
-        category=await Category.findOne({name:req.params.name},{'name':1 ,'type':1,'totalPlaylists':1 ,'playlists':1,'_id':0})
-                        .populate('playlists','name image id description -_id')
-        res.status(200).json({category});
 
-    }
-    else if(req.params.name=="Most Popular Playlists"){
-        res.status(200).json(await getMostPopular(10))
-    }
-    else if(req.params.name=="Released Albums"){
-        res.status(200).json(await getNewReleases())
-
-    }
-    else
-        res.status(404).json({'message':'sorry this is not supported'})
+async function getCategories(offset,limit,name){
+ 
+    category=await Category.findOne({name:name},{'name':1 ,'type':1,'totalPlaylists':1 ,'_id':0,
+                                                playlists:{"$slice":[Math.abs(offset),Math.abs(limit)]}})
+                           .populate('playlists','name image id description -_id');
+    return category;
 
 }
 
+exports.seeMoreCategories=async function(req,res){
+    console.log("Ruted Correctly\n");
+    let offset=parseInt(req.query.offset);
+    let limit=parseInt(req.query.limit);
+    let name =req.params.name;
+    category=await getCategories(offset,limit,name);
+    console.log(category);
+    return res.status(200).json({category});
+}
 
 
 //===============================Loading the home page========================//
@@ -147,25 +138,20 @@ exports.seeAll=async function(req,res){
  * homeController getHome
  * @memberof module:homeController
  * @function {getHome} returns all cards in the Home categories,popular playlists and released albums
- * @returns {array} Home array of all categories to be viewed in home each categoru has 6 playlists
+ * @returns {array} Home array of all categories to be viewed in home each category has 6 playlists
  */
 exports.getHome=async function(req,res){
-
-
     let Home=[];
-    let categories=await getCategories();
-    Home.push(categories[0])
-    Home.push(categories[1])
-    Home.push(categories[2])
-    ///let mostpopular=
-    Home.push(await getMostPopular(6));
-   // let newReleases=await getNewReleases()
+    let categories=[];
+    categories=Category.find({},{name:'1','_id':0}); // get array of categories that stored in db
+    // for every category get it's data and playlists (number of playlists is 6 by default)
+    for(let i=0;i<categories.length;i++)
+        Home.push(await getCategories(0,6,categories[i].name)); // save category data in array Home which contains every card in Home page
+    Home.push(await getMostPopular(0,6));
     Home.push(await getNewReleases());
     return res.status(200).json({Home})
-
-
 }
 
 
-
+ 
 

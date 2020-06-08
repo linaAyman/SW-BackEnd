@@ -93,7 +93,7 @@ exports.search=async function search(req,res){
 
                 if(topResults.length>0){
                     TopResult = topResults.reduce((prev, current) => (+prev.id > +current.id) ? prev : current)
-                    //console.log(topResult)
+                  
                 }
                 else if (artistResult.length>0) {
                     TopResult=artistResult[0];
@@ -200,7 +200,7 @@ exports.saveSearch=async function(req,res){
             res.status(400).json({message:"This type doesn't match given"})
         }
         
-        //await Search.deleteOne({userId:decoded._id, searchedItemId:searchedObjectId,type:type})
+        
         
         let isSearchExist=await Search.findOne({userId:decoded._id})
         let searchedObject={
@@ -247,7 +247,6 @@ exports.getRecentSearch=async function(req,res){
         //get a range from searchedItems array for pagination
         let recentSearches=(await Search
                                 .findOne({userId:decoded._id},{searchedItems:{"$slice":[Math.abs(offset),Math.abs(limit)]}}))
-                                console.log("RYTUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU")
                                 console.log(recentSearches)
         let  recentSearchResult=[] 
         if(recentSearches!=null){
@@ -288,7 +287,6 @@ exports.getRecentSearch=async function(req,res){
         if(recentSearches!=null) {
             countSearchedItems=recentSearches.countSearchedItems
         }
-        // else {countSearchedItems=recentSearches.countSearchedItems}
         res.status(200).json({recentSearch:recentSearchResult,count:countSearchedItems})
     }
     else{
@@ -323,7 +321,6 @@ exports.deleteSearch=async function(req,res){
 
         if(!deletedItemId){console.log("The given id doesn't match the type")}
 
-        // await Search.deleteOne({userId:decoded._id , searchedItemId:deletedItemId})
         await Search.findOneAndUpdate({userId:decoded._id},{"$pull":{"searchedItems":{id:deletedItemId}}})
         await Search.updateOne({userId:decoded._id},{$inc:{countSearchedItems:-1}})
         res.status(200).json({message:"OK"})

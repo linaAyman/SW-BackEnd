@@ -40,10 +40,6 @@ const userSchema = mongoose.Schema({
     type: Number, 
     default: 0
   },
-  isPremium :{
-    type: Boolean,
-    default: false
-  },
   image:{
     type: String,
     required:false
@@ -59,8 +55,9 @@ const userSchema = mongoose.Schema({
     default: 'Egypt'
   },
   type:{
+    //three types: free artist premium
     type: String,
-    default: 'user'
+    default: 'free'
   },
   externalUrls:{
       key:{

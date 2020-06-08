@@ -19,12 +19,6 @@ var ObjectId=mongoose.Types.ObjectId;
  * 
  */
 exports.saveTrack=async function (req,res){
-
-
-  
-       /// trackObjectId=await Track.find({id:trackId},{'_id':1})
-                            
-
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.decode(token)
         let userId=decoded._id
@@ -34,8 +28,7 @@ exports.saveTrack=async function (req,res){
         let isExistPlayHistory=await PlayHistory.find({userId:userId})
         let contextObject={
             type:type,
-            id:playId//,
-            ///index:isExistPlayHistory.context.index+1
+            id:playId
         }
                                
 
@@ -44,7 +37,7 @@ exports.saveTrack=async function (req,res){
             let playHistory= new PlayHistory({
                 History:{
                     context:contextObject,
-                   // itemPlaying:trackObjectId[0]._id
+                   
                 },
                 userId:userId
             })
@@ -55,9 +48,10 @@ exports.saveTrack=async function (req,res){
          
             await PlayHistory
                         .updateOne({userId:userId},{$push:{History:{
-                        context:contextObject}}})//,
-                       /// itemPlaying:trackObjectId[0]._id}}
+                        context:contextObject}}})
+                       
         }   
+        return res.status(200);
        
 };
 //========================================For playing a playlist=============================//

@@ -66,10 +66,23 @@ const trackSchema = new mongoose.Schema({
     },
     genre:{
         type: String  
-    }
+    },
+    image:{
+        type: Object
+    },
+    created: {
+        type: Date,
+        default: Date.now()
+   },
+   imageURL:{
+    type: String  
+   },
+   trackNumber:
+   {
+       type: Number
+   }
 
 });
-//module.exports = mongoose.model('Track', trackSchema);
-const Track = mongoose.model('Track', trackSchema)
 
+const Track = mongoose.model('Track', trackSchema)
 exports.Track = Track

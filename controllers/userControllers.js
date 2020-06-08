@@ -37,7 +37,7 @@ const rand =new RandHash;
  function joiValidate (req) {
 
 
-	const schema = {
+const schema = {
     email: 
     Joi.string().email().lowercase().required(),
     password: 
@@ -47,8 +47,10 @@ const rand =new RandHash;
     birthDate:
     Joi.date().required().min('1-1-1900').iso(),
     gender:
-    Joi.boolean().required()
-	}
+    Joi.boolean().required(),
+    type:
+    Joi.string().required()
+}
 	return Joi.validate(req, schema);
 };
 exports.validateSignUp = joiValidate;
@@ -169,7 +171,8 @@ exports.userSignup =   (req, res, next) => {
                        email: req.body.email,
                        password: hash,
                        birthDate:req.body.birthDate,
-                       gender:req.body.gender
+                       gender:req.body.gender,
+		       type:req.body.type
                      });
                      rand.userId=user._id;//to use it back in verify mail
                      rand.save().then().catch();
@@ -217,6 +220,7 @@ exports.userSignup =   (req, res, next) => {
          }
     });      
 };
+
 /**
 * UserController login 
 *@memberof module:controllers/userControllers
@@ -674,7 +678,7 @@ exports.userIsPremuim = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.decode(token);
   console.log(decoded._id);
-  User.updateOne({_id: decoded._id},{isPremium : true})
+  User.updateOne({_id: decoded._id},{type : 'premium'})
   .exec()
   .then(result =>{
    User

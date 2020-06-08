@@ -98,23 +98,4 @@ it('See All Home Request New Albums#4', function() {
     });
 });
 
-/*describe('getCategories',()=>{
-    context('on success',()=>{
-        it('Get  Chill', (done)=>{
-    ///this.timeout(10000);
-    //console.log("JIIIIIIIIIIIIIIIIIIIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-    //homeController.getCategories().returns(Promise.resolve([{}]));
-    //returns getCategories().then
-    getCategories().then((home)=>{
-        console.log(home)
-        //expect(home[0].name).to.equal("Chill")
-     
-    })
-    });
-});
-})*/
-    
-    //console.log(home[1])
-   // console.log(home[2])
-    
-            // expect(home).to.
+

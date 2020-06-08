@@ -39,5 +39,4 @@ const artistSchema = new mongoose.Schema({
 
 })
 const Artist = mongoose.model('Artist', artistSchema)
-
 exports.Artist = Artist
