@@ -37,7 +37,7 @@ it('Get Playlist Test#2', function() {
         expect(reqBody[0].name).to.equal("Happy days");
         }
     });
-});
+});*/
 it('Add Track to playlist', function(done) {
   const options = {
       method:'POST',
@@ -58,4 +58,4 @@ it('Add Track to playlist', function(done) {
   });
 });
 
- */
+ 

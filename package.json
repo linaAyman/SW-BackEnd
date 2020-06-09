@@ -36,6 +36,7 @@
     "random-hash": "^4.0.1",
     "random-key": "^0.3.2",
     "reflect-metadata": "^0.1.13",
+    "supertest": "^4.0.2",
     "validator": "^12.2.0",
     "winston": "^3.2.1"
   },

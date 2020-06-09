@@ -96,10 +96,14 @@ async function getMostPopular(offset,limit){
         
         return popular;
 }
-
+/**
+ * 
+*/
 exports.seeMoreMostPopular=async function(req,res){
     let offset=req.query.offset;
+    if(!offset) offset=0
     let limit=req.query.limit;
+    if(!limit) limit=6;
     let arrMostPopular=await getMostPopular(offset,limit);
     let playlists=arrMostPopular.playlists;
     let description=arrMostPopular.description;
@@ -146,6 +150,15 @@ async function getCategories(offset,limit,name){
     return category;
 
 }
+/**
+ * homeController seeMoreCategories
+ * @memberof module:homeController
+ * @function{seeMoreCategories} get certain portion of array of category's playlists for the pagination
+ * @param{offset} number of playlists to skip
+ * @param {limit} number of playlists to return
+ * @param {name} name of category 
+ * @returns {category} array of playlists for certain category
+*/
 
 exports.seeMoreCategories=async function(req,res){
     console.log("Ruted Correctly\n");
@@ -153,7 +166,7 @@ exports.seeMoreCategories=async function(req,res){
     let limit=parseInt(req.query.limit);
     let name =req.params.name;
     category=await getCategories(offset,limit,name);
-    console.log(category);
+    
     return res.status(200).json({category});
 }
 
@@ -168,7 +181,7 @@ exports.seeMoreCategories=async function(req,res){
 exports.getHome=async function(req,res){
     let Home=[];
     let categories=[];
-    categories=Category.find({},{name:'1','_id':0}); // get array of categories that stored in db
+    categories=await Category.find({},{name:'1','_id':0}); // get array of categories that stored in db
     // for every category get it's data and playlists (number of playlists is 6 by default)
     for(let i=0;i<categories.length;i++)
         Home.push(await getCategories(0,6,categories[i].name)); // save category data in array Home which contains every card in Home page

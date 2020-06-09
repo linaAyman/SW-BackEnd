@@ -3,7 +3,7 @@ var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
 dotenv.config();
-/*
+
 it('Get an artist test', function(done) {
     const options = {
         method:'GET',
@@ -25,4 +25,4 @@ it('Get an artist test', function(done) {
        
     });
 });
-*/
+ 

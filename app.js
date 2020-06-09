@@ -78,7 +78,7 @@
 
 
   app.use("/user", userRoutes);
-  app.use("/playlists/:id", playlistRoutes);
+  app.use("/playlists", playlistRoutes);
   app.use("/playlist", playlistRoutes);
   app.use("/search",searchRoutes);
   app.use("/player",playerRoutes);

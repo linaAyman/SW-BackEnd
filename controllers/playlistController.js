@@ -55,8 +55,7 @@ exports.getAllTracks=async(req,res)=>{
     
     return res.status(200).send(tracks)
 };
-/**
- * @async 
+/** 
  *  @memberof module:playlistController
  * @function
  * adding a track to current user playlist
@@ -79,36 +78,27 @@ exports.addTrack= async function(req,res){
     res.send(token1)
    // console.log(token1)*/
     
-    let query = req.baseUrl;
-    let temp = query.substr(11,query.length-2);
   try
   {
-    let playlistOwner = await Playlist.find({id:temp},{'_id':0, 'owner':1});
+    let PID = req.params.id
+    let playlistOwner = await Playlist.find({id:PID},{'_id':0, 'owner':1});
     let playlistOwnerId = (playlistOwner[0].owner);
-    let trackCount = await Playlist.find({id:temp},{'_id':0,'totalTracks':1},);
+    
+    let trackCount = await Playlist.find({id:PID},{'_id':0,'totalTracks':1},);
     let totalTracks = trackCount[0].totalTracks+1;
    
     if(userOID == playlistOwnerId )
         {
-          
-        let inputUris = req.query.uris;
-        let uriArray = inputUris.split(",")
-        let playlistId = await Playlist.find({id:temp},{'_id':1});
-    
-        uriArray.forEach(async function (value,index){
-          let searchResult = await Track.findOne({uri:uriArray[index]},{'_id':1})
-          TrackId=searchResult._id
-          
-          if(searchResult){
-         
-            await Playlist
-            .updateOne({_id:playlistId}, {$push:{'tracks':TrackId}}  );
-            totalTracks=totalTracks+index;
-            await Playlist
+        let track = req.body.ids
+        let tracksTemp = await Track.find({id:track},{_id:1})
+        let playlistId = await Playlist.find({id:PID},{'_id':1});
+        tracksTemp.forEach(async function (value,index){
+          let IdTrackArrays = tracksTemp[index]._id
+          await Playlist
+            .updateOne({_id:playlistId}, {$push:{'tracks':IdTrackArrays}}  );
+          totalTracks=totalTracks+index;
+          await Playlist
              .updateOne({_id:playlistId},{'totalTracks':totalTracks}  );
-         
-            
-          }
       });
 
   
@@ -136,10 +126,10 @@ exports.createPlaylist=async function(req,res){
   const userOID=getOID(req);
   //if user object ID is 555555555555555555555555 then Spotify is the owner of playlist
   console.log(userOID);
-
+  let playlistId=mongoose.Types.ObjectId();
   const playlist=new Playlist({
     name:req.query.name,
-    id: mongoose.Types.ObjectId(),
+    id: playlistId,
     owner:userOID,
     totalTracks:0,
     popularity:0,
@@ -155,7 +145,7 @@ exports.createPlaylist=async function(req,res){
   //save the created playlist in Library
   await Library.findOneAndUpdate({user:userOID},{$push:{playlists:playlist._id}});
   console.log(await Library.findOne({user:userOID}))
-  return res.status(200).json({message :'OK'})
+  return res.status(200).json({playlistid:playlistId,message :'OK'})
 
 };
 
@@ -218,7 +208,7 @@ exports.removeTrack=async function(req,res){
  
   if(userOID == playlistOwnerId ){
   try{   
-          track = req.body.tracks
+          let track = req.body.tracks
           let tracksTemp = await Track.find({id:track},{_id:1})
         
           tracksTemp.forEach(async function (value,index){
