@@ -183,10 +183,7 @@ exports.userSignup =   (req, res, next) => {
                        { _id: user._id,
                          name: user.name, 
                        },
-                       process.env.JWTSECRET, 
-                       {
-                         expiresIn: '7d'
-                       }
+                       process.env.JWTSECRET
                      );
                      user.token = token ;
                      user

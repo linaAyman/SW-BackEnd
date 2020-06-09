@@ -10,6 +10,7 @@ const { Album }=require('../models/Album')
 const {Playlist}= require('../models/Playlist')
 const User =require('../models/User')
 const jwt = require('jsonwebtoken')
+const getOID=require('../middleware/getOID');
 
 
 
@@ -20,9 +21,8 @@ const jwt = require('jsonwebtoken')
  * searchController search
  * @memberof module:searchController
  * @function {search} searches for artists/albums/tracks either by a regular expression of by exact match
- * @param {req.headers.authorization} token to identify user and use hos id later in saving recent search
  * @param {string} req.query.query string to search for it
- * @returns {arrayOfArrays} searchResult(trackResult,artistResult,albumResult) 
+ * @returns {arrayOfArrays} searchResult(trackResult,artistResult,albumResult,playlistResult,userResult,TopResult) 
  */
 exports.search=async function search(req,res){
     
@@ -31,21 +31,12 @@ exports.search=async function search(req,res){
 
 
         let query = req.query.query
-        // const token = req.headers.authorization.split(" ")[1];
 
-        // ///if(token){
-        //     const decoded = jwt.decode(token);
             let exactMatch=false
             if(query.charAt(0)=='"'&&query.charAt(query.length-1)=='"')
                 exactMatch=true
 
-        
-           /*const search = new Search({
-                userId: decoded._id,
-                query: query
-            })
-            await search.save()
-            console.log(exactMatch)*/
+
         
             
             
@@ -105,9 +96,9 @@ exports.search=async function search(req,res){
                 }
                 
             }
+            //if search query is exact match
             else{
                 let temp=query.substr(1,query.length-2)
-                console.log(temp)
                 trackResult=await Track
                                     .find({name:temp},{'_id':0,'name':1,'image':1,'id':1,'type':1})
                                     .populate('artists','name id -_id');
@@ -123,8 +114,6 @@ exports.search=async function search(req,res){
                                         .find({name:temp},{'name':1,'id':1,'type':1,'image':1,'description':1,'_id':0})
                                         .populate('owner','name -_id')
                 
-                
-                console.log(temp)
                 userResult=await User.find({name:temp},{'name':1,'_id':1,'type':1,'image':1})
         
             }
@@ -133,7 +122,6 @@ exports.search=async function search(req,res){
             // and get the most 3 popular tracks for them
             if(artistResult.length>0){
                 let tempArtists=await Artist.findOne({name:artistResult[0].name},{'_id':1})
-                console.log(tempArtists)
 
                 let tracksArtist=await Track
                                         .find({artists:tempArtists},{'name':1,'id':1,'type':1,'image' :1,'_id':0})
@@ -162,34 +150,37 @@ exports.search=async function search(req,res){
 }
 //-------------------------------Save Recent Search-------------------------///////
 
+/**
+ *  searchController saveSearch
+ * @memberof module:searchController
+ * @function {saveSearch} save search action for current logged in user to vuew it in recent search
+ * @param {req.headers.authorization} token to identify user and use his id later in saving recent search
+ * @param {id} id of item that should be saved in recent search of user
+ * @param {type} type of item that should be saved in recent search of user
+ */
+
 exports.saveSearch=async function(req,res){
 
 
     let id=req.query.id
-    console.log(id)
     let type=req.query.type
-    console.log(type)
-    const token = req.headers.authorization.split(" ")[1];
+    let userId=getOID(req); //get user's Object ID
     //get object Id of searched Item
     
     let searchedObjectId
-    
-    if(token){
-        const decoded = jwt.decode(token);
-        if(type=="playlist"){
-            //find objectID of searched Item
+        if(type=="Playlist"){
             searchedObjectId=await Playlist.findOne({id:id},{"_id":1})
         }
-        else if(type=="track"){
+        else if(type=="Track"){
             searchedObjectId=await Track.findOne({id:id},{"_id":1})
         }
-        else if(type=="artist"){
+        else if(type=="Artist"){
             searchedObjectId=await Artist.findOne({id:id},{"_id":1})
         }
-        else if(type=="user"){
+        else if(type=="User"){
             searchedObjectId=await User.findOne({id:id},{"_id":1})
         }
-        else if(type=="album"){
+        else if(type=="Album"){
             searchedObjectId=await Album.findOne({id:id},{"_id":1})
         }
         else{
@@ -201,78 +192,85 @@ exports.saveSearch=async function(req,res){
         }
         
         
-        
-        let isSearchExist=await Search.findOne({userId:decoded._id})
+        //check if he has recent search as a document in database if not create a document for his recent search
+        let isSearchExist=await Search.findOne({userId:userId})
         let searchedObject={
             id:searchedObjectId,
             type:type
         }
+        
         if(!isSearchExist){
             
             let recentSearchedItems=[];
             recentSearchedItems.push(searchedObject)
-            console.log(recentSearchedItems)
             const search = new Search({
-                    userId: decoded._id,
+                    userId: userId,
                     searchedItems:recentSearchedItems
             })
-            console.log(search)
             await search.save()
         }
         else{
             //check if this search exist before and delete it to save the new search about this item
-            let item=await Search.findOne({userId:decoded._id,searchedItems:{$elemMatch:{id:searchedObjectId}}})
-            await Search.findOneAndUpdate({userId:decoded._id},{"$pull":{"searchedItems":{id:searchedObjectId}}})
+            let item=await Search.findOne({userId:userId,searchedItems:{$elemMatch:{id:searchedObjectId}}})
+            await Search.findOneAndUpdate({userId:userId},{"$pull":{"searchedItems":{id:searchedObjectId}}})
         // Recent search
-            await Search.findOneAndUpdate({userId:decoded._id},{$push:{searchedItems:{$each:[searchedObject],$position:0}}})
-            if(!item)await Search.updateOne({userId:decoded._id},{$inc:{countSearchedItems:1}})
+            await Search.findOneAndUpdate({userId:userId},{$push:{searchedItems:{$each:[searchedObject],$position:0}}})
+            if(!item)await Search.updateOne({userId:userId},{$inc:{countSearchedItems:1}})
         }
 
             res.status(200).json({message:"OK"})
-        }
+        
 }
 //============================================================get recent Search==============================/////////
+/**
+ * searchController getRecentSearch
+ * @memberof module:searchController
+ * @function{getRecentSearch} get recent search ordered according to most recent search for current logged in user
+ * @param {req.headers.Authorization} token of current logged in user
+ * @param {offset} number of searchedItems to skip
+ * @param {limit} number of searchedItems to view
+ * @returns {recentSearch} array of searched Items
+ * @returns {count} total numbers of searchedItems in the user's recent search
+*/
 exports.getRecentSearch=async function(req,res){
-    const token = req.headers.authorization.split(" ")[1];
     var offset=req.query.offset
     var limit=req.query.limit
-    //let searchedItems=[];
+    let userId=getOID(req); //get user's Object ID
+   
     
-    if(token){
-        const decoded = jwt.decode(token);
+   
+       
         if(!offset) offset=0;
         if(!limit)  limit=6;
-        console.log(offset)
-        console.log(limit)
         //get a range from searchedItems array for pagination
         let recentSearches=(await Search
-                                .findOne({userId:decoded._id},{searchedItems:{"$slice":[Math.abs(offset),Math.abs(limit)]}}))
-                                console.log(recentSearches)
+                                .findOne({userId:userId},{searchedItems:{"$slice":[Math.abs(offset),Math.abs(limit)]}}))
+                               
         let  recentSearchResult=[] 
         if(recentSearches!=null){
             let recentSearch=recentSearches.searchedItems
            
             //iterate over documents of recent search to get their _id               
             for(let i =0;i<recentSearch.length;i++){
-                if(recentSearch[i].type=="track"){
+                if(recentSearch[i].type=="Track"){
                     recentSearchResult.push(await Track
                                         .findOne({_id:recentSearch[i].id},{'name':1,'id':1,'type':1,'image':1,'artists':1,'_id':0})
                                         .populate('artists','name id -_id'))
 
                 }
-                else if(recentSearch[i].type=="playlist"){
+                else if(recentSearch[i].type=="Playlist"){
                     recentSearchResult.push(await Playlist
                                         .findOne({_id:recentSearch[i].id},{'name':1,'id':1,'description':1,'owner':1,'type':1,'image':1,'artists':1,'_id':0})
                                         .populate('owner','name -_id'))
 
                 }
-                else if(recentSearch[i].type=="album"){
+                else if(recentSearch[i].type=="Album"){
                     recentSearchResult.push(await Album
                                         .findOne({_id:recentSearch[i].id},{'name':1,'id':1,'type':1,'image':1,'artists':1,'_id':0})
                                         .populate('artists','name id -_id'))
 
                 }
-                else if(recentSearch[i].type=="artist"){
+                else if(recentSearch[i].type=="Artist"){
                     recentSearchResult.push(await Artist
                                         .findOne({_id:recentSearch[i].id},{'name':1,'id':1,'type':1,'image':1,'_id':0}))
 
@@ -288,60 +286,56 @@ exports.getRecentSearch=async function(req,res){
             countSearchedItems=recentSearches.countSearchedItems
         }
         res.status(200).json({recentSearch:recentSearchResult,count:countSearchedItems})
-    }
-    else{
-        return 
-    }
+   
 
 }
 ///==============================Delete Item form recent Search========================///
+/**
+ * searchController deleteSearch
+ * @memberof module:searchController
+ * @function{deleteSearch} remove certain item from history search for current logged in user
+ * @param {req.headers.Authorization} token for current logged in user
+ * @param {id} id of item you want to remove from search history
+ * @param {type} type of item you want to remove from search history
+*/
 exports.deleteSearch=async function(req,res){
-    const token = req.headers.authorization.split(" ")[1];
-   
-    
-    
-    if(token){
+ 
         const id=req.query.id;
+        let userId=getOID(req); 
         if(!id) res.status(400).json({message:"You haven't sent the id for item you want to delete"})
         const type=req.query.type;
-        const decoded = jwt.decode(token);
         let deletedItemId;//object id of the item you want to delete
-        if(type=="track")
+        if(type=="Track")
             deletedItemId=await Track.findOne({id:id},{'_id':1});
-        else if(type=="playlist")
+        else if(type=="Playlist")
             deletedItemId=await Playlist.findOne({id:id},{'_id':1});
-        else if (type=="artist")
+        else if (type=="Artist")
             deletedItemId=await Artist.findOne({id:id},{'_id':1});
-        else if(type=="user")
+        else if(type=="User")
             deletedItemId=await User.findOne({id:id},{'_id':1});
-        else if(type=="album")
+        else if(type=="Album")
             deletedItemId=await Album.findOne({id:id},{'_id':1});
         else
             res.status(400).json({message:"This Type doesn't exist"})
 
-        if(!deletedItemId){console.log("The given id doesn't match the type")}
 
-        await Search.findOneAndUpdate({userId:decoded._id},{"$pull":{"searchedItems":{id:deletedItemId}}})
-        await Search.updateOne({userId:decoded._id},{$inc:{countSearchedItems:-1}})
+        await Search.findOneAndUpdate({userId:userId},{"$pull":{"searchedItems":{id:deletedItemId}}})
+        await Search.updateOne({userId:userId},{$inc:{countSearchedItems:-1}})
         res.status(200).json({message:"OK"})
 
-    }
-    else
-        return
+   
 }
 //========================Delete all the Recent Search=================//////
-
+/**
+ * searchController deleteAllSearch
+ * @memberof module:searchController
+ * @function {deleteAllSearch} delete all search history for current logged in user
+ * @param {req.headers.Authorization} token of current logged in user
+*/
 exports.deleteAllSearch=async function(req,res){
-    const token = req.headers.authorization.split(" ")[1];
-    
-    
-    if(token){
-        const decoded = jwt.decode(token);
-        await Search.deleteOne({userId:decoded._id})
+   
+        let userId=getOID(req); 
+        await Search.deleteOne({userId:userId})
         res.status(200).json({message:"OK"})
-    }
-    else{
-        return
-    }
 
 }
