@@ -762,10 +762,10 @@ exports.getCurrentUser = async (req,res) => {
   let loggedWithFb = await User.find({_id:dID},{loggedByFb:1})
   if(loggedWithFb==true){
     userInfo = await User
-    .find({_id:dID}, {_id:0,image:1,isPremium:1,country:1,email:1,birthDate:1} );
+    .find({_id:dID}, {_id:0,maestroId:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
   }else{
     userInfo = await User
-    .find({_id:dID}, {_id:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
+    .find({_id:dID}, {_id:1,maestroId:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
   }
   console.log(userInfo)
   return res.send(userInfo)
@@ -816,7 +816,7 @@ exports.getOtherUser = async function(req,res){
  
   try{
   let otherUserInfo =  await User
-  .find({'_id':OtherUserId}, {image:1,followersCount:1,country:1,isPremium:1,name:1,email:1,birthDate:1,_id:1,externalUrl:1} )
+  .find({'_id':OtherUserId}, {image:1,maestroId:1,followersCount:1,country:1,isPremium:1,name:1,email:1,birthDate:1,_id:1,externalUrl:1} )
 
   console.log(otherUserInfo)
   otherUserInfo
