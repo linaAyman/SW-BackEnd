@@ -17,6 +17,12 @@ npm install validator
 
 sudo pm2 delete server
 sudo pm2 start server.js
+
+sudo npm install -g migrate-mongo
+migrate-mongo
+cd user-migrations
+migrate-mongo up
+
 exit
 
 EOF
