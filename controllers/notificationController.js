@@ -6,16 +6,9 @@ const {YourLikedSongs}=require('../models/YourLikedSongs')
 const {Notification}=require('../models/Notification')
 const {Follow} = require('../models/Follow')
 const {Playlist}=require('../models/Playlist')
-const User = require('../models/User')
-var jwt = require('jsonwebtoken')
-const env = require('dotenv').config();
-var randomHash = require('random-key');
-const Album = require('../models/Album');
-const Artist = require('../models/Artist');
-const mm = require('music-metadata');
-const util = require('util');
-const OneSignal = require('onesignal-node');  
-var request = 	require('request');     
+const User = require('../models/User') 
+var request = require('request');   
+const getOID=require('../middleware/getOID');  
 
 //-------------------------create the Notifications module after user sign up----------------------------------//
 /**
@@ -153,4 +146,15 @@ exports.addUploadAlbumNotification =async function (ArtistId,AlbumName){
     sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
     
 }
-
+//-------------------------get User's Notification----------------------------------//
+/**
+ * @memberof module:notificationController
+ * @function {getUserNotification} to return the user's notification
+ * @param req 
+ * @param res 
+ */
+exports.getUserNotification =async function (req,res){
+    const userOID = getOID(req); 
+    var NotificationInfo = await Notification.find({user:userOID},{_id:0,notifications:1});
+    return res.send(NotificationInfo[0])
+}
