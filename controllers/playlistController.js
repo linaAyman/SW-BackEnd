@@ -18,6 +18,13 @@ const { Track }=require('../models/Track')
 const notificationController = require('../controllers/notificationController')
 const jwt = require("jsonwebtoken");
 
+function validate(req) {
+  const schema = {
+    image:
+      Joi.required()
+  }
+  return Joi.validate(req, schema);
+};
 /**
  * @async
  * @memberof module:playlistController
@@ -118,7 +125,12 @@ exports.addTrack= async function(req,res){
  
   } 
 //================================================Create Playlist=================================//
-
+/**
+ * @memberof module:playlistController
+ * @function {createPlaylist} create a new playlist and add it in user's library
+ * @param {req.query.name} name of the playlist
+ * @param {req.headers.Authorization} token of current logged in user
+*/
 exports.createPlaylist=async function(req,res){
   
   const userOID=getOID(req);
@@ -148,6 +160,12 @@ exports.createPlaylist=async function(req,res){
 };
 
 //===================================================Like Playlist =======================////////////////
+/**
+ * @memberof module:playlistController
+ * @function {likePlaylist} add playlist to likes of current user's library
+ * @param {req.header.Authorization} token of current user
+ * @param {req.body.id} Id of playlist that user want to add to his playlist
+ */
 exports.likePlaylist=async function(req,res){
 
   let playlistToLike=req.body.id;
@@ -158,12 +176,32 @@ exports.likePlaylist=async function(req,res){
   let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
   //add playlist to array of user's playlists in Library
   await Library.findOneAndUpdate({ user:userOID},{$push:{'playlists':playlistsTemp._id}});
+  await Library.updateOne({user:userOID},{$inc:{playlistsCount:1}})
   // notification to playlist owner that the user liked his playlist
   notificationController.addLikeNotification(playlistsTemp,userOID);
 
   return res.status(201).json({message :'OK'})
 
 };
+//==========================dislike playlist
+/**
+ * @memberof module:playlistController
+ * @function {dislike playlist} remove playlist from current user's library
+ * @param {req.header.Authorization} token of current user
+ * @param {req.body.id} Id of playlist that user want to remove from his playlist
+ */
+exports.deletePlaylist=async function(req,res){
+  let playlistToLike=req.body.id;
+  if(!playlistToLike) return res.status(404).send({ message: "PlayListId haven't been sent in the request" })
+  const userOID=getOID(req);  // find user object ID 
+  //find object ID of the playlist
+  let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
+  //remove playlist from user's playlists in Library
+  await Library.updateOne({ user: userOID }, { $pull: { playlists:playlistsTemp._id } });
+  await Library.updateOne({user:userOID},{$inc:{playlistsCount:-1}})
+  return res.status(200).json({ "message": 'Deleted Successfully' })
+
+}
 //-------------------------Delete track from Playlist----------------------------------//
 /**
  * @memberof module:playlistController
@@ -201,3 +239,20 @@ exports.removeTrack=async function(req,res){
   }
  
 }
+/**need edit ya salma */
+exports.editplaylist= async (req, res)=> {
+  const { error } = validate({
+    image: req.files['image']
+  })
+  if (error) {
+    return res.status(400).send({ message: error.details[0].message });
+  }
+  const imageArray = req.files['image'];
+
+    if (imageArray[0].destination != "./images") {
+      return res.status(400).send({ message: "You should enter correct format in image" });
+    }
+
+  const imageURL_0 = imageArray[0].destination + '/' + imageArray[0].filename;
+
+};

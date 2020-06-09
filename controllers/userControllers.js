@@ -33,10 +33,7 @@ const rand =new RandHash;
 *@param {boolean}  req.body.gender    you enter user gender true for female and false for male 
 */
 
-
  function joiValidate (req) {
-
-
 const schema = {
     email: 
     Joi.string().email().lowercase().required(),
@@ -172,7 +169,7 @@ exports.userSignup =   (req, res, next) => {
                        password: hash,
                        birthDate:req.body.birthDate,
                        gender:req.body.gender,
-		       type:req.body.type
+		                   type:req.body.type
                      });
                      rand.userId=user._id;//to use it back in verify mail
                      rand.save().then().catch();
@@ -352,6 +349,7 @@ exports.userDelete = (req, res, next) => {
   User.remove({ _id: req.params.id })
     .exec()
     .then(result => {
+      
       res.status(200).json({
         message: 'User deleted'
       });
@@ -511,10 +509,7 @@ exports.userChangePassword = (req, res, next) => {
 *@memberof module:controllers/userControllers
 *@function userForgetPassword 
 *@param {object}  req                      Express request object
-*@param {string}  req.params.mail          user mail to send link to set new password
 *@param {object}  res                      Express response object
-*@param {status}  res.status               if error  it returns status of 401,500/ if success it returns status of 200 
-*@param {string}  res.message              the type of error /send msg successfuly
  */
 
 exports.userForgetPassword = (req, res, next) => {  
@@ -528,13 +523,8 @@ exports.userForgetPassword = (req, res, next) => {
         message: 'The Mail doesnot Exist'
       });
       }
-      console.log( user._id )
-      console.log( user.email )
-      console.log(  req.params.email )
       randGenerator();
       rand.userId = user._id ;
-      console.log( rand.userId)
-      console.log( rand.randNo)
       rand.save().then().catch();
       const host = req.hostname;
       const link ="http://"+host+"/account.mayestro/reset-password/"+rand.randNo;
@@ -544,10 +534,8 @@ exports.userForgetPassword = (req, res, next) => {
         subject : "Reset your password",
         html : "Hello.<br>No need to worry, you can reset your Maestro password by clicking the link below:<br><a href="+link+">Reset password</a><br1>   Your username is:"+user._id+"</br1> </br2>  If you didn't request a password reset, feel free to delete this email and carry on enjoying your music!</br2>"
       }
-      console.log(mailOptions);
       smtpTransport.sendMail(mailOptions, function(error, response){
       if(error){
-        console.log(error);
         return res.status(500).send({ msg: 'Unable to send Email' });                
       }else{
         return res.status(201).json({message: 'send msg successfuly'});
@@ -556,7 +544,6 @@ exports.userForgetPassword = (req, res, next) => {
     
   })
    .catch(err => {
-    console.log(err);
     res.status(500).json({
       error: err
     });
@@ -569,19 +556,11 @@ exports.userForgetPassword = (req, res, next) => {
 *@function userResetPassword
 *@param {function} validatePassword         Function for validate new password
 *@param {object}  req                       Express request object
-*@param {string}  req.req.query.id           random hash key which refrenced to user ID
-*@param {string}  req.body.newPassword           user new password
-*@param {string}  req.body.confirmedPassword     user confirmed password
 *@param {object}  res 
-*@param {status}  res.status       if error  it returns status of 401,500/ if success it returns status of 200 
-*@param {string}  res.message      the type of error /You set new password successfly 
-*@param {token}   res.token         it returns token if user set new password successfly 
  */
 
 exports.userResetPassword = (req, res, next) => { 
-  console.log(req.protocol+":/"+req.get('host'));
   if((req.protocol+"://"+req.get('host'))==("http://"+req.get('host'))){
-     console.log("Domain is matched. Information is from Authentic email");
      RandHash
      .findOne({ randNo: req.query.id  })
      .exec()
@@ -630,7 +609,6 @@ exports.userResetPassword = (req, res, next) => {
                 console.log(mailOptions);
                 smtpTransport.sendMail(mailOptions, function(error, response){
                 if(error){
-                  console.log(error);
                   return res.status(500).send({ msg: 'Unable to send Email' });                
                 }
                });
@@ -645,22 +623,15 @@ exports.userResetPassword = (req, res, next) => {
             }
           });
         }else{
-          return res.status(401).json({
-            message: 'Please confirm the New password' 
-          });
+          return res.status(401).json({ message: 'Please confirm the New password' });
         }
        })
       .catch(err => {
-        console.log("your cannot reset your password");
-        res.status(401).json({
-            message: 'your cannot reset your password'
-          });
+        res.status(401).json({message: 'your cannot reset your password' });
       });
     }
     else{
-      res.status(401).json({
-      message: 'Domain doesnot Match'
-      });
+      res.status(401).json({message: 'Domain doesnot Match' });
     }
 };
 /**

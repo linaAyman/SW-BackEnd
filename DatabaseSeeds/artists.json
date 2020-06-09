@@ -9,7 +9,8 @@
     "name": "Band of Horses",
     "popularity": 59,
     "type": "artist",
-    "uri": "spotify:artist:0OdUWJ0sBjDrqHygGUXeCF"
+    "uri": "spotify:artist:0OdUWJ0sBjDrqHygGUXeCF",
+    "about": "a super band sings every acceptable song"
   },
   {
     "_id": { "$oid": "6e85ce544676d8a0b48130b1" },
@@ -21,7 +22,8 @@
     "name": "Christina Perri",
     "popularity": 74,
     "type": "artist",
-    "uri": "spotify:artist:7H55rcKCfwqkyDFH9wpKM6"
+    "uri": "spotify:artist:7H55rcKCfwqkyDFH9wpKM6",
+    "about": "christina perri has 48 years and she's very talanted"
   },
   {
     "_id": { "$oid": "6e85ce544676d8a0b48130b2" },
@@ -33,7 +35,8 @@
     "name": "Avicii",
     "popularity": 86,
     "type": "artist",
-    "uri": "spotify:artist:1vCWHaC5f2uS3yhpwWbIA6"
+    "uri": "spotify:artist:1vCWHaC5f2uS3yhpwWbIA6",
+    "about": "a super band sings every famous song"
   },
   {
     "_id": { "$oid": "6e85ce544676d8a0b48130b3" },
@@ -45,7 +48,8 @@
     "name": "Christina Rexha",
     "popularity": 84,
     "type": "artist",
-    "uri": "spotify:artist:64M6ah0SkkRsnPGtGiRAbb"
+    "uri": "spotify:artist:64M6ah0SkkRsnPGtGiRAbb",
+    "about": "a pop band sings nice songs"
   },
   {
     "_id": { "$oid": "6e85ce544676d8a0b48130b4" },
@@ -57,7 +61,8 @@
       "name": "Marron 5",
       "popularity": 123,
       "type": "artist",
-      "uri": "spotify:artist:04gDigrS5kc9YWfZHwBETP"
+      "uri": "spotify:artist:04gDigrS5kc9YWfZHwBETP",
+      "about": "marron 5 band"
   },
   {
     "_id": { "$oid": "6e85ce544676d8a0b48130b5" },
@@ -68,7 +73,8 @@
       "id": "19gmxCK2V3jLMi5fDYyKtS",
       "name": "Willamette Stone",
       "type": "artist",
-      "uri": "spotify:artist:19gmxCK2V3jLMi5fDYyKtS"
+      "uri": "spotify:artist:19gmxCK2V3jLMi5fDYyKtS",
+      "about": ""
     },
     {
       "_id": { "$oid": "6e85ce544676d8a0b48130b6" },
@@ -79,7 +85,8 @@
         "id": "12gmxCK2V3jLMi5fDYyKtS",
         "name": "Amr Diab",
         "type": "artist",
-        "uri": "spotify:artist:12gmxCK2V3jLMi5fDYyKtS"
+        "uri": "spotify:artist:12gmxCK2V3jLMi5fDYyKtS",
+        "about": "the best famous artist"
       }
 
 ]
