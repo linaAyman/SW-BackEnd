@@ -31,6 +31,10 @@ const artistSchema = new mongoose.Schema({
         type:String,
         
     },
+    about:{
+        type:String,
+        
+    },
     images:[{height:Number,url:String,width:Number}],
     popularity:{
         type:Number

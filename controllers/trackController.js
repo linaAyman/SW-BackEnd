@@ -52,7 +52,6 @@ exports.validateSong = Validate;
 */
 
 /**here we just upload solo songs an it's image and assume that the artists' names are unique*/
-
 exports.uploadSong = async (req, res) => {
   /**check who uploads the song */
   const decodedID = decode_id(req);
@@ -71,21 +70,26 @@ exports.uploadSong = async (req, res) => {
     }
     const musicArray = req.files['music'];
     const imageArray = req.files['image'];
+     //multer check that the coming data is .jpg or .mp3 only so we have to check that he/she puts the correct format for images and music
+    if( imageArray[0].destination != "./images" ){
+      return res.status(400).send({ message: "You should enter correct format in image"});
+    }
+    if( musicArray[0].destination !=  "./uploads" ){
+      return res.status(400).send({ message: "You should enter correct format in music"});
+    }
     const fileURL = musicArray[0].destination + '/' + musicArray[0].filename;
     const imageURL = imageArray[0].destination + '/' + imageArray[0].filename;
     var count = 0;
 
     try {
-      /**check if the track doesnot exist before */
       let ourTrack = await Track.find({ url: fileURL });
       if (ourTrack.length >= 1) {
-        res.status(404).json({ message: "The song exists before" });
+         return  res.status(404).json({ message: "The song exists before" });
       }
       else {
         var ids = new Array();
-        console.log(req.body.artist.length);
         while (count < req.body.artist.length) {
-          /**search for artists by their names as we assumed that their names are unique */
+          //here we search for each artist name to get her/his ids
           const ourArtist = await Artist.findOne({ name: req.body.artist[count] });
           if (ourArtist) {
             ids[count] = ourArtist._id;
@@ -93,6 +97,7 @@ exports.uploadSong = async (req, res) => {
           count++;
         }
         try {
+          //make our model track with coming data
           const track = new Track({
             id: randomHash.generate(30),
             name: req.body.name,
@@ -101,26 +106,24 @@ exports.uploadSong = async (req, res) => {
             genre: req.body.genre,
             imageURL: imageURL
           });
-          getAudioDurationInSeconds(track.url).then((duration) => {
-            track.duration = duration * 1000;// to be in miliseconds
-          });
           track.external_urls.value = 'https://open.Maestro.com/tracks' + track.id;
           track.uri = 'Maestro:track:' + track.id;
           track.href = 'https://api.Maestro.com/v1/tracks/' + track.id;
           let newTrack = await track.save();
-          res.status(200).json({ data: newTrack });
+         return  res.status(200).json({ data: newTrack });
         } catch (err) {
-          res.status(404).json({ error: err });
+         return res.status(404).json({ error: err });
         }
 
       }
     } catch (err) {
-      res.status(500).json({ error: err });
+      return res.status(500).json({ error: err });
     }
   } else {
-    res.status(404).json({ message: "only artists can upload songs" });
+   return res.status(404).json({ message: "only artists can upload songs" });
   }
 };
+
 
 /**
 * Trackcontroller editTrack
@@ -130,6 +133,7 @@ exports.uploadSong = async (req, res) => {
 *@param {object}  req                  Express request object
 *@param {object}  res                  Express response 
 */
+
 exports.editTrack = async (req, res) => {
   const decodedID = decode_id(req);
   const UserCheck = await User.findOne({ _id: decodedID });
@@ -158,7 +162,8 @@ exports.editTrack = async (req, res) => {
         }
         count++;
       }
-      let updatedTrack = await Track.updateOne( { id: req.params.trackId }, 
+  
+      let updatedTrack = await Track.updateOne( { _id: req.params.trackId }, 
         { 
           name: req.body.name,
           url: fileURL,
@@ -166,14 +171,15 @@ exports.editTrack = async (req, res) => {
           genre: req.body.genre,   
           imageURL: imageURL
         });
-      res.status(200).json(updatedTrack);
+      return res.status(200).json(updatedTrack);
     } catch (err) {
-      res.status(404).json(err);
+     return res.status(404).json(err);
     }
   } else {
-    res.status(404).json({ message: "only artists can Edit songs" });
+   return res.status(404).json({ message: "only artists can Edit songs" });
   }
 };
+
 
 /**
 * Trackcontroller deleteTrack
@@ -209,24 +215,24 @@ exports.deleteTrack = async (req, res) => {
 */
 exports.getTrack = async (req, res) => {
   try {
-    let ourTrack = await Track.findOne({ id: req.params.trackId });
+    let ourTrack = await Track.findOne({ _id: req.params.trackId });
     if (ourTrack) {
       mm.parseFile(ourTrack.url)
         .then(metadata => {
-          res.status(200).json({ data: metadata });
+         return res.status(200).json({ data: metadata });
         })
         .catch(err => {
-          res.status(404).json({ error: err.message });
+          return res.status(404).json({ error: err.message });
         });
     }
     else {
-      res.status(500).json({ message: "the song's id is wrong" });
-
+      return res.status(500).json({ message: "the song's id is wrong" });
     }
   } catch (err) {
-    res.status(500).json(err);
+     return res.status(500).json(err);
   }
 };
+
 
 //-------------------------create the "Your liked songs" playlist after user sign up----------------------------------//
 /**
