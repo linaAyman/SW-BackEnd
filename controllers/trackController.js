@@ -4,7 +4,7 @@
 
 const mongoose = require('mongoose')
 const config = require('config')
-const joi = require('joi')
+const Joi = require('joi')
 const { Track } = require('../models/Track')
 const { YourLikedSongs } = require('../models/YourLikedSongs')
 var jwt = require('jsonwebtoken')
@@ -17,6 +17,8 @@ const util = require('util');
 const User = require('../models/User');
 const decode_id = require('../middleware/getOID');
 const { getAudioDurationInSeconds } = require('get-audio-duration');
+const notificationController = require('../controllers/notificationController')
+
 /**
 * Trackcontroller valdiation
 *@memberof module:controllers/trackControllers
@@ -112,7 +114,8 @@ exports.uploadSong = async (req, res) => {
         } catch (err) {
           res.status(404).json({ error: err });
         }
-
+        // Making Notification to followers that artist uploaded song
+        notificationController.addUploadSongNotification(UserCheck,req.body.name);
       }
     } catch (err) {
       res.status(500).json({ error: err });
