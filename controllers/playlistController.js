@@ -136,10 +136,10 @@ exports.createPlaylist=async function(req,res){
   const userOID=getOID(req);
   //if user object ID is 555555555555555555555555 then Spotify is the owner of playlist
   console.log(userOID);
-
+  let playlistId=mongoose.Types.ObjectId();
   const playlist=new Playlist({
     name:req.query.name,
-    id: mongoose.Types.ObjectId(),
+    id: playlistId,
     owner:userOID,
     totalTracks:0,
     popularity:0,
@@ -155,7 +155,7 @@ exports.createPlaylist=async function(req,res){
   //save the created playlist in Library
   await Library.findOneAndUpdate({user:userOID},{$push:{playlists:playlist._id}});
   console.log(await Library.findOne({user:userOID}))
-  return res.status(200).json({message :'OK'})
+  return res.status(200).json({playlistid:playlistId,message :'OK'})
 
 };
 
