@@ -1,4 +1,4 @@
-var expect  = require('chai').expect;
+/* var expect  = require('chai').expect;
 var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
@@ -158,4 +158,4 @@ it('GET tracks by the specified genre',  function(done) {
        }
        done();
     });
-});
+}); */
