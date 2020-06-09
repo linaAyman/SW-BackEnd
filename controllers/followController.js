@@ -37,7 +37,7 @@ exports.addFollow = async (req, res)=> {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.decode(token);
     let uID = decoded._id;
-
+    
     let followingTemp = await User.findOne({maestroId: userToFollow}, {'_id':1})
 
     await Follow.findOneAndUpdate({ user: uID},{$addToSet: {followingIds: followingTemp._id}});

@@ -12,6 +12,7 @@ const mm = require('music-metadata');
 const util = require('util');
 const User = require('../models/User');
 const decode_id = require('../middleware/getOID');
+const notificationController = require('../controllers/notificationController')
 const trackController = require("../controllers/trackController");
 
 /**
@@ -160,6 +161,8 @@ exports.addAlbum = async (req, res) => {
       album.uri = 'Maestro:album:' + album.id;
       album.href = 'https://api.Maestro.com/v1/albums/' + album.id;
       let newAlbum = await album.save();
+      // Making Notification to followers that artist uploaded album
+      notificationController.addUploadAlbumNotification(UserCheck,req.body.name);
      return  res.status(200).json({ message: "Album uploaded successfully" });
     } catch (err) {
       return res.status(500).json({ error: err });

@@ -4,9 +4,10 @@ const router = express.Router();
 const UserController = require('../controllers/userControllers');
 const checkAuth = require('../middleware/checkAuth');
 const playlistController=require('../controllers/playlistController');
+const notificationController = require('../controllers/notificationController');
 
 
-
+router.get("/notifications",checkAuth,notificationController.getUserNotification);
 router.post("/createPlaylist",checkAuth,playlistController.createPlaylist);
 router.post("/signup", UserController.userSignup);
 router.post("/login", UserController.userLogin);
