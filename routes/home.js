@@ -8,7 +8,7 @@ router.get('/',homeController.getHome);
 
 
 router.get('/Most%20Popular%20Playlists',homeController.seeMoreMostPopular);
-router.get('/recently-played',homeController.getPlayHistory);
+router.get('/recently-played',checkAuth,homeController.getPlayHistory);
 router.get('/:name',homeController.seeMoreCategories);
 
 

@@ -9,7 +9,7 @@ dotenv.config();
 it('Search Feature Test#1', function() {
     const options = {
         method:'GET',
-        url:'http://3.137.69.49:3000/search?query=dream+your+heart+makes',
+        url:process.env.tempurl+'/search?query=dream+your+heart+makes',
         headers: {
           'Authorization': process.env.token
         }
@@ -28,7 +28,7 @@ it('Search Feature Test#1', function() {
 it('Search Feature Test#2', function() {
     const options = {
         method:'GET',
-        url:'http://3.137.69.49:3000/search?query=til+there+was+you',
+        url:process.env.tempurl+'/search?query=til+there+was+you',
         headers: {
           'Authorization': process.env.token
         }
@@ -46,7 +46,7 @@ it('Search Feature Test#2', function() {
 it('Search Feature Test#3 / Artist Search test', function() {
     const options = {
         method:'GET',
-        url:'http://3.137.69.49:3000/search?query=christina',
+        url:process.env.tempurl+'/search?query=christina',
         headers: {
           'Authorization': process.env.token
         }
@@ -60,6 +60,46 @@ it('Search Feature Test#3 / Artist Search test', function() {
        }
     });
 });
+
+
+it('save Recent Search of type Track #4', function(done) {
+  const options = {
+      method:'POST',
+      url:process.env.tempurl+'/search?id=3JOF9NzQVkUXtCcJbEQuAb&type=track',
+      headers: {
+        'Authorization': process.env.userToken
+      }
+    };
+  request(options, function(error, response, body) {
+    if(body){
+      var reqBody =body.toString('utf8');
+      reqBody = JSON.parse(reqBody);
+      expect(body.message).to.equal("OK");
+     }
+     done();
+  });
+});
+
+it('save Recent Search of type Playlist #5', function(done) {
+  const options = {
+      method:'POST',
+      url:process.env.tempurl+'/search?id=4qrimFUz8KFC8W6WrDiDnh&type=playlist',
+      headers: {
+        'Authorization': process.env.userToken
+      }
+    };
+  request(options, function(error, response, body) {
+    if(body){
+      var reqBody =body.toString('utf8');
+      reqBody = JSON.parse(reqBody);
+      expect(body.message).to.equal("OK");
+     }
+     done();
+  });
+});
+
+
+
 
 
 

@@ -22,6 +22,8 @@ it('Home Request #4', function() {
        {
         var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
+        console.log("HOMEEEEEEEEEEEEEEEEEEE\n")
+        console.log(reqBody.Home)
        reqBody.should.have.property('Home').with.lengthOf(5);
       
        should.exist(reqBody.Home[0].playlists);
@@ -59,10 +61,10 @@ it('Pagination for Most Popular',function(){
       var reqBody =body.toString('utf8');
       reqBody = JSON.parse(reqBody);
       reqBody.should.have.property('playlists').with.lengthOf(4);
-      reqBody.playlists[0].name.should.equal('Sweet Moments');
-      reqBody.playlists[1].name.should.equal('Relaxtion');
+      reqBody.playlists[0].id.should.equal('4qrimFUz8KFC8W6WrDiDnh');
+      reqBody.playlists[1].id.should.equal('4qrimFUz8KFC8W6WrDiDne');
       reqBody.playlists[2].id.should.equal('4qrimFUz8KFC8W6WrDiDng');
-      reqBody.playlists[3].id.should.equal('4qrimFUz8KFC8W6WrDiDnc');
+      reqBody.playlists[3].id.should.equal('4qrimFUz8KFC8W6WrDiDmc');
       }
   });
 });
