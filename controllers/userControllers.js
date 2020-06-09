@@ -172,7 +172,7 @@ exports.userSignup =   (req, res, next) => {
                        password: hash,
                        birthDate:req.body.birthDate,
                        gender:req.body.gender,
-		       type:req.body.type
+		                   type:req.body.type
                      });
                      rand.userId=user._id;//to use it back in verify mail
                      rand.save().then().catch();
@@ -352,6 +352,7 @@ exports.userDelete = (req, res, next) => {
   User.remove({ _id: req.params.id })
     .exec()
     .then(result => {
+      
       res.status(200).json({
         message: 'User deleted'
       });

@@ -17,9 +17,13 @@ const yourLikedSongsSchema = new mongoose.Schema({
         //required : true
         
     }],
+    likedTracks:{
+        type:Number,
+        default:0
+    },
     type:{
         type:String,
-        default:"liked songs"
+        default:"LikedSongs"
     }
 
 })

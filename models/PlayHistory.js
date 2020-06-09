@@ -9,35 +9,22 @@ const playhistorySchema = new mongoose.Schema({
         ref:'User'
     },
     History:[{
-        playedAt:{
-            type : Date,
-            default:Date.now()
-        },
-        context:{
-            type: new mongoose.Schema({
+            
                 type:{
                     type : String,
                     required:true,
                 },
                 id:{
-                    type: String, 
+                    type: mongoose.Schema.Types.ObjectId, 
                     required:true,
-                }/*,
-                curPlayingIndex:{
-                    type:Number,
-                    default:0
-                }*/
-            }),
-            required : true
-        }
-        //,
-       /*itemPlaying: {
-            type: mongoose.Schema.Types.ObjectId , 
-            required:true,
-            ref:'Track'
-        },*/
-        
-    }]
+                }
+                
+    }],
+    //number of items in the history array
+    HistoryLen:{
+        type:Number,
+        default:1
+    }
 })
 function validatePlayHistory (playHistory) {
     const schema = {
@@ -47,16 +34,6 @@ function validatePlayHistory (playHistory) {
     return Joi.validate(playHistory, schema)
   }
 
-function validateContext(context){
-    const schema ={
-        type : Joi.required().valid("track","playlist","album","artist"),
-        uri:Joi.required(),
-        uri:Joi.string(),
-        externalUrl:Joi.required(),
-        externalUrl:Joi.string()
-    }
-    return Joi.validate(context,schema)
-}
 function validateParameters(parameters)
 {
     const schema={
@@ -70,6 +47,4 @@ function validateParameters(parameters)
 const PlayHistory = mongoose.model('PlayHistory', playhistorySchema )
 
 exports.validatePlayHistory=validatePlayHistory
-exports.validateContext=validateContext
-exports.validateParameters=validateParameters
 exports.PlayHistory = PlayHistory;

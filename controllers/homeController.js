@@ -2,7 +2,7 @@
 *@module homeController
 */
 
-var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHistory')
+var { PlayHistory}=require('../models/PlayHistory')
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
 var { Playlist }=require('../models/Playlist')
@@ -11,40 +11,65 @@ var { Album }=require('../models/Album')
 var {checkAuth}=require('../middleware/checkAuth')
 var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
+const getOID=require('../middleware/getOID');
 
 //=================================get play history from database=========================//
 /**
- * homeController getPlayHistory
+ * homeController get recently played items for current logged in user
  * @memberof module:homeController
  * @function getPlayHistory
  * @param { req.headers.authorization} token the token to identify user by and save the given track in his recently played category to be showed in home later
- * @param {objectId} userId of user to get his recently played playlists and tracks
- * @returns {array } recentlyPlayed of recently played tracks and playlists
+ * @param {userId} userId of user to get his recently played playlists and tracks
+ * @param {offset} number of elements to skip
+ * @param {limit} number of elements to return
+ * @returns {recentlyPlayed } recentlyPlayed of recently played tracks and playlists
  */
-async function getPlayHistory(userId){
+exports.getPlayHistory=async function(req,res){
 
-    let historyDocument=await PlayHistory.findOne({userId:userId},{'History':1,'_id':0})
-    let historyArr=historyDocument.History;
-    let historyLen=historyArr.length
+    let offset=parseInt(req.query.offset);
+    let limit=parseInt(req.query.limit);
+    if(!offset) offset=0 //default values of offset and limit 
+    if(!limit)  limit =6
+    
+    let userId=getOID(req);
+    let historyDocument=await PlayHistory.findOne({userId:userId},{'History':1,'_id':0,'HistoryLen':1})
+    let historyArr=historyDocument.History
+    let historyLen=historyDocument.HistoryLen
     let recentlyPlayed=[];
 
-    for(let i=0;i<historyLen;i++){
+    let start=offset;
+    let end=Math.min(offset+limit,historyLen);
+   
+    for(let i=start;i<end;i++){
 
-        if(historyArr[i].context.type=="track"){
+        if(historyArr[i].type=="Track"){
           
-            let tracks=await Track.findOne({id:historyArr[i].context.id},{'_id':0,'id':1,'name':1,'image':1,'type':1})
+            let tracks=await Track.findOne({_id:historyArr[i].id},{'_id':0,'id':1,'name':1,'image':1,'type':1})
                                   .populate('artists','name -_id')
        
             recentlyPlayed.push(tracks);
         }
-        else if(historyArr[i].context.type=="playlist"){
+        else if(historyArr[i].type=="Playlist"){
 
-           let playlists= await Playlist.findOne({id:historyArr[i].context.id},{'_id':0,'id':1,'image':1,'name':1,'description':1,'type':1})
+           let playlists= await Playlist.findOne({_id:historyArr[i].id},{'_id':0,'id':1,'image':1,'name':1,'type':1,'description':1,'owner':1})
+                                        
            recentlyPlayed.push(playlists);
 
         }
+        else if(historyArr[i].type=="Artist"){
+            let artists=await Artist.findOne({_id:historyArr[i].id},{'_id':0,'name':1,'image':1,'type':1,'id':1})
+            recentlyPlayed.push(artists);
+        }
+        else if(historyArr[i].type=="LikedSongs"){
+            recentlyPlayed.push({id:historyArr[i].id,type:historyArr[i].type});
+        }
+        else if(historyArr[i].type=="Album"){
+            let album=await Album.findOne({_id:historyArr[i].id},{'_id':0,'name':1,'image':1,'type':1,'id':1})
+            recentlyPlayed.push(album);
+        }
     }
-    return recentlyPlayed;
+    console.log(recentlyPlayed);
+    return res.status(200).json(recentlyPlayed);
 }
 /**
  * homeController getMostPopular given offset and limit to be used in popular playlists which is in home page and see more 

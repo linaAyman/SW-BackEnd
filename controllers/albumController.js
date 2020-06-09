@@ -13,6 +13,7 @@ const util = require('util');
 const User = require('../models/User');
 const decode_id = require('../middleware/getOID');
 
+
 function Validate(req) {
    const schema = {
      genre:
@@ -320,21 +321,44 @@ exports.getTracks=async(req,res)=>{
     console.log(tracks)
     return res.status(200).send(tracks)
  };
+ /**
+ * @memberof module:trackController
+ * @function {likeAlbum} add an album from current user's library
+ * @param {req.headers.authorization} token to get objectId of the user from
+ * @param {req.body.id}  Id of album that user want to remove it
+ */
  exports.likeAlbum=async (req,res)=>{
- 
-
+   console.log("LIKE ALBUM Routeddd Correctly\n");
      let albumToLike=req.body.id;
      if(!albumToLike) return res.status(404).send({ message: "albumId haven't been sent in the request" })
     
-     const token = req.headers.authorization.split(" ")[1];
-     if(token){  
-           const decoded = jwt.decode(token);
-           let albumsTemp=await Album.findOne({id:req.body.id},{'_id':1})
-           console.log(albumsTemp)
-        //    await Library.findOneAndUpdate({ user:decoded._id},{$addToSet:{'albums':albumsTemp._id}});
-           await Library.findOneAndUpdate({ user:decoded._id},{$push:{albums:{$each:[albumsTemp],$position:0}}});
-        //    await Search.findOneAndUpdate({userId:decoded._id},{$push:{searchedItems:{$each:[searchedObject],$position:0}}})
-           return res.status(201).json({message :'OK'})
-     }
+     console.log(albumToLike)
+    let userId=decode_id(req);
+     let albumsTemp=await Album.findOne({id:albumToLike},{'_id':1})
+     console.log(albumsTemp);
+    
+     await Library.findOneAndUpdate({ user:userId},{ $addToSet: { 'albums': albumsTemp._id }} );
+     await Library.updateOne({user:userId},{$inc:{albumsCount:1}})
+     return res.status(201).json({message :'OK'})
 
  };
+/**
+ * @memberof module:trackController
+ * @function {dislikeAlbum} remove an album from current user's library
+ * @param {req.headers.authorization} token to get objectId of the user from
+ * @param {req.body.id}  Id of album that user want to remove it
+ */
+exports.dislikeAlbum = async function (req, res) {
+
+
+  if (!req.body.id) return res.status(404).send({ msg: "albumId haven't been sent in the request" })
+  let userId=decode_id(req);
+  
+    let albumsTemp = await Album.findOne({ id: req.body.id }, { trackId: '_id' })
+
+    console.log(albumsTemp)
+    await Library.updateOne({ user: userId }, { $pull: { albums:albumsTemp._id } });
+    await Library.updateOne({user:userId},{$inc:{albumsCount:-1}})
+    return res.status(200).json({ "message": 'Deleted Successfully' })
+  
+}

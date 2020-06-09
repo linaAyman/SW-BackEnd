@@ -21,16 +21,19 @@ const librarySchema = new mongoose.Schema({
         //required : true
         
     }],
+    playlistsCount:{
+        type:Number,
+        default:0
+    },
+    albumsCount:{
+        type:Number,
+        default:0
+    },
     albums:[{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'Album'
     }],
-    // likedSongs:{
-    //     type: mongoose.Schema.Types.ObjectId ,
-    //      required:true,
-    //      ref:'YourLikedSongs'
-    // },
     type:{
         type:String,
         default:"library"

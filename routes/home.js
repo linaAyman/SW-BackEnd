@@ -8,7 +8,9 @@ const checkAuth=require('../middleware/checkAuth')
 // router.get('/:name',homeController.seeAll);
 
 router.get('/Most%20Popular%20Playlists',homeController.seeMoreMostPopular);
+router.get('/recently-played',homeController.getPlayHistory);
 router.get('/:name',homeController.seeMoreCategories);
+
 
 //router.get('/',homeController.getHome);
 //router.get('/Category/:name',homeController.seeAllCategory);

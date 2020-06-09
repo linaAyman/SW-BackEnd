@@ -2,12 +2,14 @@
 *@module playerController
 */
 
-var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHistory')
+var { PlayHistory}=require('../models/PlayHistory')
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
 var { Playlist }=require('../models/Playlist')
+var {Artist}=require ('../models/Artist')
 var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
+const getOID=require('../middleware/getOID');
 
 
 /**
@@ -19,39 +21,66 @@ var ObjectId=mongoose.Types.ObjectId;
  * 
  */
 exports.saveTrack=async function (req,res){
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.decode(token)
-        let userId=decoded._id
+
+        let userId=getOID(req);
         let playId=req.params.id
-        let type="playlist"
+        let type=req.query.type; //the context that track was played from (Playlist,Album,Artist,LikedSongs playlist or track)
         
-        let isExistPlayHistory=await PlayHistory.find({userId:userId})
+        //get object id of played item
+        let playedItemOID;
+        if(type=="Playlist")
+            playedItemOID=await Playlist.findOne({id:playId},{'_id':1});
+        else if(type=="Track")
+            playedItemOID=await Track.findOne({id:playId},{'_id':1});
+        else if(type=="Album")
+            playedItemOID=await Album.findOne({id:playId},{'_id':1});
+        else if(type=="LikedSongs")
+            playedItemOID=playId
+        else if(type=="Artist")
+            playedItemOID=await Artist.findOne({id:playId},{_id:1})
+        else
+            res.status(404).json({'type':'The type you sent was incorrect'});
+
+
+        let isExistPlayHistory=await PlayHistory.findOne({userId:userId})
         let contextObject={
             type:type,
-            id:playId
+            id:playedItemOID
         }
                                
+        //check if this user has a play history object if he doesn't have a one then create it and add to it 
+        // the played item , if he has a one then push the played item in the existing object
 
-        if(isExistPlayHistory.length===0){
-            
+        if(!isExistPlayHistory){
+            let playedItems=[];
+            playedItems.push(contextObject)    
             let playHistory= new PlayHistory({
-                History:{
-                    context:contextObject,
-                   
-                },
+                History:playedItems,
                 userId:userId
             })
+
             await playHistory.save()
+
                         
         }
         else{
-         
-            await PlayHistory
-                        .updateOne({userId:userId},{$push:{History:{
-                        context:contextObject}}})
-                       
-        }   
-        return res.status(200);
+            //first check if this item was played before if yes remove it from it's position to add it in the most recent position 
+
+             let playeditems=await PlayHistory.findOne({userId:userId,History:{$elemMatch:{id:playedItemOID}}})
+
+
+             if(playeditems){
+                await PlayHistory.findOneAndUpdate({userId:userId},{"$pull":{"History":{id:playedItemOID}}})
+             }
+             else{
+                 //increment the count of played items by 1
+                await PlayHistory.updateOne({userId:userId},{$inc:{HistoryLen:1}})
+             }
+             await PlayHistory.findOneAndUpdate({userId:userId},{$push:{History:{$each:[contextObject],$position:0}}})
+                            
+        }  
+
+        return res.status(200).json({'message':'OK'});
        
 };
 //========================================For playing a playlist=============================//
