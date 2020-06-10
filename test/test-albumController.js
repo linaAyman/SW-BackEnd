@@ -6,6 +6,7 @@ dotenv.config();
 var supertest = require('supertest');
 var request = supertest('localhost:3000');
 
+
 describe('add Album', function () {
   it('valid ', function (done) {
     this.timeout(2000002344400);//you may need to increase time 
@@ -54,7 +55,7 @@ describe('edit Album', function () {
           });
   });
 });
-
+/*
 describe('add track to Album', function () {
   it('valid ', function (done) {
     this.timeout(2345500000);
@@ -78,7 +79,8 @@ describe('add track to Album', function () {
           });
   });
 });
-
+*/
+/*
 describe('delet track from Album', function () {
   it('valid ', function (done) {
     this.timeout(2345500000);
@@ -94,7 +96,7 @@ describe('delet track from Album', function () {
               done();
           });
   });
-});
+});*/
 
 it('Get Album Test#1', function() {
     const options = {

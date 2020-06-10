@@ -15,7 +15,15 @@ it('joiValidation Test#1', function() {
              gender:'true'
     }
     let result = UserController.validateSignUp(body)
-     expect(result).to.validate;
+    let msg;
+    if(result.error!=  null){
+           msg = 'Error happened in Test#1'
+    }
+    else{
+           msg = 'Done'
+    }
+  
+      expect(msg).to.equal('Done');
 
    
  });
@@ -29,7 +37,15 @@ it('joiValidation Test#1', function() {
              gender:'true'
     }
     let result = UserController.validateSignUp(body)
-     expect(result).to.have.an.error;
+    let msg;
+     if(result.error!=  null){
+            msg = 'Error happened in Test#2'
+     }
+     else{
+            msg = 'Done'
+     }
+   
+       expect(msg).to.equal('Error happened in Test#2');
  });
 
   it('joiValidation Test#3', function() {
@@ -41,7 +57,15 @@ it('joiValidation Test#1', function() {
              gender:'true'
     }
     let result = UserController.validateSignUp(body)
-     expect(result).to.have.an.error;
+    let msg;
+    if(result.error!=  null){
+           msg = 'Error happened in Test#3'
+    }
+    else{
+           msg = 'Done'
+    }
+  
+      expect(msg).to.equal('Error happened in Test#3');
  });
 
   it('joiValidation Test#4', function() {
@@ -53,7 +77,15 @@ it('joiValidation Test#1', function() {
              gender:'true'
     }
     let result = UserController.validateSignUp(body)
-     expect(result).to.have.an.error;
+    let msg;
+    if(result.error!=  null){
+           msg = 'Error happened in Test#4'
+    }
+    else{
+           msg = 'Done'
+    }
+  
+      expect(msg).to.equal('Error happened in Test#4');
  });
 
 });
