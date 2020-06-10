@@ -49,7 +49,7 @@ exports.artistAbout = async function (req,res){
 /**
  * @async 
  * @function
- * Get the description of the artist
+ * Get the artists that have same genre as requested artist
  * @param {URL} req -send artist Id
  * @param {object} res -the response on the given request
  * @returns {jsonObject} - Object of type artist else a message if the artist Id has not been found
@@ -61,46 +61,29 @@ exports.getrelatedArtist = async function (req,res){
 
         let artistGenres = await Artist.find({id: artistId},{'_id':0,'genres':1});
         if (artistGenres){
-                console.log(artistGenres)
                 let Genres = artistGenres[0].genres
-               console.log(Genres.length)
-                let RelatedArtists 
+                let RelatedArtists = []
                 let i;
                 for (i = 0; i < Genres.length; i++) {
-                        let temp1  = await Artist.find({genres:Genres[i]})
-                        temp1.forEach(async function (value,index){
+                        // getting the artists for each genre in the required artist array
+                       let temp1  = await Artist.find({genres:Genres[i]})
+                       temp1.forEach(async function (value,index){
                         let tempArtist = value;
-                        console.log(i+" Temp artist "+tempArtist)
-                        if(tempArtist.id == artistId){
-                                temp1.splice(index,1)
-                        }
+                        // checking that the requested artist not added in result
+                        if(tempArtist.id != artistId){ 
+                        //Checking no duplicates occur
                         if(i!=0){
-                                
                                 RelatedArtists = RelatedArtists.filter(function( obj ) {
                                         return obj.id !== tempArtist.id;
                                 });
+                                }
+                        RelatedArtists.push(tempArtist)
                         }
                         });
-                        if(i==0){
-                                RelatedArtists = (temp1)
-                        }
                 }
                res.send(RelatedArtists)
         }
 }
-function removeDuplicates(originalArray, prop) {
-        var newArray = [];
-        var lookupObject  = {};
-   
-        for(var i in originalArray) {
-           lookupObject[originalArray[i][prop]] = originalArray[i];
-        }
-   
-        for(i in lookupObject) {
-            newArray.push(lookupObject[i]);
-        }
-         return newArray;
-    }
    
 
 // exports.artistTopTracks = async function (req,res){

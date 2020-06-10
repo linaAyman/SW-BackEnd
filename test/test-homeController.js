@@ -1,4 +1,4 @@
-/* var expect  = require('chai').expect;
+var expect  = require('chai').expect;
 var should = require('chai').should();
 var assert=require('chai').assert;
 var request = require('request');
@@ -129,5 +129,5 @@ it('See All Home Request New Albums#4', function() {
         }
     });
 });
- */
+ 
 

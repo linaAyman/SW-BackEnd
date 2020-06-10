@@ -143,7 +143,7 @@ exports.addUploadAlbumNotification =async function (ArtistId,AlbumName){
             await Notification.updateOne({user:(array[index])},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
         })
     }
-    sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
+  //  sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
     
 }
 //-------------------------get User's Notification----------------------------------//

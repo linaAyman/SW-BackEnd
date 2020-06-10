@@ -1,9 +1,32 @@
-/* var expect  = require('chai').expect;
+var expect  = require('chai').expect;
 var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
 dotenv.config();
 
+it('Get Related Artists', function(done) {
+  const options = {
+      method:'GET',
+      url:'http://localhost:3000'+'/artists/7H55rcKCfwqkyDFH9wpKM6/related-artists',
+      headers: {
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRlMDU5Yzk5YWIyMjExZThjNjdlYTAiLCJuYW1lIjoiYXJ3YWZvZmEiLCJpYXQiOjE1OTE2MDg3MzIsImV4cCI6MTU5MjIxMzUzMn0.lkiyIytFtNoTTQVdqDkrcufYOv8anW79_uYmLf2ih9'
+          // process.env.omniaToken
+        },
+       
+        json:true
+      
+    };
+  request(options, function(error, response, body) {
+    
+    if(body)
+    {
+    
+     expect(body.length).to.equal(2);
+    }
+    done();
+  });
+});
+/*
 it('Get an artist test', function(done) {
     const options = {
         method:'GET',

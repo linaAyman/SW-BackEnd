@@ -144,7 +144,7 @@ exports.createPlaylist=async function(req,res){
 
   //save the created playlist in Library
   await Library.findOneAndUpdate({user:userOID},{$push:{playlists:playlist._id}});
-  console.log(await Library.findOne({user:userOID}))
+  await Library.updateOne({user:userOID},{$inc:{playlistsCount:1}})
   return res.status(200).json({playlistid:playlistId,message :'OK'})
 
 };
@@ -189,7 +189,7 @@ exports.deletePlaylist=async function(req,res){
   //remove playlist from user's playlists in Library
   await Library.updateOne({ user: userOID }, { $pull: { playlists:playlistsTemp._id } });
   await Library.updateOne({user:userOID},{$inc:{playlistsCount:-1}})
-  return res.status(200).json({ "message": 'Deleted Successfully' })
+  return res.status(200).json({ message: 'Deleted Successfully' })
 
 }
 //-------------------------Delete track from Playlist----------------------------------//
@@ -219,10 +219,10 @@ exports.removeTrack=async function(req,res){
           await Playlist
           .updateOne({id:req.params.id},{'totalTracks':totalTracks[0].tracks.length}  );
 
-          return res.sendStatus(200);//.json({"message" :'Deleted Successfully'})
+          return res.sendStatus(200);
       
      } catch{
-      return res.sendStatus(404);//.json({"message" :'Auth failed'})
+      return res.sendStatus(404);
     
   }} else{
     return res.sendStatus(403);    

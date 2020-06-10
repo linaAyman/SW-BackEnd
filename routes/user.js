@@ -8,7 +8,7 @@ const notificationController = require('../controllers/notificationController');
 
 
 router.get("/notifications",checkAuth,notificationController.getUserNotification);
-router.post("/createPlaylist",checkAuth,playlistController.createPlaylist);
+router.put("/createPlaylist",checkAuth,playlistController.createPlaylist);
 router.post("/signup", UserController.userSignup);
 router.post("/login", UserController.userLogin);
 router.delete("/:id",checkAuth, UserController.userDelete);

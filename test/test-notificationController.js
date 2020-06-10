@@ -146,27 +146,42 @@ it('Check Upload Song by followed artist Notification', function(done) {
        done();
     });
 });
-*/
-/*/** Upload album test*/
 /*
-it('try upload album action', function () {
-    let body = {
-      genre: ['classic','rock'],
-      name: 'wa7shteny',
-      artist: 'Amr Diab',
-      music: ['Uploads/Passenger Let Her Go.mp3', 'Uploads/Guy Sebastian - Choir (Alan Walker Remix).mp3'],
-      image: ['Images/23.png'],
-      albumType:'single'
-    }
-    let result = AlbumController.validateAlbum(body)
-    expect(result).to.validate;
+
+/** Upload album test*/
+/*
+describe('add Album to check notification', function () {
+    let supertest = require('supertest');
+    let request = supertest('localhost:3000');
+    it('valid ', function (done) {
+    this.timeout(2000002344400);//you may need to increase time 
+      request.post('/albums/addAlbum')
+          .set( 'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRlODUyNzg1NTcxYzU0OTQxNTVhYWMiLCJuYW1lIjoiTGVvbmFyZG8iLCJpYXQiOjE1OTE2NDEzODMsImV4cCI6MTU5MjI0NjE4M30.OhkypboXLUGbE_sDE4reWJi4Tilp8LMtcHJpQkpXG5A  ')
+          .set('Content-Type', 'multipart/form-data')
+          .field('name', 'let her go')
+          .field('artist[]', 'Christina Perri')
+          .field('genre[]', 'rap')
+          .field('type','single')
+          .attach('music',  'uploads/Guy Sebastian - Choir (Alan Walker Remix).mp3')
+          .attach('image', 'images/23.png')
+          .end(function (err, res) {
+          if (err) {
+              console.log(err);
+          } else {
+             // console.log(res);
+            expect(res.status).to.equal(200);
+          }
+          done();
+      });
   });
+}); 
+
   it('Check Upload Album by followed artist Notification', function(done) {
     const options = {
         method:'GET',
-        url: process.env.tempurl+'/user/notifications',
+        url: 'localhost:3000/user/notifications',
         headers: {
-            'Authorization': process.env.arwaToken
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWRlMDU5Yzk5YWIyMjExZThjNjdlYTAiLCJuYW1lIjoiYXJ3YWZvZmEiLCJpYXQiOjE1OTE2MDg3MzIsImV4cCI6MTU5MjIxMzUzMn0.lkiyIytFtNoTTQVdqDkrcufYOv8anW79_uYmLf2ih9U'
         },
     };
      
@@ -178,9 +193,13 @@ it('try upload album action', function () {
         reqBody = JSON.parse(reqBody);
         var notificationArray = reqBody.notifications;
         var firstElement =notificationArray[0]
-        console.log("Upload Song "+notificationArray)
-    //    expect(firstElement).to.equal("arwaHossam has liked your playlist: firstPlaylist");
+       // console.log("Upload Song "+notificationArray)
+       let artistname = "Leonardo";
+       let albumname = "let her go";
+       console.log(firstElement+"helooooooooooooo")
+        expect(firstElement).to.equal(artistname+" has uploaded new album: "+albumname);
        }
        done();
     });
-});*/
+});
+*/
