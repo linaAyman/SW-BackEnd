@@ -5,9 +5,10 @@ const config = require('config');
 dotenv.config();
 var supertest = require('supertest');
 var request = supertest('3.137.69.49:3000');
-/*
+
 describe('add Album', function () {
   it('valid ', function (done) {
+    this.timeout(2000002344400);//you may need to increase time 
       request.post('/albums/addAlbum')
           .set( 'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .set('Content-Type', 'multipart/form-data')
@@ -15,8 +16,7 @@ describe('add Album', function () {
           .field('artist[]', 'Christina Perri')
           .field('genre[]', 'rap')
           .field('type','single')
-          .attach('music',  'uploads/Maroon 5 - Memories.mp3')
-          .attach('music',  'uploads/Amr Diab wa75teny.mp3')
+          .attach('music',  'uploads/Guy Sebastian - Choir (Alan Walker Remix).mp3')
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
           if (err) {
@@ -31,14 +31,15 @@ describe('add Album', function () {
  
 describe('edit Album', function () {
   it('valid ', function (done) {
-      request.post('/albums/editAlbum/5edfe25c61928c2e744746a1')
+    this.timeout(2000002344400);//you may need to increase time 
+      request.post('/albums/editAlbum/TTZEEJ4pNmlVsWWi6w1d2R6JX9R1Wg')
           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .set('Content-Type', 'multipart/form-data')
           .field('name', 'let her go')
           .field('artist[]', 'Christina Perri')
           .field('genre[]', 'rock')
           .field('type', 'compilation')
-          .attach('music', 'uploads/Maroon 5 - Memories.mp3')
+          .attach('music', "uploads/Amr Diab wa7yaty 7'liky.mp3")
           .attach('music', 'uploads/Amr Diab wa75teny.mp3')
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
@@ -56,13 +57,14 @@ describe('edit Album', function () {
 
 describe('add track to Album', function () {
   it('valid ', function (done) {
-      request.post('/albums/addTrack/5edfe25c61928c2e744746a1')
+    this.timeout(2345500000);
+      request.post('/albums/addTrack/5ee0b701a018fd6580f384c3')
           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .set('Content-Type', 'multipart/form-data')
           .field('name', 'let her go')
           .field('artist[]', 'Christina Perri')
           .field('genre', 'rock')
-          .attach('music', "uploads/Amr Diab wa7yaty 7'liky.mp3")
+          .attach('music', "uploads/Polytopia(Quetzali Song).mp3")
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
               if (err) {
@@ -79,7 +81,8 @@ describe('add track to Album', function () {
 
 describe('delet track from Album', function () {
   it('valid ', function (done) {
-      request.delete('/albums/removeTrack/5edfe25c61928c2e744746a0/5edfe25c61928c2e744746a1')
+    this.timeout(2345500000);
+      request.delete('/albums/removeTrack/5ee0b701a018fd6580f384c2/5ee0b701a018fd6580f384c3')
           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .end(function (err, res) {
               if (err) {
@@ -92,8 +95,6 @@ describe('delet track from Album', function () {
           });
   });
 });
-
-*/
 
 it('Get Album Test#1', function() {
     const options = {
