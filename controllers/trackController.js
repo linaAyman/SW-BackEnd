@@ -18,6 +18,7 @@ const User = require('../models/User');
 const decode_id = require('../middleware/getOID');
 const { getAudioDurationInSeconds } = require('get-audio-duration');
 const notificationController = require('../controllers/notificationController')
+const getOID=require('../middleware/getOID');
 
 /**
 * Trackcontroller valdiation
@@ -264,16 +265,16 @@ exports.likeSong = async function (req, res) {
 
   let trackToLike = req.body.id;
   if (!trackToLike) return res.status(404).send({ message: "trackId haven't been sent in the request" })
+  let userOID=getOID(req);
+  
 
-  const token = req.headers.authorization.split(" ")[1];
-  if (token) {
-
-    const decoded = jwt.decode(token);
+    
     let tracksTemp = await Track.findOne({ id: req.body.id }, { trackId: '_id' })
-    console.log(tracksTemp)
-    await YourLikedSongs.findOneAndUpdate({ user: decoded._id }, { $addToSet: { 'tracks': tracksTemp._id } });
+    
+    await YourLikedSongs.findOneAndUpdate({ user: userOID }, { $addToSet: { 'tracks': tracksTemp._id } });
+    await YourLikedSongs.updateOne({user:userOID},{$inc:{likedTracks:1}})
     return res.status(201).json({ message: 'OK' })
-  }
+  
 }
 //----------------------Remove track from your liked songs---------------//
 /**
@@ -285,17 +286,16 @@ exports.likeSong = async function (req, res) {
 exports.dislikeSong = async function (req, res) {
 
 
-  if (!req.body.id) return res.status(404).send({ msg: "trackId haven't been sent in the request" })
-  console.log(req.body.id)
-  const token = req.headers.authorization.split(" ")[1];
-  if (token) {
-    const decoded = jwt.decode(token);
+    if (!req.body.id) return res.status(404).send({ msg: "trackId haven't been sent in the request" })
+    let userOID=getOID(req);  
     let tracksTemp = await Track.findOne({ id: req.body.id }, { trackId: '_id' })
 
-    console.log(tracksTemp)
-    await YourLikedSongs.updateOne({ user: decoded._id }, { $pull: { tracks: tracksTemp._id } });
+    //remove the trcak from YourLikedSongs Playlist
+    await YourLikedSongs.updateOne({ user: userOID}, { $pull: { tracks: tracksTemp._id } });
+    //decrement the number of liked songs by 1
+    await YourLikedSongs.updateOne({user:userOID},{$inc:{likedTracks:-1}})
     return res.status(200).json({ "message": 'Deleted Successfully' })
-  }
+  
 }
 /**
  * @memberof module:trackController
@@ -305,12 +305,23 @@ exports.dislikeSong = async function (req, res) {
 //----------------------Get Liked Song Library--------------//////
 exports.getlikedSong = async function (req, res) {
 
-  const token = req.headers.authorization.split(" ")[1];
-  if (token) {
-    const decoded = jwt.decode(token);
-    let tracksTemp = await YourLikedSongs.findOne({ user: decoded._id }, { 'tracks': 1, '_id': 1 }).populate('tracks', 'name image url previewUrl id -_id')
-    return res.status(200).json({ tracksTemp })
-  }
+    let offset=req.query.offset;
+    let limit=req.query.limit;
+
+    if(!offset) offset=0;
+    else offset=parseInt(offset)
+
+    if(!limit) limit=20;
+    else limit=parseInt(limit)
+
+    let userOID=getOID(req);
+    let tracksTemp = await YourLikedSongs.findOne({ user: userOID}, { 'tracks': {"$slice":[Math.abs(offset),Math.abs(limit)]}, '_id': 0 })
+                                          .populate({path:'tracks', select:'name image url previewUrl id artists -_id',
+                                          populate:{path:'artists',select:'name id type _id'}})
+                      
+  
+    return res.status(200).json({ tracksTemp:tracksTemp.tracks,totalTracks:tracksTemp.likedTracks })
+  
 }
 
 /**

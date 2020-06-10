@@ -40,7 +40,15 @@ exports.createLibrary =async function (userId)
 */
 exports.getLikedAlbums=async function(req,res){
     const userId=getOID(req);
-      let likedAlbums = await Library.findOne({user: userId}, {'albums':1,'_id':0})
+    let offset=req.query.offset;
+    let limit=req.query.limit;
+
+    if(!offset) offset=0;
+    else offset=parseInt(offset)
+
+    if(!limit) limit=20;
+    else limit=parseInt(limit)
+      let likedAlbums = await Library.findOne({user: userId}, {'albums':{"$slice":[Math.abs(offset),Math.abs(limit)]},'_id':0})
                                             .populate({path:'albums',select:'artists name image id type -_id',
                                              populate:{path:'artists',select:'name id -_id'}});
                                             
@@ -57,8 +65,16 @@ exports.getLikedAlbums=async function(req,res){
 */
 
 exports.getLikedPlaylists=async function(req,res){
-    const userId=getOID(req);
-      let likedPlaylists = await Library.findOne({user: userId}, {'playlists':1,'_id':0})
+     const userId=getOID(req);
+     let offset=req.query.offset;
+     let limit=req.query.limit;
+
+     if(!offset) offset=0;
+     else offset=parseInt(offset)
+
+      if(!limit) limit=20;
+      else limit=parseInt(limit)
+      let likedPlaylists = await Library.findOne({user: userId}, {'playlists':{"$slice":[Math.abs(offset),Math.abs(limit)]},'_id':0})
                                             .populate({path:'playlists',select:'name owner description image id type -_id',
                                              populate:{path:'owner',select:'name _id'}});
                                             
