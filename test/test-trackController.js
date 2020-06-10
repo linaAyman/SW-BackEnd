@@ -28,7 +28,7 @@ describe('create track', function () {
             });
     });
 });
-
+/*
 describe('create track', function () {
     it('not valid  ', function (done) {
         this.timeout(120000000);//note it may take more so if it doesnot work increase the time
@@ -89,7 +89,7 @@ describe('edit track', function () {
         });
     });
   }); 
-
+*/
 it('Like Track Test#1', function (done) {
     const options = {
         method: 'PUT',
