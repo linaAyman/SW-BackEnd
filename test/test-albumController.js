@@ -28,7 +28,7 @@ describe('add Album', function () {
       });
   });
 }); 
- 
+/* 
 describe('edit Album', function () {
   it('valid ', function (done) {
     this.timeout(2000002344400);//you may need to increase time 
@@ -95,7 +95,7 @@ describe('delet track from Album', function () {
           });
   });
 });
-
+*/
 it('Get Album Test#1', function() {
     const options = {
         method:'GET',
