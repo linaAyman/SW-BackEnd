@@ -8,7 +8,7 @@ var request = supertest('3.137.69.49:3000');
 /*
 describe('add Album', function () {
   it('valid ', function (done) {
-      request.post('/album/addAlbum')
+      request.post('/albums/addAlbum')
           .set( 'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .set('Content-Type', 'multipart/form-data')
           .field('name', 'let her go')
@@ -31,7 +31,7 @@ describe('add Album', function () {
  
 describe('edit Album', function () {
   it('valid ', function (done) {
-      request.post('/album/editAlbum/5edfe25c61928c2e744746a1')
+      request.post('/albums/editAlbum/5edfe25c61928c2e744746a1')
           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .set('Content-Type', 'multipart/form-data')
           .field('name', 'let her go')
@@ -56,7 +56,7 @@ describe('edit Album', function () {
 
 describe('add track to Album', function () {
   it('valid ', function (done) {
-      request.post('/album/addTrack/5edfe25c61928c2e744746a1')
+      request.post('/albums/addTrack/5edfe25c61928c2e744746a1')
           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .set('Content-Type', 'multipart/form-data')
           .field('name', 'let her go')
@@ -79,7 +79,7 @@ describe('add track to Album', function () {
 
 describe('delet track from Album', function () {
   it('valid ', function (done) {
-      request.delete('/album/removeTrack/5edfe25c61928c2e744746a0/5edfe25c61928c2e744746a1')
+      request.delete('/albums/removeTrack/5edfe25c61928c2e744746a0/5edfe25c61928c2e744746a1')
           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
           .end(function (err, res) {
               if (err) {

@@ -5,6 +5,29 @@ const config = require('config');
 dotenv.config();
 const  UserController = require('../controllers/userControllers')
 
+describe("forgetPassword",function(){
+  it('forgetPassword  Test#1', function(done) {
+    const options = {
+        method:'GET',
+        url:process.env.tempurl+'/user/forgetPassword/arwahossam13@gmail.com'
+      };
+    request(options, function( response, body) {
+       if(body)
+       {
+           var reqBody =body.body.toString('utf8');
+           reqBody = JSON.parse(reqBody);
+          expect(reqBody.message).to.equal("send msg successfuly");
+          done();
+       
+        }
+    });
+   });
+  
+});
+
+
+
+/*
 
 describe("sign up",function(){
   it('signup Test#1', function(done) {
@@ -458,3 +481,4 @@ it('Edit Current user information test', function(done) {
     });
 });
 
+*/
