@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const config = require('config');
 const process=require('process')
 dotenv.config();
-const AlbumController = require('../controllers/albumControllers');
+const AlbumController = require('../controllers/albumController');
 
 
 

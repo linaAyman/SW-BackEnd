@@ -1,5 +1,5 @@
 var expect  = require('chai').expect;
-var request = require('request');
+var request2 = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
 const process = require('process')
@@ -75,9 +75,9 @@ describe('add Album', function () {
 it('Like Track Test#1', function (done) {
     const options = {
         method: 'PUT',
-        url: 'http://3.137.69.49:3000/me/tracks',
+        url: process.env.tempurl+'/me/tracks',
         headers: {
-            'Authorization': process.env.token
+            'Authorization': process.env.userToken
         },
         json: true,
         body: {
@@ -85,7 +85,7 @@ it('Like Track Test#1', function (done) {
         }
     };
 
-    request(options, function (response, body) {
+    request2(options, function (response, body) {
 
         if (body) {
 
@@ -97,14 +97,14 @@ it('Like Track Test#1', function (done) {
 it('Like Track Test#2 Not providing body(trackId) to request', function (done) {
     const options = {
         method: 'PUT',
-        url: 'http://3.137.69.49:3000/me/tracks',
+        url: +process.env.tempurl+'/me/tracks',
         headers: {
-            'Authorization': process.env.token
+            'Authorization': process.env.userToken
         },
 
     };
 
-    request(options, function (response, body) {
+    request2(options, function (response, body) {
         if (body) {
             var reqBody = body.body.toString('utf8');
             reqBody = JSON.parse(reqBody);
@@ -120,12 +120,12 @@ it('GET Liked tracks to make sure previous like stored in database', function (d
 
     const options = {
         method: 'GET',
-        url: 'http:///3.137.69.49:3000/me/tracks',
+        url:  process.env.tempurl+'/me/tracks',
         headers: {
-            'Authorization': process.env.token
+            'Authorization': process.env.userToken
         }
     };
-    request(options, function (response, body) {
+    request2(options, function (response, body) {
         if (body) {
             var reqBody = body.body.toString('utf8');
             reqBody = JSON.parse(reqBody);
@@ -140,9 +140,9 @@ it('remove track from Liked tracks', function (done) {
 
     const options = {
         method: 'DELETE',
-        url: 'http://3.137.69.49:3000/me/tracks',
+        url: process.env.tempurl+'/me/tracks',
         headers: {
-            'Authorization': process.env.token
+            'Authorization': process.env.userToken
         },
         json: true,
         body: {
@@ -152,7 +152,7 @@ it('remove track from Liked tracks', function (done) {
     };
 
 
-    request(options, function (response, body) {
+    request2(options, function (response, body) {
         if (body) {
 
             expect(body.body.message).to.equal("Deleted Successfully");
@@ -162,40 +162,17 @@ it('remove track from Liked tracks', function (done) {
     });
 });
 
-it('GET like tracks library after removing track from it', function (done) {
-
-    const options = {
-        method: 'GET',
-        url: 'http://3.137.69.49:3000/me/tracks',
-        headers: {
-            'Authorization': process.env.token
-        }
-
-    };
-
-
-    request(options, function (response, body) {
-        if (body) {
-            var reqBody = body.body.toString('utf8');
-            reqBody = JSON.parse(reqBody);
-
-
-            (reqBody.tracksTemp).should.have.property('tracks').with.lengthOf(0);
-        }
-        done();
-    });
-});
 
 it('GET tracks by the specified genre Test#2 if provided request is wrong or not in the database', function (done) {
 
     const options = {
         method: 'GET',
-        url: 'http:///3.137.69.49:3000/tracks/genre',
+        url: process.env.tempurl+'/tracks/genre',
         headers: {
             'Authorization': process.env.token
         }
     };
-    request(options, function (response, body) {
+    request2(options, function (response, body) {
         if (body) {
             var reqBody = body.body.toString('utf8');
             reqBody = JSON.parse(reqBody);
@@ -211,12 +188,12 @@ it('GET tracks by the specified genre', function (done) {
 
     const options = {
         method: 'GET',
-        url: 'http:///3.137.69.49:3000/tracks/genre',
+        url: process.env.tempurl+'/tracks/genre',
         headers: {
             'Authorization': process.env.token
         }
     };
-    request(options, function (response, body) {
+    request2(options, function (response, body) {
         if (body) {
             var reqBody = body.body.toString('utf8');
             reqBody = JSON.parse(reqBody);

@@ -3,7 +3,7 @@ var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
 dotenv.config();
-const AlbumController = require('../controllers/albumControllers');
+const AlbumController = require('../controllers/albumController');
 
 
 

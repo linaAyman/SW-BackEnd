@@ -3,7 +3,7 @@ var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
 dotenv.config();
-const trackController = require("../controllers/trackControllers");
+const trackController = require("../controllers/trackController");
 
 
 describe("validate TrackSchema ", function () {
