@@ -1,4 +1,4 @@
-var expect  = require('chai').expect;
+/* var expect  = require('chai').expect;
 var should = require('chai').should();
 var assert=require('chai').assert;
 var request = require('request');
@@ -130,4 +130,4 @@ it('GET recently played items #6',  function() {
         
             }
          });
-     }); 
+     });  */
