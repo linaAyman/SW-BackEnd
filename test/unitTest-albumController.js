@@ -7,7 +7,6 @@ const AlbumController = require('../controllers/albumController');
 
 
 
-
 describe("validate AlbumSchema ", function () {
   it('valid AlbumSchema Test#1', function () {
     let body = {
