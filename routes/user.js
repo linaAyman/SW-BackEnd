@@ -5,10 +5,11 @@ const UserController = require('../controllers/userControllers');
 const checkAuth = require('../middleware/checkAuth');
 const playlistController=require('../controllers/playlistController');
 const notificationController = require('../controllers/notificationController');
+const upload = require("../middleware/multer");
 
-
-router.get("/notifications",checkAuth,notificationController.getUserNotification);
-router.put("/createPlaylist",checkAuth,playlistController.createPlaylist);
+// router.get("/notifications",checkAuth,notificationController.getUserNotification);
+// router.put("/createPlaylist",checkAuth,playlistController.createPlaylist);
+router.put('/createPlaylist' ,checkAuth,upload.upload.fields([{name: 'image', maxCount: 1}]),playlistController.createPlaylist);
 router.post("/signup", UserController.userSignup);
 router.post("/login", UserController.userLogin);
 router.delete("/:id",checkAuth, UserController.userDelete);

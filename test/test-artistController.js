@@ -4,6 +4,28 @@ const dotenv = require('dotenv');
 const config = require('config');
 dotenv.config();
 
+it('Get Related Artists', function(done) {
+  const options = {
+      method:'GET',
+      url:process.env.tempurl+'/artists/7H55rcKCfwqkyDFH9wpKM6/related-artists',
+      headers: {
+          'Authorization': process.env.omniaToken
+        },
+       
+        json:true
+      
+    };
+  request(options, function(error, response, body) {
+    
+    if(body)
+    {
+    
+     expect(body.length).to.equal(2);
+    }
+    done();
+  });
+});
+/*
 it('Get an artist test', function(done) {
     const options = {
         method:'GET',
@@ -25,4 +47,4 @@ it('Get an artist test', function(done) {
        
     });
 });
- 
+  */

@@ -1,11 +1,11 @@
-/* var expect  = require('chai').expect;
+ var expect  = require('chai').expect;
 var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
 dotenv.config();
 
 
-it('Get Playlist Tarcks Test#1', function() {
+/*it('Get Playlist Tarcks Test#1', function() {
     const options = {
         method:'GET',
         url: 'http://3.137.69.49:3000/playlist/4qrimFUz8KFC8W6WrDiDne/tracks',
@@ -41,10 +41,14 @@ it('Get Playlist Test#2', function() {
 it('Add Track to playlist', function(done) {
   const options = {
       method:'POST',
-      url:'http://3.137.69.49:3000/playlists/4qrimQUz8KFC8W6WrDiDnc/tracks?uris=Maestro%3Atrack%3A3JOF9NzQVkUXtCcJbEQuAb',
+      url:process.env.tempurl+'/playlists/5edfecc6481bf237e92a9fa7/tracks',
       headers: {
-          'Authorization': process.env.token3
-        }
+          'Authorization': process.env.omniaToken
+        },
+        body: {
+          "ids":	["6FRLCMO5TUHTexlWo8ym1W"]
+        },
+        json:true
       
     };
   request(options, function(error, response, body) {
@@ -58,4 +62,26 @@ it('Add Track to playlist', function(done) {
   });
 });
 
- 
+it('Remove Track to playlist', function(done) {
+  const options = {
+      method:'DELETE',
+      url:process.env.tempurl+'/playlists/5edfecc6481bf237e92a9fa7/tracks',
+      headers: {
+          'Authorization': process.env.omniaToken
+        },
+        body: {
+          "ids":	["6FRLCMO5TUHTexlWo8ym1W"]
+        },
+        json:true
+      
+    };
+  request(options, function(error, response, body) {
+     if(body)
+     {
+     
+      expect(body).to.equal("OK");
+      done();
+  }
+     
+  });
+});

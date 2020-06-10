@@ -13,23 +13,16 @@ const playlistSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // external_urls:{
-    //     type: new mongoose.Schema({
-    //         spotify: {
-    //             type: String,
-    //         }
-    //     }
-    //     )
-    // },
+
   
     type: {
         type: String,
         default: "playlist"
     },
-    // uri: {
-    //     type: String,
-    // },
-    image: { type: String},
+
+    image:{
+        type: String
+    },
     popularity: {
         type: Number
     },
@@ -47,20 +40,10 @@ const playlistSchema = new mongoose.Schema({
         required: true
     }
         
-    //tracks:{
-   
-        
-    /*added_at:{type:Date, default:Date.now}
-        ,
-    total: {
-            type: Number
-        }*/
-  //  },
-    // genres: [String]
+ 
 })
 
-//TODO: validation function
-//const Playlist = mongoose.model('Playlist', playlistSchema)
+
 const Playlist = mongoose.model('Playlist', playlistSchema )
 
 exports.Playlist = Playlist

@@ -18,6 +18,7 @@ const imgPath = './public/profileImage/default.jpg';
 const nodemailer = require("nodemailer");
 const RandHash =require('../models/RandHash');// put randam hash in url in verify mail
 var randomHash = require('random-key');
+
 var mailOptions;
 const rand =new RandHash;
 

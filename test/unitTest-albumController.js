@@ -5,21 +5,26 @@ const config = require('config');
 dotenv.config();
 const AlbumController = require('../controllers/albumController');
 
-
-
-
 describe("validate AlbumSchema ", function () {
   it('valid AlbumSchema Test#1', function () {
     let body = {
       genre: ['classic','rock'],
       name: 'wa7shteny',
-      artist: 'Amr Diab',
+      artist: ['Amr Diab'],
       music: ['Uploads/Passenger Let Her Go.mp3', 'Uploads/Amr Diab wa75teny.mp3'],
       image: ['Images/FB_IMG_1560785471157.jpg',  'Images/images.jpg'],
       albumType:'single'
     }
     let result = AlbumController.validateAlbum(body)
-    expect(result).to.validate;
+    let msg;
+    if(result.error!=  null){
+           msg = 'Error happened in Test#1'
+    }
+    else{
+           msg = 'Done'
+    }
+  
+      expect(msg).to.equal('Done');
   });
 
  it('notvalid AlbumSchema Test#2', function () {
@@ -32,6 +37,14 @@ describe("validate AlbumSchema ", function () {
       albumType:'single'
     }
     let result = AlbumController.validateAlbum(body)
-    expect(result).to.have.an.error;
+    let msg;
+    if(result.error!=  null){
+           msg = 'Error happened in Test#2'
+    }
+    else{
+           msg = 'Done'
+    }
+  
+      expect(msg).to.equal('Error happened in Test#2');
   });
 });

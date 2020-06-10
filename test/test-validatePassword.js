@@ -12,9 +12,16 @@ it('validateUserPassword Test#1', function() {
         confirmedPassword:'kokowawaa' 
            
     }
-    let result = UserController.validateUserPassword (body)
-     expect(result).to.validate;
-
+    let result = UserController.validateUserPassword(body)
+     let msg;
+     if(result.error!=  null){
+            msg = 'Error happened in Test#1'
+     }
+     else{
+            msg = 'Done'
+     }
+   
+       expect(msg).to.equal('Done');
    
  });
 
@@ -24,7 +31,15 @@ it('validateUserPassword Test#1', function() {
         confirmedPassword:'kokowa' 
     }
     let result = UserController.validateUserPassword(body)
-     expect(result).to.have.an.error;
+     let msg;
+     if(result.error!=  null){
+            msg = 'Error happened in Test#2'
+     }
+     else{
+            msg = 'Done'
+     }
+   
+       expect(msg).to.equal('Error happened in Test#2');
  });
 
   it('validateUserPassword Test#3', function() {
@@ -33,7 +48,15 @@ it('validateUserPassword Test#1', function() {
         confirmedPassword:'kokowawaa' 
     }
     let result = UserController.validateUserPassword(body)
-     expect(result).to.have.an.error;
+    let msg;
+     if(result.error!=  null){
+            msg = 'Error happened in Test#3'
+     }
+     else{
+            msg = 'Done'
+     }
+   
+       expect(msg).to.equal('Error happened in Test#3');
  });
 
   
