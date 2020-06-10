@@ -1,4 +1,4 @@
-var expect  = require('chai').expect;
+/* var expect  = require('chai').expect;
 var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
@@ -37,7 +37,7 @@ it('Get Playlist Test#2', function() {
         expect(reqBody[0].name).to.equal("Happy days");
         }
     });
-});
+});*/
 it('Add Track to playlist', function(done) {
   const options = {
       method:'POST',
@@ -58,3 +58,4 @@ it('Add Track to playlist', function(done) {
   });
 });
 
+ 
