@@ -106,3 +106,42 @@ it('Get an artist about', function(done) {
      
   });
 });
+
+// it('Get an artist album statistics', function(done) {
+//   const options = {
+//       method:'GET',
+//       url:process.env.tempurl+'/artists/7H55rcKCfwqkyDFH9wpKM6/75iQSBSaztFIAun9qLLCnb/statistics'        
+//     };
+
+//   request(options, function(response, body) {
+//      if(body)
+//      {
+//       var reqBody =body.body.toString('utf8');
+//       reqBody = JSON.parse(reqBody);
+
+//       expect(reqBody[0].listenersNo).to.equal(0);
+//       done();
+//   }
+     
+//   });
+// });
+
+// it('Get an artist track statistics', function(done) {
+//   const options = {
+//       method:'GET',
+//       url:process.env.tempurl+'/artists/7H55rcKCfwqkyDFH9wpKM6/0tShdTlRbZas6OFwEkX56U/statistics'        
+//     };
+
+//   request(options, function(response, body) {
+//      if(body)
+//      {
+//       var reqBody =body.body.toString('utf8');
+//       reqBody = JSON.parse(reqBody);
+
+//       console.log(reqBody)
+//       expect(reqBody.likesNo).to.equal(1);
+//       done();
+//   }
+     
+//   });
+// });

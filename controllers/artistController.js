@@ -94,18 +94,20 @@ exports.statistics = async function (req,res) {
                 playedItemT=await Track.findOne({id:playId},{'_id':1,'type':1}); // the playId is either track or album 
                 playedItemA=await Album.findOne({id:playId},{'_id':1,'type':1}); // it cannot be both, the request will accept it
 
-                if(playedItemT.type=='track') {
+                if(playedItemT) {
                 likedTrack=await YourLikedSongs.find({tracks: playedItemT})
                 likeNo=likedTrack.length;
                 playedItem = playedItemT;
                 }
-                else if (playedItemA.type=='album')
+                else if (playedItemA)
                 playedItem=playedItemA;
                 else
                 res.status(404).json({'type':'The type you sent was incorrect'});
                 
                 let listenerNo=await PlayHistory.findOne({History:{$elemMatch:{id:playedItem}}}, {'HistoryLen':1,'_id':0})
-                
+                if (listenerNo == null)
+                listenerNo = 0;
+
                 let statistics;
                 let existingStatistics = await Statistics.findOne({artist: artistId});
                 if (existingStatistics != null) {
