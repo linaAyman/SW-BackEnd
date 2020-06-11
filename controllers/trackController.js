@@ -332,7 +332,7 @@ exports.getlikedSong = async function (req, res) {
 //----------------------Get tracks of the requested genre--------------//////
 exports.showByGenre = async (req, res) => {
   let reqGenre = req.params.genre;
-  let result = await Track.find({ genre: reqGenre })
+  let result = await Track.find({ genre: reqGenre }, {'name':1,'id':1,'_id':0,'url':1,'previewUrl':1,'type':1,'image':1})
   if (result.length == 0)
     res.send({ message: "There's no such tracks for that genre" })
   else
