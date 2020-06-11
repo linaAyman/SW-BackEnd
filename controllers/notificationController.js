@@ -8,6 +8,7 @@ const {Follow} = require('../models/Follow')
 const {Playlist}=require('../models/Playlist')
 const User = require('../models/User') 
 var request = require('request');   
+const OneSignal = require('onesignal-node');    
 const getOID=require('../middleware/getOID');  
 //-------------------------create the Notifications module after user sign up----------------------------------//
 /**
@@ -37,8 +38,8 @@ exports.CreateNewNotification = createNotification
  *
  */
 var sendMessage = function(device, message){
-	var restKey = 'ZGQwNzIwYWEtZDFhNC00Njc0LWJlOGUtZWQ4NDBjNzRlMWFk';
-	var appID = 'e278f5e7-b89d-4b48-b9ee-da134b9f8e9d';
+	var restKey = 'OTY5NWRmMzgtZDBhZi00ZjViLWJlNmYtY2Q0YWU4Mzg0NTM2'
+	var appID = '4da13ef5-63d4-4f4c-b027-f00eccc052b5'
 	request(
 		{
 			method:'POST',
@@ -55,6 +56,7 @@ var sendMessage = function(device, message){
 			}
 		},
 		function(error, response, body) {
+            console.log(body)
 			if(!body.error){
 				console.log(body);
 			}else{
@@ -64,6 +66,7 @@ var sendMessage = function(device, message){
 		}
 	);
 }
+
 //-------------------------Push a Like Playlist Notification to the users database ----------------------------------//
 /**
  * @memberof module:notificationController
@@ -78,7 +81,7 @@ exports.addLikeNotification =async function (PlaylistId,userId){
     let UserName = await User.find({_id:userId},{name:1})
     let notificationStatement = UserName[0].name+" has liked your playlist: "+PID.name
     await Notification.updateOne({user:OwnerID.owner},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
-    sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);
+   // sendMessage('719fa6e0-a37e-4ef8-8717-79d3e2e2420e', notificationStatement);
     
 }
 
@@ -91,14 +94,14 @@ exports.addLikeNotification =async function (PlaylistId,userId){
  * Which means that a user has liked his playlist
  */
 exports.addFollowNotification =async function (followeruserId,followedArtistId){
-    var UserName = await User.find({_id:followeruserId},{name:1})
+  var UserName = await User.find({_id:followeruserId},{name:1})
     var notificationStatement = UserName[0].name+" has followed you ";
     var temp = await Notification.find({user:followedArtistId},{_id:1})
    // console.log("temp"+temp)
    // console.log("artist to follow"+followedArtistId)
     await Notification.updateOne({user:followedArtistId},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
  
-     sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);
+   // sendMessage('719fa6e0-a37e-4ef8-8717-79d3e2e2420e' ,notificationStatement);
     
 }
 //-------------------------Push a Notification That artist uploaded a song ----------------------------------//
@@ -120,7 +123,7 @@ exports.addUploadSongNotification =async function (ArtistId,SongName){
             await Notification.updateOne({user:(array[index])},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
         })
     }
-    sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
+ //   sendMessage('719fa6e0-a37e-4ef8-8717-79d3e2e2420e', notificationStatement);  
     
 }
 //-------------------------Push a Notification That artist uploaded an album ----------------------------------//
@@ -142,7 +145,7 @@ exports.addUploadAlbumNotification =async function (ArtistId,AlbumName){
             await Notification.updateOne({user:(array[index])},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
         })
     }
-   sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
+ //  sendMessage('719fa6e0-a37e-4ef8-8717-79d3e2e2420e', notificationStatement);  
     
 }
 //-------------------------get User's Notification----------------------------------//
