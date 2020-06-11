@@ -56,7 +56,7 @@ exports.validateSong = Validate;
 
 /**here we just upload solo songs an it's image and assume that the artists' names are unique*/
 exports.uploadSong = async (req, res) => {
-  /**check who uploads the song */
+  /**check who uploads the song  check that the type of the user is artist*/
   const decodedID = decode_id(req);
   const UserCheck = await User.findOne({ _id: decodedID });
   if (UserCheck.type == 'artist') {
@@ -80,6 +80,7 @@ exports.uploadSong = async (req, res) => {
     if( musicArray[0].destination !=  "./uploads" ){
       return res.status(400).send({ message: "You should enter correct format in music"});
     }
+    //save the url only in the track object
     const fileURL = musicArray[0].destination + '/' + musicArray[0].filename;
     const imageURL = imageArray[0].destination + '/' + imageArray[0].filename;
     var count = 0;
@@ -141,7 +142,9 @@ exports.uploadSong = async (req, res) => {
 exports.editTrack = async (req, res) => {
   const decodedID = decode_id(req);
   const UserCheck = await User.findOne({ _id: decodedID });
+  /**check that the type of the user is artist*/
   if (UserCheck.type == 'artist') {
+    /**first valdiate data that the artist entered */
     const { error } = Validate({
       genre: req.body.genre,
       name: req.body.name,
@@ -160,13 +163,14 @@ exports.editTrack = async (req, res) => {
       var ids = new Array();
       var count = 0;
       while (count < req.body.artist.length) {
+        //check again if he/she add new artist that do the song with
         const ourArtist = await Artist.findOne({ name: req.body.artist[count] });
         if (ourArtist) {
           ids[count] = ourArtist._id;
         }
         count++;
       }
-  
+     //update the track with new data
       let updatedTrack = await Track.updateOne( { _id: req.params.trackId }, 
         { 
           name: req.body.name,
@@ -221,6 +225,7 @@ exports.getTrack = async (req, res) => {
   try {
     let ourTrack = await Track.findOne({ _id: req.params.trackId });
     if (ourTrack) {
+      //use libraray meta data to get our data of the track by entering its url
       mm.parseFile(ourTrack.url)
         .then(metadata => {
          return res.status(200).json({ data: metadata });

@@ -55,6 +55,7 @@ exports.validateAlbum = validateAlbum;
 exports.addAlbum = async (req, res) => {
   const decodedID = decode_id(req);
   const UserCheck = await User.findOne({ _id: decodedID });
+  //check that the user is artist 
   if (UserCheck.type == 'artist') {
     //First valdiate the coming data
     const { error } = validateAlbum({
@@ -108,6 +109,7 @@ exports.addAlbum = async (req, res) => {
         var count = 0;
 
         try {
+          //check that there is not duplicaent tracks in my database
           let ourTrack = await Track.find({ url: fileURL });
           if (ourTrack.length >= 1) {
             return res.status(404).json({ message: "The song exists before" });
@@ -122,6 +124,7 @@ exports.addAlbum = async (req, res) => {
             }
 
             try {
+              //save each track in database
               const track = new Track({
                 id: randomHash.generate(30),
                 name: musicArray[i].filename,
@@ -185,7 +188,6 @@ exports.editAlbum = async (req, res) => {
   const decodedID = decode_id(req);
   const UserCheck = await User.findOne({ _id: decodedID });
   if (UserCheck.type == 'artist') {
-
     //First valdiate the coming data
     const { error } = validateAlbum({
       genre: req.body.genre,
@@ -219,6 +221,7 @@ exports.editAlbum = async (req, res) => {
         i++;
       };
       i = 0;
+      //wee loop to edit each track info
       while (i < numTracks) {
         if (musicArray[0].destination != "./uploads") {
           return res.status(400).send({ message: "You should enter correct format in music" });
@@ -246,7 +249,7 @@ exports.editAlbum = async (req, res) => {
             }
             count++;
           }
-          try {
+          try {//update each track
             let updatedTrack = await Track.updateOne({ url: fileURL },
               {
                 artists: ids,
@@ -293,6 +296,7 @@ exports.deleteAlbum = async (req, res) => {
   const UserCheck = await User.findOne({ _id: decodedID });
   if (UserCheck.type == 'artist') {
     try {
+      //check that the id is exist 
       const ourAlbum = await Album.findOne({ id: req.params.albumId });
       if (ourAlbum) {
         var i = 0;
@@ -336,6 +340,7 @@ exports.removeTrack = async (req, res) => {
     try {
       const ourAlbum = await Album.findOne({ _id: req.params.albumId });
       if (ourAlbum) {
+        //remove the trackid from the album 
         const ourTracks = ourAlbum.tracks;
         const index = ourTracks.indexOf(req.params.trackId);
         if (index > -1) {
@@ -348,6 +353,7 @@ exports.removeTrack = async (req, res) => {
           return res.status(404).json({ error: err });
         }
         try {
+          //then update the album with new array of track without that song
           let updatedAlbum = await Album.updateOne({ _id: req.params.albumId },
             {
               tracks: ourTracks,
@@ -444,6 +450,7 @@ exports.addTrack = async (req, res) => {
              return res.status(404).json({ error: err });
           }
           try {
+            //update the array conatins the tracks ids with this new track
             let updatedAlbum = await Album.updateOne({ _id: req.params.albumId },
               {
                 tracks: ourTracks,
