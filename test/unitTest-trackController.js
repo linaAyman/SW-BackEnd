@@ -1,11 +1,11 @@
-var expect = require('chai').expect;
-var request = require('request');
-const dotenv = require('dotenv');
-const config = require('config');
-const chai=require('chai')
-dotenv.config();
-const trackController = require("../controllers/trackController");
-chai.should();
+// var expect = require('chai').expect;
+// var request = require('request');
+// const dotenv = require('dotenv');
+// const config = require('config');
+// const chai=require('chai')
+// dotenv.config();
+// const trackController = require("../controllers/trackController");
+// chai.should();
 
 // describe("validate TrackSchema ", function () {
 //   it('valid TrackSchema Test#1', function () {
