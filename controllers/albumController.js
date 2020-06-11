@@ -166,7 +166,7 @@ exports.addAlbum = async (req, res) => {
       let newAlbum = await album.save();
       // Making Notification to followers that artist uploaded album
       notificationController.addUploadAlbumNotification(UserCheck,req.body.name);
-     return  res.status(200).json({data: newAlbum });
+     return  res.status(200).json({ message: "Done" });
     } catch (err) {
       return res.status(500).json({ error: err });
     }
@@ -275,7 +275,7 @@ exports.editAlbum = async (req, res) => {
           total_tracks: numTracks,
           albumType: req.body.type
         });
-      return  res.status(200).json(updatedAlbum);
+      return  res.status(200).json({message: "Done" });
     } catch (err) {
       return res.status(500).json({ error: err });
     }
