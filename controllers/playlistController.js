@@ -36,7 +36,6 @@ function validate(req) {
  */
 
 exports.getPlaylist = async (req, res)=> {
-    console.log(req.params.id)
     let playlist = await Playlist.find({id: req.params.id})
      res.send(playlist)
   
@@ -67,17 +66,7 @@ exports.getAllTracks=async(req,res)=>{
 exports.addTrack= async function(req,res){
 
   const userOID=getOID(req);
-  /*const token1 = jwt.sign(
-      { _id:  "5e848bf8da28c351f47c1ec8" ,
-        name: "Ayleeeeeeen 21 ", 
-      },
-      process.env.JWTSECRET,
-      {
-        expiresIn: '7d'
-      }
-    );
-    res.send(token1)
-   // console.log(token1)*/
+
     
   try
   {
@@ -126,7 +115,6 @@ exports.createPlaylist=async function(req,res){
   
   const userOID=getOID(req);
   //if user object ID is 555555555555555555555555 then Spotify is the owner of playlist
-  console.log(userOID);
   let playlistId=mongoose.Types.ObjectId();// generate ID for the playlist
   //upload a default image for any created playlist
   const { error } = validate({
@@ -142,7 +130,6 @@ exports.createPlaylist=async function(req,res){
     }
 
   const imageURL_0 = imageArray[0].destination + '/' + imageArray[0].filename;
-  console.log(imageURL_0);
   const playlist=new Playlist({
     name:req.query.name,
     id: playlistId,

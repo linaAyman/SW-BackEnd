@@ -2,19 +2,11 @@ const mongoose = require('mongoose')
 const Joi = require('joi')
 
 const searchSchema = new mongoose.Schema({
-  created_at: {
-    type: Date,
-    default: Date.now
-  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref:'User'
   },
-  // type: {
-  //   type: String,
-  //   required: true
-  // },
   searchedItems:[{
     id:{
     type: mongoose.Schema.Types.ObjectId,

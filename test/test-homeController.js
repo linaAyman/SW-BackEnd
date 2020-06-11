@@ -22,15 +22,11 @@ it('Home Request #4', function() {
        {
         var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        console.log("HOMEEEEEEEEEEEEEEEEEEE\n")
-        console.log(reqBody.Home)
-       reqBody.should.have.property('Home').with.lengthOf(5);
       
        should.exist(reqBody.Home[0].playlists);
        should.exist(reqBody.Home[1].playlists);
        should.exist(reqBody.Home[2].playlists);
        should.exist(reqBody.Home[3].playlists);
-       should.exist(reqBody.Home[4].albums);
   
         }
     });
@@ -112,22 +108,4 @@ it('See All Home Request Popular Playlists#4', function() {
         }
     });
 });
-it('See All Home Request New Albums#4', function() {
-    const options = {
-        method:'GET',
-        url: process.env.tempurl+'/home/Released%20Albums',
-      };
-    request(options, function(error, response, body) {
-       if(body)
-       {
-        var reqBody =body.toString('utf8');
-        reqBody = JSON.parse(reqBody);
-        reqBody.should.have.property('albums').with.lengthOf(2);
-        expect(reqBody.albums[0].name).to.equal("songs for carmella: lullabies & sing-a-longs");
-        expect(reqBody.albums[1].name).to.equal("Girls Like You (feat. Cardi B)");
-
-        }
-    });
-});
- 
 

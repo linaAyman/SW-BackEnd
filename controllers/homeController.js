@@ -68,7 +68,6 @@ exports.getPlayHistory=async function(req,res){
             recentlyPlayed.push(album);
         }
     }
-    console.log(recentlyPlayed);
     return res.status(200).json(recentlyPlayed);
 }
 /**
@@ -127,7 +126,6 @@ async function getNewReleases (){
         description:"Newest Albums Released with your artits",
         name:"Released Albums"
     };
-    console.log(releases)
     return releases
 }
 /**
@@ -161,7 +159,6 @@ async function getCategories(offset,limit,name){
 */
 
 exports.seeMoreCategories=async function(req,res){
-    console.log("Ruted Correctly\n");
     let offset=parseInt(req.query.offset);
     let limit=parseInt(req.query.limit);
     let name =req.params.name;
