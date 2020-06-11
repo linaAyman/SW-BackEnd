@@ -1,4 +1,4 @@
-/* var expect  = require('chai').expect;
+var expect  = require('chai').expect;
 var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
@@ -198,4 +198,3 @@ it('Delete all search history for user#10', function(done) {
 
 
 
- */
