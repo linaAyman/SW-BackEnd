@@ -187,18 +187,36 @@ exports.getHome=async function(req,res){
     return res.status(200).json({Home})
 }
 
-
+//===============================Get Released Albums========================//
+/**
+ * homeController getCurrentUserPlaylists
+ * @memberof module:homeController
+ * @function {getReleasedAlbums} returns all playlists in the User library 
+ * @returns {array} albums array of the most recent uploaded albums
+ */
 exports.getReleasedAlbums = async function(req,res){
-  //  let temp1 = Date.now
-    console.log("hellooooooooooooooooooooo")
-     // await Album.find({release_date:})
     var today = new Date().toISOString();
     var PreviousMonth = new Date();
     var targetMonth = PreviousMonth.getMonth() - 1;
     PreviousMonth.setMonth(targetMonth);
-    console.log(today)
-    console.log(PreviousMonth);
     let album = await Album.find({release_date:{ $lte:today,$gte:PreviousMonth}})
     res.send(album)
    }
 
+//===============================Loading the user's own playlists========================//
+/**
+ * homeController getCurrentUserPlaylists
+ * @memberof module:homeController
+ * @function {getCurrentUserPlaylists} returns all playlists in the User library 
+ * @returns {array} playlists array of the user
+ */
+exports.getCurrentUserPlaylists = async (req, res)=> {
+
+    const token = req.headers.authorization.split(" ")[1]
+    const decoded = jwt.decode(token)
+    console.log(decoded)
+    let uId = decoded._id
+
+    let userPlaylists = await Playlist.find({owner: uId})
+    res.send(userPlaylists)
+};

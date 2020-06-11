@@ -30,12 +30,14 @@
 *@module playerController
 */
 
-var { PlayHistory,validateContext,validateParameters }=require('../models/PlayHistory')
+var { PlayHistory}=require('../models/PlayHistory')
 var mongoose=require('mongoose')
 var { Track }=require('../models/Track')
 var { Playlist }=require('../models/Playlist')
+var {Artist}=require ('../models/Artist')
 var jwt = require('jsonwebtoken')
 var ObjectId=mongoose.Types.ObjectId;
+const getOID=require('../middleware/getOID');
 
 
 /**
@@ -48,44 +50,65 @@ var ObjectId=mongoose.Types.ObjectId;
  */
 exports.saveTrack=async function (req,res){
 
-
-  
-       /// trackObjectId=await Track.find({id:trackId},{'_id':1})
-                            
-
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.decode(token)
-        let userId=decoded._id
+        let userId=getOID(req);
         let playId=req.params.id
-        let type="playlist"
+        let type=req.query.type; //the context that track was played from (Playlist,Album,Artist,LikedSongs playlist or track)
         
-        let isExistPlayHistory=await PlayHistory.find({userId:userId})
+        //get object id of played item
+        let playedItemOID;
+        if(type=="Playlist")
+            playedItemOID=await Playlist.findOne({id:playId},{'_id':1});
+        else if(type=="Track")
+            playedItemOID=await Track.findOne({id:playId},{'_id':1});
+        else if(type=="Album")
+            playedItemOID=await Album.findOne({id:playId},{'_id':1});
+        else if(type=="LikedSongs")
+            playedItemOID=playId
+        else if(type=="Artist")
+            playedItemOID=await Artist.findOne({id:playId},{_id:1})
+        else
+            res.status(404).json({'type':'The type you sent was incorrect'});
+
+
+        let isExistPlayHistory=await PlayHistory.findOne({userId:userId})
         let contextObject={
             type:type,
-            id:playId//,
-            ///index:isExistPlayHistory.context.index+1
+            id:playedItemOID
         }
                                
+        //check if this user has a play history object if he doesn't have a one then create it and add to it 
+        // the played item , if he has a one then push the played item in the existing object
 
-        if(isExistPlayHistory.length===0){
-            
+        if(!isExistPlayHistory){
+            let playedItems=[];
+            playedItems.push(contextObject)    
             let playHistory= new PlayHistory({
-                History:{
-                    context:contextObject,
-                   // itemPlaying:trackObjectId[0]._id
-                },
+                History:playedItems,
                 userId:userId
             })
+
             await playHistory.save()
+
                         
         }
         else{
-         
-            await PlayHistory
-                        .updateOne({userId:userId},{$push:{History:{
-                        context:contextObject}}})//,
-                       /// itemPlaying:trackObjectId[0]._id}}
-        }   
+            //first check if this item was played before if yes remove it from it's position to add it in the most recent position 
+
+             let playeditems=await PlayHistory.findOne({userId:userId,History:{$elemMatch:{id:playedItemOID}}})
+
+
+             if(playeditems){
+                await PlayHistory.findOneAndUpdate({userId:userId},{"$pull":{"History":{id:playedItemOID}}})
+             }
+             else{
+                 //increment the count of played items by 1
+                await PlayHistory.updateOne({userId:userId},{$inc:{HistoryLen:1}})
+             }
+             await PlayHistory.findOneAndUpdate({userId:userId},{$push:{History:{$each:[contextObject],$position:0}}})
+                            
+        }  
+      
+        return res.status(200).json({message:'OK'});
        
 };
 //========================================For playing a playlist=============================//
@@ -108,7 +131,7 @@ exports.playFirstTrack=async function(req,res){
         let track;
         
 
-        console.log(parseInt(index));
+    
         if(type=="playlist"){
             let playName=await Playlist.findOne({id:playId},{'name':1,'_id':0});
             if(!playName) 
@@ -119,15 +142,15 @@ exports.playFirstTrack=async function(req,res){
 
                                                   
 
-            console.log(trackObjectId[0].track)
+
             track=await Track.findOne({_id:trackObjectId[0].track},
                                           {'name':1,'_id':0,'type':1,'id':1,'image':1,'url':1,'artists':1})
                                          .populate('artists','name genres id type -_id');
-            console.log(track);
+
             saveTrack(playId,track.id,decoded._id,"playlist");
         }
         else if(type=="track"){
-            console.log(playId);
+
             track=await Track.findOne({id:playId},
                                           {'name':1,'_id':0,'type':1,'id':1,'image':1,'url':1,'artists':1})
                                          .populate('artists','name genres id type -_id');
@@ -154,13 +177,13 @@ exports.playFirstTrack=async function(req,res){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-controllers_userFB.html">controllers/userFB</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Apr 11 2020 21:56:24 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 11 2020 18:35:14 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

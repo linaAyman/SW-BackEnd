@@ -36,7 +36,8 @@
  * @model artist
  */
 
-const { Artist}=require('../models/Artist')
+const  {Artist} =require('../models/Artist')
+const  {Track} =require('../models/Track')
 /**
  * @async 
  * @function
@@ -46,25 +47,93 @@ const { Artist}=require('../models/Artist')
  * @returns {jsonObject} - Object of type artist
  */
 exports.getArtist = async function (req,res){
-       /**
-         * parsing the request to get artist id from it 
-         * @member query
-         * @member temp
-         */
+       
         let temp = req.params.id;
-          /**
-         * awaits finded data by request from database
-         * @member {artist}
-         * @type {Artist}
-         */
         let artist = await Artist.find({id: temp},{'id':1,'name':1,'image':1});
-        /**
-         * if the artist exists in database, return it
-         */
         if (artist){
         return res.send(artist);
         } 
    
+}
+
+/**
+ * @async 
+ * @function
+ * Get the artist's most popular tracks
+ * @param {URL} req -send artist Id
+ * @param {object} res -the response on the given request
+ * @returns {jsonObject} - Object of type tracks else a message if tracks has not been found for the artist
+ */
+exports.artistTopTracks = async function (req,res) {
+        let artist = req.params.artistId
+        let artistId = await Artist.findOne({id: artist}, {'_id':1})
+
+        let  artistTracks = await Track.find({artists: artistId}, {'name':1,'popularity':1})
+                                       .sort({popularity:-1});
+                                       console.log(artistTracks)
+
+        if (artistTracks.length == 0)
+        return res.status(404).send({ message: "No tracks for such artist" });
+
+        return res.status(200).send(artistTracks);
+}
+
+/**
+ * @async 
+ * @function
+ * Get the description of the artist
+ * @param {URL} req -send artist Id
+ * @param {object} res -the response on the given request
+ * @returns {jsonObject} - Object of type artist else a message if the artist Id has not been found
+ */
+exports.artistAbout = async function (req,res){
+       
+        let temp = req.params.id;
+        if (!temp) return res.status(404).send({ message: "artistId haven't been sent in the request" });
+
+        let artist = await Artist.find({id: temp},{'id':1,'name':1,'image':1, 'about':1});
+        if (artist){
+        return res.send(artist);
+        }
+}
+
+/**
+ * @async 
+ * @function
+ * Get the artists that have same genre as requested artist
+ * @param {URL} req -send artist Id
+ * @param {object} res -the response on the given request
+ * @returns {jsonObject} - Object of type artist else a message if the artist Id has not been found
+ */
+exports.getrelatedArtist = async function (req,res){
+       
+        let artistId = req.params.id;
+        if (!artistId) return res.status(404).send({ message: "artistId haven't been sent in the request" });
+
+        let artistGenres = await Artist.find({id: artistId},{'_id':0,'genres':1});
+        if (artistGenres){
+                let Genres = artistGenres[0].genres
+                let RelatedArtists = []
+                let i;
+                for (i = 0; i &lt; Genres.length; i++) {
+                        // getting the artists for each genre in the required artist array
+                       let temp1  = await Artist.find({genres:Genres[i]})
+                       temp1.forEach(async function (value,index){
+                        let tempArtist = value;
+                        // checking that the requested artist not added in result
+                        if(tempArtist.id != artistId){ 
+                        //Checking no duplicates occur
+                        if(i!=0){
+                                RelatedArtists = RelatedArtists.filter(function( obj ) {
+                                        return obj.id !== tempArtist.id;
+                                });
+                                }
+                        RelatedArtists.push(tempArtist)
+                        }
+                        });
+                }
+               res.send(RelatedArtists)
+        }
 }</code></pre>
         </article>
     </section>
@@ -75,13 +144,13 @@ exports.getArtist = async function (req,res){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-controllers_userFB.html">controllers/userFB</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Apr 11 2020 21:56:24 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 11 2020 18:35:14 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

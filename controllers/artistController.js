@@ -9,6 +9,7 @@
  */
 
 const  {Artist} =require('../models/Artist')
+const  {Track} =require('../models/Track')
 /**
  * @async 
  * @function
@@ -25,6 +26,28 @@ exports.getArtist = async function (req,res){
         return res.send(artist);
         } 
    
+}
+
+/**
+ * @async 
+ * @function
+ * Get the artist's most popular tracks
+ * @param {URL} req -send artist Id
+ * @param {object} res -the response on the given request
+ * @returns {jsonObject} - Object of type tracks else a message if tracks has not been found for the artist
+ */
+exports.artistTopTracks = async function (req,res) {
+        let artist = req.params.artistId
+        let artistId = await Artist.findOne({id: artist}, {'_id':1})
+
+        let  artistTracks = await Track.find({artists: artistId}, {'name':1,'popularity':1})
+                                       .sort({popularity:-1});
+                                       console.log(artistTracks)
+
+        if (artistTracks.length == 0)
+        return res.status(404).send({ message: "No tracks for such artist" });
+
+        return res.status(200).send(artistTracks);
 }
 
 /**
@@ -84,15 +107,3 @@ exports.getrelatedArtist = async function (req,res){
                res.send(RelatedArtists)
         }
 }
-   
-
-// exports.artistTopTracks = async function (req,res){
-       
-//         let temp = req.params.id;
-//         if (!temp) return res.status(404).send({ message: "artistId haven't been sent in the request" });
-
-//         let artist = await Artist.find({id: temp},{'id':1,'name':1,'image':1, 'about':1});
-//         if (artist){
-//         return res.send(artist);
-//         }
-// }
