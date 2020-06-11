@@ -103,7 +103,7 @@ exports.playFirstTrack=async function(req,res){
         let track;
         
 
-        console.log(parseInt(index));
+    
         if(type=="playlist"){
             let playName=await Playlist.findOne({id:playId},{'name':1,'_id':0});
             if(!playName) 
@@ -114,15 +114,15 @@ exports.playFirstTrack=async function(req,res){
 
                                                   
 
-            console.log(trackObjectId[0].track)
+
             track=await Track.findOne({_id:trackObjectId[0].track},
                                           {'name':1,'_id':0,'type':1,'id':1,'image':1,'url':1,'artists':1})
                                          .populate('artists','name genres id type -_id');
-            console.log(track);
+
             saveTrack(playId,track.id,decoded._id,"playlist");
         }
         else if(type=="track"){
-            console.log(playId);
+
             track=await Track.findOne({id:playId},
                                           {'name':1,'_id':0,'type':1,'id':1,'image':1,'url':1,'artists':1})
                                          .populate('artists','name genres id type -_id');

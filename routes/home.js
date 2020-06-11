@@ -11,6 +11,7 @@ router.get('/Most%20Popular%20Playlists',homeController.seeMoreMostPopular);
 router.get('/Released%20Albums',homeController.getReleasedAlbums)
 router.get('/recently-played',checkAuth,homeController.getPlayHistory);
 router.get('/:name',homeController.seeMoreCategories);
+router.get('/all-playlists',homeController.getCurrentUserPlaylists);
 
 
 module.exports = router;

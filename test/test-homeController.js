@@ -1,4 +1,4 @@
-var expect  = require('chai').expect;
+ var expect  = require('chai').expect;
 var should = require('chai').should();
 var assert=require('chai').assert;
 var request = require('request');
@@ -22,15 +22,11 @@ it('Home Request #4', function() {
        {
         var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        console.log("HOMEEEEEEEEEEEEEEEEEEE\n")
-        console.log(reqBody.Home)
-       reqBody.should.have.property('Home').with.lengthOf(5);
       
        should.exist(reqBody.Home[0].playlists);
        should.exist(reqBody.Home[1].playlists);
        should.exist(reqBody.Home[2].playlists);
        should.exist(reqBody.Home[3].playlists);
-       should.exist(reqBody.Home[4].albums);
   
         }
     });

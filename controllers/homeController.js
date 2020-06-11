@@ -68,7 +68,6 @@ exports.getPlayHistory=async function(req,res){
             recentlyPlayed.push(album);
         }
     }
-    console.log(recentlyPlayed);
     return res.status(200).json(recentlyPlayed);
 }
 /**
@@ -127,7 +126,6 @@ async function getNewReleases (){
         description:"Newest Albums Released with your artits",
         name:"Released Albums"
     };
-    console.log(releases)
     return releases
 }
 /**
@@ -161,7 +159,6 @@ async function getCategories(offset,limit,name){
 */
 
 exports.seeMoreCategories=async function(req,res){
-    console.log("Ruted Correctly\n");
     let offset=parseInt(req.query.offset);
     let limit=parseInt(req.query.limit);
     let name =req.params.name;
@@ -200,3 +197,20 @@ exports.getReleasedAlbums = async function(req,res){
     res.send(album)
    }
 
+//===============================Loading the user's own playlists========================//
+/**
+ * homeController getCurrentUserPlaylists
+ * @memberof module:homeController
+ * @function {getCurrentUserPlaylists} returns all playlists in the User library 
+ * @returns {array} playlists array of the user
+ */
+exports.getCurrentUserPlaylists = async (req, res)=> {
+
+    const token = req.headers.authorization.split(" ")[1]
+    const decoded = jwt.decode(token)
+    console.log(decoded)
+    let uId = decoded._id
+
+    let userPlaylists = await Playlist.find({owner: uId})
+    res.send(userPlaylists)
+};

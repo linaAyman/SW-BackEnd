@@ -126,12 +126,14 @@ exports.search=async function search(req,res){
                 let tracksArtist=await Track
                                         .find({artists:tempArtists},{'name':1,'id':1,'type':1,'image' :1,'_id':0})
                                         .limit(3)
-                                        .sort({popularity:1})
+                                        .sort({popularity:-1})
 
                 trackResult=trackResult.concat(tracksArtist)
 
                 let albumArtist=await Album
                                         .find({artists:tempArtists},{'name':1,'id':1,'type':1,'image' :1,'_id':0})
+                                        .limit(3)
+                                        .sort({popularity:-1})
 
                 albumResult=albumResult.concat(albumArtist)
 
@@ -260,7 +262,7 @@ exports.getRecentSearch=async function(req,res){
                 }
                 else if(recentSearch[i].type=="Playlist"){
                     recentSearchResult.push(await Playlist
-                                        .findOne({_id:recentSearch[i].id},{'name':1,'id':1,'description':1,'owner':1,'type':1,'image':1,'artists':1,'_id':0})
+                                        .findOne({_id:recentSearch[i].id},{'name':1,'id':1,'description':1,'owner':1,'type':1,'image':1,'_id':0})
                                         .populate('owner','name -_id'))
 
                 }
