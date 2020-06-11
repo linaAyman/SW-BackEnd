@@ -40,6 +40,7 @@ function convertDate(date) {
 module.exports = function () {
 
   passport.use('facebookToken', new FacebookTokenStrategy({
+    //we put the configration of our app we made in facebook developers
     clientID: config.facebook.clientID,
     clientSecret: config.facebook.clientSecret,
     callbackURL: config.facebook.callbackURL,
@@ -47,6 +48,7 @@ module.exports = function () {
   }, function (accessToken, refreshToken, profile, done) {
     var date = convertDate(profile._json.birthday);
     var userGender = convertType(profile.gender);
+    //we create user as sign up if the user doesnot exist before
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
       name: profile.displayName,
@@ -62,7 +64,7 @@ module.exports = function () {
     user.href = 'https://api.Maestro.com/v1/users/' + user._id.toString();
     user.externalUrls.value = 'https://open.Maestro.com/users/' + user._id.toString();
     user.maestroId = random.generate(30);
-    /* save if new */
+    /* save if new  otherwise just make him/her log in  */
     User.findOne({ email: user.email }, function (err, result) {
       if (!result) {
 

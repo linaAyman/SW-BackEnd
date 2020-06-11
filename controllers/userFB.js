@@ -12,7 +12,7 @@ const env = require('dotenv').config();
 */
 module.exports = {
     facebookOAuth: async (req, res, next) => {
-
+      // after check auth of facebook token return the our app token 
         if(!req.user) {
             return res.send(401, 'User not authenticated');
         }
@@ -26,6 +26,7 @@ module.exports = {
               expiresIn: '7d'
             }
           );
+          //we save the our tokrn in the user schema
           User.updateOne({_id: req.user._id},{token: token})
           .exec()
           .then(result =>{

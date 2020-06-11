@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id=".getCategories"><span class="type-signature">(static) </span>getCategories<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id=".exports.seeMoreCategories"><span class="type-signature">(static) </span>exports.seeMoreCategories<span class="signature">(number, name)</span><span class="type-signature"> &rarr; {category}</span></h4>
     
 
     
@@ -72,7 +72,7 @@
 
 
 <div class="description">
-    <p>homeController getCategories</p>
+    <p>homeController seeMoreCategories</p>
 </div>
 
 
@@ -81,6 +81,78 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">limit</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of playlists to return</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">name</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of category</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -116,7 +188,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line50">line 50</a>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -145,7 +217,7 @@
 
         
 <div class="param-desc">
-    <p>Home the three categories in database (Chill/WorkOut/Happy)</p>
+    <p>array of playlists for certain category</p>
 </div>
 
 
@@ -156,7 +228,7 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">category</span>
 
 
     </dd>
@@ -174,7 +246,7 @@
     
 
     
-    <h4 class="name" id=".getPlayHistory"><span class="type-signature">(static) </span>getPlayHistory<span class="signature">(token, userId)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id=".getPlayHistory"><span class="type-signature">(static) </span>getPlayHistory<span class="signature">(token, userId, number, number)</span><span class="type-signature"> &rarr; {recentlyPlayed}</span></h4>
     
 
     
@@ -182,7 +254,7 @@
 
 
 <div class="description">
-    <p>homeController getPlayHistory</p>
+    <p>homeController get recently played items for current logged in user</p>
 </div>
 
 
@@ -247,7 +319,7 @@
             <td class="type">
             
                 
-<span class="param-type">objectId</span>
+<span class="param-type">userId</span>
 
 
             
@@ -258,6 +330,52 @@
             
 
             <td class="description last"><p>of user to get his recently played playlists and tracks</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">offset</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of elements to skip</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">limit</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of elements to return</p></td>
         </tr>
 
     
@@ -298,7 +416,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line16">line 16</a>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -338,7 +456,7 @@
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">recentlyPlayed</span>
 
 
     </dd>
@@ -356,7 +474,91 @@
     
 
     
-    <h4 class="name" id=".%7BgetMostPopular%7Dreturnsthemostpopularplaylistsspecifiedbygivennumber"><span class="type-signature">(static) </span>{getMostPopular} returns the most popular playlists specified by given number<span class="signature">(number)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id=".seeMoreMostPopular"><span class="type-signature">(static) </span>seeMoreMostPopular<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line101">line 101</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".%7BgetCategories%7Dgivenameofcategoryviewallit'splaylists"><span class="type-signature">(static) </span>{getCategories} give name of category view all it's playlists<span class="signature">(number, number)</span><span class="type-signature"> &rarr; {code|array}</span></h4>
     
 
     
@@ -364,7 +566,7 @@
 
 
 <div class="description">
-    <p>homeController getMostPopular</p>
+    <p>homeController get playlists in categories for home page and see more</p>
 </div>
 
 
@@ -400,13 +602,13 @@
 
         <tr>
             
-                <td class="name"><code>number</code></td>
+                <td class="name"><code>req.params.name,</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">name</span>
 
 
             
@@ -416,7 +618,53 @@
 
             
 
-            <td class="description last"><p>of popular playlists to be returned</p></td>
+            <td class="description last"><p>name of category to see all it's playlists</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">limit</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of playlists to be returned from category</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">offset</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of array elements to skip</p></td>
         </tr>
 
     
@@ -457,7 +705,319 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line68">line 68</a>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+<ul>
+        <li>
+<div class="param-desc">
+    <p>status, 200 on success ,404 for invalid category name</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">code</span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    <p>category, if name is Chill/WorkOut/Happy</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".%7BgetCurrentUserPlaylists%7DreturnsallplaylistsintheUserlibrary"><span class="type-signature">(static) </span>{getCurrentUserPlaylists} returns all playlists in the User library<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>homeController getCurrentUserPlaylists</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line207">line 207</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>playlists array of the user</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".%7BgetMostPopular%7Dreturnsthemostpopularplaylistsspecifiedbygivennumber"><span class="type-signature">(static) </span>{getMostPopular} returns the most popular playlists specified by given number<span class="signature">(index, number)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>homeController getMostPopular given offset and limit to be used in popular playlists which is in home page and see more</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">offset</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of first playlist to be retrieved</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">limit</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>of playlists to be retrieved</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -567,7 +1127,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line89">line 89</a>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line112">line 112</a>
     </li></ul></dd>
     
 
@@ -625,7 +1185,7 @@
     
 
     
-    <h4 class="name" id=".%7BseeAll%7Dgivenameofcategoryviewallit'splaylists"><span class="type-signature">(static) </span>{seeAll} give name of category view all it's playlists<span class="signature">()</span><span class="type-signature"> &rarr; {code|array|array|array}</span></h4>
+    <h4 class="name" id=".%7BgetReleasedAlbums%7DreturnsallplaylistsintheUserlibrary"><span class="type-signature">(static) </span>{getReleasedAlbums} returns all playlists in the User library<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
     
 
     
@@ -633,7 +1193,7 @@
 
 
 <div class="description">
-    <p>homeController seeAll</p>
+    <p>homeController getCurrentUserPlaylists</p>
 </div>
 
 
@@ -642,55 +1202,6 @@
 
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req.params.name,</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">name</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>name of category to see all it's playlists</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -726,7 +1237,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line113">line 113</a>
+        <a href="homeController.js.html">homeController.js</a>, <a href="homeController.js.html#line191">line 191</a>
     </li></ul></dd>
     
 
@@ -752,30 +1263,10 @@
 
 
 <h5>Returns:</h5>
-<ul>
-        <li>
-<div class="param-desc">
-    <p>status, 200 on success ,404 for invalid category name</p>
-</div>
 
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
         
-<span class="param-type">code</span>
-
-
-    </dd>
-</dl>
-</li>
-    
-        <li>
 <div class="param-desc">
-    <p>category, if name is Chill/WorkOut/Happy</p>
+    <p>albums array of the most recent uploaded albums</p>
 </div>
 
 
@@ -791,48 +1282,8 @@
 
     </dd>
 </dl>
-</li>
+
     
-        <li>
-<div class="param-desc">
-    <p>playlists, if name is most popular playlists</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-</li>
-    
-        <li>
-<div class="param-desc">
-    <p>albums, if name is released albums</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-</li>
-    </ul>
 
 
 
@@ -854,13 +1305,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-controllers_userFB.html">controllers/userFB</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Apr 11 2020 21:56:24 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 11 2020 18:35:14 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -81,11 +81,12 @@ exports.search=async function search(req,res){
 
                 userResult=await User.find({name:query},{'name':1,'_id':1,'type':1,'image':1})
               
-
+                // get element that has highest score among playlistResult,albumResult and trackResult
                 if(topResults.length>0){
                     TopResult = topResults.reduce((prev, current) => (+prev.id > +current.id) ? prev : current)
                   
                 }
+                // if there is no results in playlistResult,albumResult or trackResult
                 else if (artistResult.length>0) {
                     TopResult=artistResult[0];
                     

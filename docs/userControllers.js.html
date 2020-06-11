@@ -33,6 +33,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');//this used for hashing the passwords to provide more secuirty
 const trackController=require('../controllers/trackController')
+const notificationController=require('../controllers/notificationController')
+const libraryController=require('../controllers/libraryController')
+const followController = require('../controllers/followController')
 const jwt = require('jsonwebtoken');
 const Joi = require('joi')
 const User = require('../models/User')
@@ -43,6 +46,7 @@ const imgPath = './public/profileImage/default.jpg';
 const nodemailer = require("nodemailer");
 const RandHash =require('../models/RandHash');// put randam hash in url in verify mail
 var randomHash = require('random-key');
+
 var mailOptions;
 const rand =new RandHash;
 
@@ -58,11 +62,8 @@ const rand =new RandHash;
 *@param {boolean}  req.body.gender    you enter user gender true for female and false for male 
 */
 
-
  function joiValidate (req) {
-
-
-	const schema = {
+const schema = {
     email: 
     Joi.string().email().lowercase().required(),
     password: 
@@ -72,8 +73,10 @@ const rand =new RandHash;
     birthDate:
     Joi.date().required().min('1-1-1900').iso(),
     gender:
-    Joi.boolean().required()
-	}
+    Joi.boolean().required(),
+    type:
+    Joi.string().required()
+}
 	return Joi.validate(req, schema);
 };
 exports.validateSignUp = joiValidate;
@@ -181,7 +184,7 @@ exports.userSignup =   (req, res, next) => {
                    html : "Hello,&lt;br> Please Click on the link to verify your email.&lt;br>&lt;a href="+link+">Click here to verify&lt;/a>"
                }
               console.log(mailOptions);
-              smtpTransport.sendMail(mailOptions, function(error, response){
+              smtpTransport.sendMail(mailOptions,async function(error, response){
               if(error){
                  console.log(error);
                  return res.status(500).send({ msg: 'Unable to send email' });     
@@ -194,24 +197,22 @@ exports.userSignup =   (req, res, next) => {
                        email: req.body.email,
                        password: hash,
                        birthDate:req.body.birthDate,
-                       gender:req.body.gender
+                       gender:req.body.gender,
+		                   type:req.body.type
                      });
                      rand.userId=user._id;//to use it back in verify mail
                      rand.save().then().catch();
                      user.uri= 'Maestro:User:'+ user._id.toString();
                      user.href = 'https://api.Maestro.com/v1/users/'+ user._id.toString();
                      user.externalUrls.value = 'https://open.Maestro.com/users/'+ user._id.toString();
-                     user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
-                     user.image.contentType = 'jpg';
+                    //  user.image.data = fs.readFileSync(imgPath);//just set the default image as its first sigup for the user
+                    //  user.image.contentType = 'jpg';
                      user.maestroId = randomHash.generate(30);
                      const token = jwt.sign(
                        { _id: user._id,
                          name: user.name, 
                        },
-                       process.env.JWTSECRET, 
-                       {
-                         expiresIn: '7d'
-                       }
+                       process.env.JWTSECRET
                      );
                      user.token = token ;
                      user
@@ -223,7 +224,11 @@ exports.userSignup =   (req, res, next) => {
                            token: token
                          });
                            //creating the playlist liked songs playlist after creating the user
-                         trackController.createLikedSongs(user._id); 
+                         trackController.createLikedSongs(user._id);
+                         //creating the playlist liked songs playlist after creating the user
+                         followController.createFollow(user._id);
+                         libraryController.createLibrary(user._id);
+                         notificationController.CreateNewNotification(user._id);
                        })
                        .catch(err => {
                          console.log(err);
@@ -238,6 +243,7 @@ exports.userSignup =   (req, res, next) => {
          }
     });      
 };
+
 /**
 * UserController login 
 *@memberof module:controllers/userControllers
@@ -269,6 +275,7 @@ exports.userLogin = (req, res, next) => {
           });
         }
         if (result) {
+
           const token = jwt.sign(
             { _id: user._id,
               name: user.name, 
@@ -278,14 +285,20 @@ exports.userLogin = (req, res, next) => {
               expiresIn: '7d'
             }
           );
-          return res.status(200).json({
-            message: 'Auth successful',
-            token: token
-          });
+          User.updateOne({email: req.body.email},{token: token})
+          .exec()
+          .then(result =>{
+              return res.status(200).json({
+              message: 'Auth successful',
+              token: token
+            });
+           })
+          .catch(err => {
+            res.status(401).json({
+              message: 'Auth failed'
+            });
+          });  
         }
-        res.status(401).json({
-          message: 'Auth failed'
-        });
       });
     })
     .catch(err => {
@@ -362,6 +375,7 @@ exports.userDelete = (req, res, next) => {
   User.remove({ _id: req.params.id })
     .exec()
     .then(result => {
+      
       res.status(200).json({
         message: 'User deleted'
       });
@@ -521,16 +535,14 @@ exports.userChangePassword = (req, res, next) => {
 *@memberof module:controllers/userControllers
 *@function userForgetPassword 
 *@param {object}  req                      Express request object
-*@param {string}  req.params.mail          user mail to send link to set new password
 *@param {object}  res                      Express response object
-*@param {status}  res.status               if error  it returns status of 401,500/ if success it returns status of 200 
-*@param {string}  res.message              the type of error /send msg successfuly
  */
 
 exports.userForgetPassword = (req, res, next) => {  
-  console.log(  req.params.mail )
+  console.log(  req.params.email )
+  //check that email of the user is actually exists
   User
-  .findOne({ email: req.params.mail})
+  .findOne({ email: req.params.email})
   .exec()
   .then(user => {
     if (user.length &lt; 1) {
@@ -538,26 +550,20 @@ exports.userForgetPassword = (req, res, next) => {
         message: 'The Mail doesnot Exist'
       });
       }
-      console.log( user._id )
-      console.log( user.email )
-      console.log(  req.params.mail )
       randGenerator();
       rand.userId = user._id ;
-      console.log( rand.userId)
-      console.log( rand.randNo)
       rand.save().then().catch();
-      const host = req.get('host');
-      const link ="http://"+host+"/user/resetPassword?id="+rand.randNo;
+      const host = req.hostname;
+      //send mail to the user with a lik to update his/her password
+      const link ="http://"+host+"/account.mayestro/reset-password/"+rand.randNo;
        mailOptions={
         from: 'Do Not Reply '+process.env.MAESTROEMAIL,
         to : user.email,//put user email
         subject : "Reset your password",
         html : "Hello.&lt;br>No need to worry, you can reset your Maestro password by clicking the link below:&lt;br>&lt;a href="+link+">Reset password&lt;/a>&lt;br1>   Your username is:"+user._id+"&lt;/br1> &lt;/br2>  If you didn't request a password reset, feel free to delete this email and carry on enjoying your music!&lt;/br2>"
       }
-      console.log(mailOptions);
       smtpTransport.sendMail(mailOptions, function(error, response){
       if(error){
-        console.log(error);
         return res.status(500).send({ msg: 'Unable to send Email' });                
       }else{
         return res.status(201).json({message: 'send msg successfuly'});
@@ -566,7 +572,6 @@ exports.userForgetPassword = (req, res, next) => {
     
   })
    .catch(err => {
-    console.log(err);
     res.status(500).json({
       error: err
     });
@@ -579,19 +584,12 @@ exports.userForgetPassword = (req, res, next) => {
 *@function userResetPassword
 *@param {function} validatePassword         Function for validate new password
 *@param {object}  req                       Express request object
-*@param {string}  req.req.query.id           random hash key which refrenced to user ID
-*@param {string}  req.body.newPassword           user new password
-*@param {string}  req.body.confirmedPassword     user confirmed password
 *@param {object}  res 
-*@param {status}  res.status       if error  it returns status of 401,500/ if success it returns status of 200 
-*@param {string}  res.message      the type of error /You set new password successfly 
-*@param {token}   res.token         it returns token if user set new password successfly 
  */
 
 exports.userResetPassword = (req, res, next) => { 
-  console.log(req.protocol+":/"+req.get('host'));
   if((req.protocol+"://"+req.get('host'))==("http://"+req.get('host'))){
-     console.log("Domain is matched. Information is from Authentic email");
+    //get rand hash whish related to user's id and check if it exists 
      RandHash
      .findOne({ randNo: req.query.id  })
      .exec()
@@ -601,6 +599,7 @@ exports.userResetPassword = (req, res, next) => {
            message: 'The User doesnot Exist'
          });
        }
+       //check if user enters a vaild password 
         validatePassword (req.body);
         if(req.body.newPassword == req.body.confirmedPassword){
           bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
@@ -610,6 +609,7 @@ exports.userResetPassword = (req, res, next) => {
               });
             } 
             else {
+              //here update the user's password
               User
               .updateOne({_id:rand.userId},{password: hash})
               .exec()
@@ -626,7 +626,9 @@ exports.userResetPassword = (req, res, next) => {
                   message: 'You reset password successfly',
                   token: token
                 });
+                //removw the hash from our database
               rand.remove({userID: rand.userId });
+              //finally send mail to confirm that his/her password has been changed
               User
                .findOne({_id:rand.userId})
                .exec()
@@ -640,7 +642,6 @@ exports.userResetPassword = (req, res, next) => {
                 console.log(mailOptions);
                 smtpTransport.sendMail(mailOptions, function(error, response){
                 if(error){
-                  console.log(error);
                   return res.status(500).send({ msg: 'Unable to send Email' });                
                 }
                });
@@ -655,22 +656,15 @@ exports.userResetPassword = (req, res, next) => {
             }
           });
         }else{
-          return res.status(401).json({
-            message: 'Please confirm the New password' 
-          });
+          return res.status(401).json({ message: 'Please confirm the New password' });
         }
        })
       .catch(err => {
-        console.log("your cannot reset your password");
-        res.status(401).json({
-            message: 'your cannot reset your password'
-          });
+        res.status(401).json({message: 'your cannot reset your password' });
       });
     }
     else{
-      res.status(401).json({
-      message: 'Domain doesnot Match'
-      });
+      res.status(401).json({message: 'Domain doesnot Match' });
     }
 };
 /**
@@ -688,7 +682,7 @@ exports.userIsPremuim = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.decode(token);
   console.log(decoded._id);
-  User.updateOne({_id: decoded._id},{isPremium : true})
+  User.updateOne({_id: decoded._id},{type : 'premium'})
   .exec()
   .then(result =>{
    User
@@ -752,7 +746,7 @@ function validateEdit (req){
       country:
       Joi.string(),
       phone:
-      Joi.string()
+      Joi.string().phoneNumber()
     }
     return Joi.validate(req, schema); 
   }
@@ -778,7 +772,7 @@ function validateEdit (req){
       country:
       Joi.string(),
       phone:
-      Joi.string()
+      Joi.string().phoneNumber()
     }
     return Joi.validate(req, schema); 
   }
@@ -799,13 +793,12 @@ exports.getCurrentUser = async (req,res) => {
   let dID = decoded._id;
   let userInfo
   let loggedWithFb = await User.find({_id:dID},{loggedByFb:1})
-  console.log(loggedWithFb)
   if(loggedWithFb==true){
     userInfo = await User
-    .find({_id:dID}, {_id:0,image:1,isPremium:1,country:1,email:1,birthDate:1} );
+    .find({_id:dID}, {_id:0,maestroId:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
   }else{
     userInfo = await User
-    .find({_id:dID}, {_id:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
+    .find({_id:dID}, {_id:1,maestroId:1,image:1,isPremium:1,country:1,email:1,birthDate:1} );
   }
   console.log(userInfo)
   return res.send(userInfo)
@@ -856,7 +849,7 @@ exports.getOtherUser = async function(req,res){
  
   try{
   let otherUserInfo =  await User
-  .find({'_id':OtherUserId}, {image:1,followersCount:1,country:1,isPremium:1,name:1,email:1,birthDate:1,_id:1,externalUrl:1} )
+  .find({'_id':OtherUserId}, {image:1,maestroId:1,followersCount:1,country:1,isPremium:1,name:1,email:1,birthDate:1,_id:1,externalUrl:1} )
 
   console.log(otherUserInfo)
   otherUserInfo
@@ -899,6 +892,8 @@ exports.editProfile =async (req,res)=>{
         message: 'Auth failed1'
       });
     }
+    console.log(user.email)
+    console.log(req.body.email)
     if(user.email==req.body.email){ //email didnt change
       
       const { error } = validateEditWithoutEmail(req.body)
@@ -922,7 +917,7 @@ exports.editProfile =async (req,res)=>{
       bcrypt.compare(req.body.password, user.password, async (err, result) => {
         if (err) {
           return res.status(401).json({
-            message: 'Auth failed2'
+            message: 'Auth failed Please enter a password'
           });
         }
         console.log(result)
@@ -934,10 +929,10 @@ exports.editProfile =async (req,res)=>{
           }else{ 
               try{
                 let userEmail=user.email
-                await User
-                  .updateOne({_id:userId},{'email':req.body.email,'birthDate':req.body.birthDate,'gender':req.body.gender,'country':req.body.country}  );
                 //Updated email info,  still missing verify mail
-                 randGenerator();
+               randGenerator();
+               rand.userId=user._id;//to use it back in verify mail
+               rand.save().then().catch();
                const host = req.get('host');//just our locahost
                const link="http://"+host+"/user/verify?id="+rand.randNo;
                 mailOptions={
@@ -947,10 +942,15 @@ exports.editProfile =async (req,res)=>{
                       html : "Hello,&lt;br> Please Click on the link to verify your profile email has changed from this mail.&lt;br>"+userEmail +" &lt;a href="+link+">Click here to verify&lt;/a>"
                   } 
                 console.log(mailOptions);
-                smtpTransport.sendMail(mailOptions, function(error, response){
+                await smtpTransport.sendMail(mailOptions, async function(error, response){
                   if(error){
                       console.log(error);
                       return res.status(500).send({ msg: 'Unable to send email' });     
+                  }
+                  else { // 
+                    await User
+                    .updateOne({_id:userId},{'email':req.body.email,'birthDate':req.body.birthDate,'gender':req.body.gender,'country':req.body.country}  );
+              
                   }
                 });
                 // sending mail to old email address
@@ -998,13 +998,13 @@ exports.editProfile =async (req,res)=>{
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-albumController.html">albumController</a></li><li><a href="module-artistController.html">artistController</a></li><li><a href="module-controllers_userControllers.html">controllers/userControllers</a></li><li><a href="module-controllers_userFB.html">controllers/userFB</a></li><li><a href="module-homeController.html">homeController</a></li><li><a href="module-playerController.html">playerController</a></li><li><a href="module-playlistController.html">playlistController</a></li><li><a href="module-searchController.html">searchController</a></li><li><a href="module-trackController.html">trackController</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Sat Apr 11 2020 21:56:24 GMT+0200 (Eastern European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Jun 11 2020 18:35:14 GMT+0200 (Eastern European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

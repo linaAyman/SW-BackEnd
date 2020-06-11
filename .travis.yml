@@ -13,16 +13,15 @@ branches:
 
 install:
   - npm install
-  - npm install mongodb
-  - npm install mongoose
   - npm install nodemon
   - npm install joi
   - npm install validator
   - npm install mocha chai --save-dev
   - npm install request
 
+
 script:
-  - npm build
+  - npm run test
   
 before_deploy:
   - chmod 400 testaws.pem
