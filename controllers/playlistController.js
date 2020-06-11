@@ -183,7 +183,7 @@ exports.likePlaylist=async function(req,res){
   let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
   //add playlist to array of user's playlists in Library
   await Library.findOneAndUpdate({ user:userOID},{$push:{'playlists':playlistsTemp._id}});
-//   await Library.updateOne({user:userOID},{$inc:{playlistsCount:1}})
+  await Library.updateOne({user:userOID},{$inc:{playlistsCount:1}})
   // notification to playlist owner that the user liked his playlist
   notificationController.addLikeNotification(playlistsTemp,userOID);
 
@@ -205,7 +205,7 @@ exports.deletePlaylist=async function(req,res){
   let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
   //remove playlist from user's playlists in Library
   await Library.updateOne({ user: userOID }, { $pull: { playlists:playlistsTemp._id } });
-  await Library.updateOne({user:userOID},{$inc:{playlistsCount:-1}})
+//   await Library.updateOne({user:userOID},{$inc:{playlistsCount:-1}})
   return res.status(200).json({ message: 'Deleted Successfully' })
 
 }
