@@ -49,7 +49,7 @@
   },
   "scripts": {
     "watch": "nodemon server",
-    "test": "mocha --timeout 120000222222000",
+    "test": "mocha --timeout 120000222222000 --exit",
     "unitTest": "mocha",
     "docs": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
