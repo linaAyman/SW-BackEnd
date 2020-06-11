@@ -1,10 +1,8 @@
-// var expect  = require('chai').expect;
-// var request = require('request');
-// const dotenv = require('dotenv');
-// const config = require('config');
-// dotenv.config();
-// var supertest = require('supertest');
-// var request = supertest('localhost:3000');
+var expect  = require('chai').expect;
+var request = require('request');
+const dotenv = require('dotenv');
+var supertest = require('supertest');
+var request = supertest('3.137.69.49:3000');
 
 
 // describe('add Album', function () {
@@ -30,31 +28,31 @@
 //   });
 // }); 
 
-// describe('edit Album', function () {
-//   it('valid ', function (done) {
-//     this.timeout(2000002344400);//you may need to increase time 
-//       request.post('/albums/editAlbum/TTZEEJ4pNmlVsWWi6w1d2R6JX9R1Wg')
-//           .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
-//           .set('Content-Type', 'multipart/form-data')
-//           .field('name', 'let her go')
-//           .field('artist[]', 'Christina Perri')
-//           .field('genre[]', 'rock')
-//           .field('type', 'compilation')
-//           .attach('music', "uploads/Amr Diab wa7yaty 7'liky.mp3")
-//           .attach('music', 'uploads/Amr Diab wa75teny.mp3')
-//           .attach('image', 'images/FB_IMG_1560785471157.jpg')
-//           .end(function (err, res) {
-//               if (err) {
-//                   console.log(err);
-//               } else {
-//                   console.log(res.body)
-//                   expect(res.status).to.equal(200);
+describe('edit Album', function () {
+  it('valid ', function (done) {
+    this.timeout(2000002344400);//you may need to increase time 
+      request.post('/albums/editAlbum/TTZEEJ4pNmlVsWWi6w1d2R6JX9R1Wg')
+          .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
+          .set('Content-Type', 'multipart/form-data')
+          .field('name', 'let her go')
+          .field('artist[]', 'Christina Perri')
+          .field('genre[]', 'rock')
+          .field('type', 'compilation')
+          .attach('music', "uploads/Amr Diab wa7yaty 7'liky.mp3")
+          .attach('music', 'uploads/Amr Diab wa75teny.mp3')
+          .attach('image', 'images/FB_IMG_1560785471157.jpg')
+          .end(function (err, res) {
+              if (err) {
+                  console.log(err);
+              } else {
+                  console.log(res.body)
+                  expect(res.status).to.equal(200);
                   
-//               }
-//               done();
-//           });
-//   });
-// });
+              }
+              done();
+          });
+  });
+});
 
 // describe('add track to Album', function () {
 //   it('valid ', function (done) {
