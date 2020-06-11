@@ -187,7 +187,13 @@ exports.getHome=async function(req,res){
     return res.status(200).json({Home})
 }
 
-
+//===============================Get Released Albums========================//
+/**
+ * homeController getCurrentUserPlaylists
+ * @memberof module:homeController
+ * @function {getReleasedAlbums} returns all playlists in the User library 
+ * @returns {array} albums array of the most recent uploaded albums
+ */
 exports.getReleasedAlbums = async function(req,res){
     var today = new Date().toISOString();
     var PreviousMonth = new Date();

@@ -9,7 +9,7 @@ const {Playlist}=require('../models/Playlist')
 const User = require('../models/User') 
 var request = require('request');   
 const getOID=require('../middleware/getOID');  
-
+const playerID = '8995e1d2-2367-41d5-a3cc-fa3d4dad92bd'
 //-------------------------create the Notifications module after user sign up----------------------------------//
 /**
  * @memberof module:notificationController
@@ -79,7 +79,7 @@ exports.addLikeNotification =async function (PlaylistId,userId){
     let UserName = await User.find({_id:userId},{name:1})
     let notificationStatement = UserName[0].name+" has liked your playlist: "+PID.name
     await Notification.updateOne({user:OwnerID.owner},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
-    sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);
+    sendMessage(playerID, notificationStatement);
     
 }
 
@@ -99,7 +99,7 @@ exports.addFollowNotification =async function (followeruserId,followedArtistId){
     console.log("artist to follow"+followedArtistId)
     await Notification.updateOne({user:followedArtistId},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
  
-     sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);
+     sendMessage(playerID, notificationStatement);
     
 }
 //-------------------------Push a Notification That artist uploaded a song ----------------------------------//
@@ -121,7 +121,7 @@ exports.addUploadSongNotification =async function (ArtistId,SongName){
             await Notification.updateOne({user:(array[index])},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
         })
     }
-    sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
+    sendMessage(playerID, notificationStatement);  
     
 }
 //-------------------------Push a Notification That artist uploaded an album ----------------------------------//
@@ -143,7 +143,7 @@ exports.addUploadAlbumNotification =async function (ArtistId,AlbumName){
             await Notification.updateOne({user:(array[index])},{$push:{notifications:{$each:[notificationStatement],$position:0}}})
         })
     }
-   sendMessage('8995e1d2-2367-41d5-a3cc-fa3d4dad92bd', notificationStatement);  
+   sendMessage(playerID, notificationStatement);  
     
 }
 //-------------------------get User's Notification----------------------------------//
