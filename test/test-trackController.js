@@ -1,15 +1,8 @@
 var expect  = require('chai').expect;
-<<<<<<< HEAD
 var request = require('request');
-const dotenv = require('dotenv');
-const config = require('config');
-dotenv.config();
-=======
- var request = require('request');
  const dotenv = require('dotenv');
  const supertest=require('supertest')
- var request = supertest('3.137.69.49:3000');
->>>>>>> af3c66bece6601a85ece29c3b0449bee9a56c3eb
+var request = supertest('3.137.69.49:3000');
 
 // describe('create track', function () {
 //     it('valid ', function (done) {

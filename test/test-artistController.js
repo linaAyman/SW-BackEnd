@@ -20,12 +20,11 @@ it('Get Related Artists', function(done) {
     if(body)
     {
     
-<<<<<<< HEAD
-//      expect(body.length).to.equal(2);
-//     }
-//     done();
-//   });
-// });
+     expect(body.length).to.equal(2);
+    }
+    done();
+  });
+});
 
 
 it('Get an artist topTracks', function(done) {
@@ -42,8 +41,6 @@ it('Get an artist topTracks', function(done) {
 
         //console.log(reqBody[0])
         expect(reqBody[0].popularity).to.equal(88);
-=======
-     expect(body.length).to.equal(2);
     }
     done();
   });
@@ -65,13 +62,12 @@ it('Get an artist test', function(done) {
         reqBody = JSON.parse(reqBody);
         //console.log(reqBody[0].type)
         expect(reqBody[0].type).to.equal("artist");
->>>>>>> af3c66bece6601a85ece29c3b0449bee9a56c3eb
         done();
     }
        
     });
 });
-<<<<<<< HEAD
+*/
 
 it('Get an artist with no Tracks', function(done) {
   const options = {
@@ -110,6 +106,3 @@ it('Get an artist about', function(done) {
      
   });
 });
-=======
-  */
->>>>>>> af3c66bece6601a85ece29c3b0449bee9a56c3eb
