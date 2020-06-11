@@ -174,7 +174,7 @@ it('get Recent Search for a user to make sure previous item is deleted #9', func
      done();
   });
 });
-it('Delete all search history for user#10', function(done) {
+it('Delete all search history for user#10', function() {
   const options = {
       method:'DELETE',
       url:process.env.tempurl+'/search/all',
@@ -188,7 +188,6 @@ it('Delete all search history for user#10', function(done) {
       reqBody = JSON.parse(reqBody);
       expect(reqBody.message).to.equal("OK");
      }
-     done();
   });
 });
 
