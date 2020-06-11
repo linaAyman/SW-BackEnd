@@ -1,4 +1,4 @@
-var expect  = require('chai').expect;
+/* var expect  = require('chai').expect;
 var request = require('request');
 const dotenv = require('dotenv');
 const config = require('config');
@@ -127,9 +127,10 @@ it('Get tracks in album test', function(done) {
        /* expect(reqBody.tracks[1].id).to.equal("7fmVIBMLYiXRtTFOlxv90i");
         expect(reqBody.tracks[2].id).to.equal("0tShdTlRbZas6OFwEkX56U");
         expect(reqBody.tracks[3].id).to.equal("4aVmfly4CkmibiRLn5AHc2");*/
-     
+    /* 
         done();
     }
        
     });
 });
+ */

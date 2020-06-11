@@ -6,7 +6,6 @@ const checkAuth=require('../middleware/checkAuth')
 
 router.get('/:id', AlbumController.getAlbum);
 router.get('/:id/tracks', AlbumController.getTracks);
-
 router.post("/addAlbum",checkAuth,upload.upload.fields([{name:"music", maxCount: 50},{name: 'image', maxCount: 10}]),AlbumController.addAlbum);
 router.post("/editAlbum/:albumId",checkAuth,upload.upload.fields([{name:"music", maxCount: 50},{name: 'image', maxCount: 10}]),AlbumController.editAlbum);//just edit info for each track in the album and the album itself
 router.post("/addTrack/:albumId",checkAuth,upload.upload.fields([{name:"music", maxCount: 1},{name: 'image', maxCount: 1}]),AlbumController.addTrack);//add track to album(id)
