@@ -42,22 +42,6 @@ it('validateUserPassword Test#1', function() {
        expect(msg).to.equal('Error happened in Test#2');
  });
 
-  it('validateUserPassword Test#3', function() {
-    let body ={
-        newPassword: 'kokowawaa1' ,
-        confirmedPassword:'kokowawaa' 
-    }
-    let result = UserController.validateUserPassword(body)
-    let msg;
-     if(result.error!=  null){
-            msg = 'Error happened in Test#3'
-     }
-     else{
-            msg = 'Done'
-     }
-   
-       expect(msg).to.equal('Error happened in Test#3');
- });
 });
 
 
