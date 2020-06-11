@@ -183,7 +183,7 @@ exports.likePlaylist=async function(req,res){
   let playlistsTemp=await Playlist.findOne({id:req.body.id},{playlistId:'_id'})
   //add playlist to array of user's playlists in Library
   await Library.findOneAndUpdate({ user:userOID},{$push:{'playlists':playlistsTemp._id}});
-  await Library.updateOne({user:userOID},{$inc:{playlistsCount:1}})
+//   await Library.updateOne({user:userOID},{$inc:{playlistsCount:1}})
   // notification to playlist owner that the user liked his playlist
   notificationController.addLikeNotification(playlistsTemp,userOID);
 
