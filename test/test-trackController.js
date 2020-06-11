@@ -11,7 +11,7 @@ describe('create track', function () {
             .field('name', 'let her go')
             .field('artist[]', 'Christina Perri')
             .field('genre', 'rock')
-            .attach('music', 'uploads/tones.mp3')
+            .attach('music', 'uploads/trial Song11.mp3')
             .attach('image', 'images/FB_IMG_1560785471157.jpg')
             .end(function (err, res) {
                 if (err) {

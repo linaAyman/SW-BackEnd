@@ -24,7 +24,9 @@ install:
 script:
   - npm build
   
-  
+before_deploy:
+  - chmod 400 testaws.pem
+  - eval "$(ssh-agent -s)"  
 
 deploy:
   provider: script

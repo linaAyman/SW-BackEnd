@@ -17,6 +17,7 @@ const mongoose=require('mongoose');
 const { Track }=require('../models/Track')
 const notificationController = require('../controllers/notificationController')
 const jwt = require("jsonwebtoken");
+const Joi=require('joi');
 
 function validate(req) {
   const schema = {
@@ -126,7 +127,22 @@ exports.createPlaylist=async function(req,res){
   const userOID=getOID(req);
   //if user object ID is 555555555555555555555555 then Spotify is the owner of playlist
   console.log(userOID);
-  let playlistId=mongoose.Types.ObjectId();
+  let playlistId=mongoose.Types.ObjectId();// generate ID for the playlist
+  //upload a default image for any created playlist
+  const { error } = validate({
+    image: req.files['image']
+  })
+  if (error) {
+    return res.status(400).send({ message: error.details[0].message });
+  }
+  const imageArray = req.files['image'];
+
+    if (imageArray[0].destination != "./images") {
+      return res.status(400).send({ message: "You should enter correct format in image" });
+    }
+
+  const imageURL_0 = imageArray[0].destination + '/' + imageArray[0].filename;
+  console.log(imageURL_0);
   const playlist=new Playlist({
     name:req.query.name,
     id: playlistId,
@@ -134,7 +150,8 @@ exports.createPlaylist=async function(req,res){
     totalTracks:0,
     popularity:0,
     description:"",
-    followers:0
+    followers:0,
+    image:imageURL_0
     //add image
   })
 

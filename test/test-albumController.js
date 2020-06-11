@@ -6,6 +6,7 @@ dotenv.config();
 var supertest = require('supertest');
 var request = supertest('localhost:3000');
 
+
 describe('add Album', function () {
   it('valid ', function (done) {
     this.timeout(2000002344400);//you may need to increase time 
@@ -16,7 +17,7 @@ describe('add Album', function () {
           .field('artist[]', 'Christina Perri')
           .field('genre[]', 'rap')
           .field('type','single')
-          .attach('music',  'uploads/Guy Sebastian - Choir (Alan Walker Remix).mp3')
+          .attach('music',  'uploads/trial album22.mp3')
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
           if (err) {
@@ -64,7 +65,7 @@ describe('add track to Album', function () {
           .field('name', 'let her go')
           .field('artist[]', 'Christina Perri')
           .field('genre', 'rock')
-          .attach('music', "uploads/Polytopia(Quetzali Song).mp3")
+          .attach('music', "uploads/trial album33.mp3")
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
               if (err) {
@@ -78,6 +79,7 @@ describe('add track to Album', function () {
           });
   });
 });
+
 
 describe('delet track from Album', function () {
   it('valid ', function (done) {
