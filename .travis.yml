@@ -19,8 +19,6 @@ install:
   - npm install mocha chai --save-dev
   - npm install request
 
-env:
-  - CI=true
 
 script:
   - npm run test
