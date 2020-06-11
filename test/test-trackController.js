@@ -210,7 +210,7 @@ it('GET tracks by the specified genre', function (done) {
         }
     };
     request2(options, function (response, body) {
-        if (body) {
+        if (body) { 
             var reqBody = body.body.toString('utf8');
             reqBody = JSON.parse(reqBody);
             expect(body.body.message).to.equal("There's no such tracks for that genre");

@@ -1,4 +1,4 @@
-/* var expect  = require('chai').expect;
+var expect  = require('chai').expect;
 var should = require('chai').should();
 var assert=require('chai').assert;
 var request = require('request');
@@ -9,7 +9,7 @@ const homeController=require('../controllers/homeController')
 const getCategories=require('../controllers/homeController')
 dotenv.config();
 
-/*
+
 
 ///const tempurl='http://localhost:3000'+'/home';
 it('Home Request #4', function() {
@@ -111,27 +111,28 @@ it('See All Home Request Popular Playlists#4', function() {
         reqBody.should.have.property('playlists').with.lengthOf(6);
         }
     });
-});*/
+});
 it('See All Home Request New Albums: Get Released Albums', function() {
     const options = {
         method:'GET',
-        url: 'http://localhost:3000/home/Released%20Albums',
+        url: process.env.tempurl+'/home/Released%20Albums',
       };
     request(options, function(error, response, body) {
        if(body)
        {
         var reqBody =body.toString('utf8');
         reqBody = JSON.parse(reqBody);
-        reqBody.should.have.property('albums').with.lengthOf(2);
-        console.log("Hello Arwa ----------------------- ")
-        console.log(reqBody)
-       /*  expect(reqBody.albums[0].name).to.equal("songs for carmella: lullabies & sing-a-longs");
-        expect(reqBody.albums[1].name).to.equal("Girls Like You (feat. Cardi B)");
- */
+        var PreviousMonth = new Date();
+        var targetMonth = PreviousMonth.getMonth() - 1;
+        PreviousMonth.setMonth(targetMonth);
+        var albumMonth = new Date(reqBody[0].release_date) 
+       expect(albumMonth-PreviousMonth).to.greaterThan(0);
+ //       expect(reqBody.albums[1].name).to.equal("Girls Like You (feat. Cardi B)");
+ 
         }
+    
     });
 });
  
-
 
  

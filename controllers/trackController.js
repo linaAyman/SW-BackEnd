@@ -113,12 +113,13 @@ exports.uploadSong = async (req, res) => {
           track.uri = 'Maestro:track:' + track.id;
           track.href = 'https://api.Maestro.com/v1/tracks/' + track.id;
           let newTrack = await track.save();
+            // Making Notification to followers that artist uploaded song
+        notificationController.addUploadSongNotification(UserCheck,req.body.name);
          return  res.status(200).json({ data: newTrack });
         } catch (err) {
          return res.status(404).json({ error: err });
         }
-        // Making Notification to followers that artist uploaded song
-        notificationController.addUploadSongNotification(UserCheck,req.body.name);
+      
       }
     } catch (err) {
       return res.status(500).json({ error: err });
