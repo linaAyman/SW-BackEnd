@@ -232,6 +232,48 @@ it('remove track from Liked tracks', function (done) {
     });
 });
 
+// it('GET tracks by the specified genre Test#2 if provided request is wrong or not in the database', function (done) {
+
+//     const options = {
+//         method: 'GET',
+//         url: process.env.tempurl+'/track/genre/jazz',
+//         headers: {
+//             'Authorization': process.env.user_token
+//         }
+//     };
+//     request(options, function (response, body) {
+//         if (body) {
+//             var reqBody = body.body.toString('utf8');
+//             reqBody = JSON.parse(reqBody);
+//             console.log(reqBody)
+//             expect(body.body.message).to.equal("There's no such tracks for that genre");
+//         }
+//         done();
+//     });
+// });
+
+// it('GET tracks by the specified genre', function (done) {
+
+//     const options = {
+//         method: 'GET',
+//         url: process.env.tempurl+'/track/genre/jazz',
+//         // headers: {
+//         //     'Authorization': process.env.token
+//         // }
+//     };
+//     request(options, function (response, body) {
+//         if (body) {
+//             var reqBody = body.body.toString('utf8');
+//             reqBody = JSON.parse(reqBody);
+//             console.log(reqBody)
+//             // expect(reqBody.genre[0]).to.equal("rock");
+//             // expect(reqBody.genre[1]).to.equal("jazz");
+//         }
+//         done();
+//     });
+// });
+
+
 // let playId;
 //   it('create Playlist for a user #4', function(done) {
 //     const options = {
@@ -274,43 +316,5 @@ it('remove track from Liked tracks', function (done) {
 //   });
 
 
-// it('GET tracks by the specified genre Test#2 if provided request is wrong or not in the database', function (done) {
 
-//     const options = {
-//         method: 'GET',
-//         url: process.env.tempurl+'/tracks/genre',
-//         headers: {
-//             'Authorization': process.env.token
-//         }
-//     };
-//     request(options, function (response, body) {
-//         if (body) {
-//             var reqBody = body.body.toString('utf8');
-//             reqBody = JSON.parse(reqBody);
-//             expect(reqBody.genre[0]).to.equal("rock");
-//             expect(reqBody.genre[1]).to.equal("jazz");
-//         }
-//         done();
-//     });
-// });
-
-
-// it('GET tracks by the specified genre', function (done) {
-
-//     const options = {
-//         method: 'GET',
-//         url: process.env.tempurl+'/tracks/genre',
-//         headers: {
-//             'Authorization': process.env.token
-//         }
-//     };
-//     request(options, function (response, body) {
-//         if (body) {
-//             var reqBody = body.body.toString('utf8');
-//             reqBody = JSON.parse(reqBody);
-//             expect(body.body.message).to.equal("There's no such tracks for that genre");
-//         }
-//         done();
-//     });
-// });
 

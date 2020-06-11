@@ -10,6 +10,12 @@
 
 const  {Artist} =require('../models/Artist')
 const  {Track} =require('../models/Track')
+const  {Album} =require('../models/Album')
+const  {Statistics} =require('../models/Statistics')
+const  {PlayHistory} =require('../models/PlayHistory')
+const  {YourLikedSongs} =require('../models/YourLikedSongs')
+const  User =require('../models/User')
+const trackController = require("../controllers/trackController");
 /**
  * @async 
  * @function
@@ -66,6 +72,54 @@ exports.artistAbout = async function (req,res){
         let artist = await Artist.find({id: temp},{'id':1,'name':1,'image':1, 'about':1});
         if (artist){
         return res.send(artist);
+        }
+}
+
+/**
+ * @async 
+ * @function
+ * Get the statistics of the played track or the album of the artist
+ * @param {URL} req -send artist Id
+ * @param {object} res -the response on the given request
+ * @returns {jsonObject} - Object of type statistics else a message if the artist Id or the play has not been found
+ */
+exports.statistics = async function (req,res) {
+        const artistId = await Artist.findOne({ id: req.params.artistId }, {'_id':1});
+
+        let playId = req.params.id
+        if (artistId && playId) {
+                let playedItem;
+                let likedTrack;
+                let likeNo;
+                playedItemT=await Track.findOne({id:playId},{'_id':1,'type':1}); // the playId is either track or album 
+                playedItemA=await Album.findOne({id:playId},{'_id':1,'type':1}); // it cannot be both, the request will accept it
+
+                if(playedItemT.type=='track') {
+                likedTrack=await YourLikedSongs.find({tracks: playedItemT})
+                likeNo=likedTrack.length;
+                playedItem = playedItemT;
+                }
+                else if (playedItemA.type=='album')
+                playedItem=playedItemA;
+                else
+                res.status(404).json({'type':'The type you sent was incorrect'});
+                
+                let listenerNo=await PlayHistory.findOne({History:{$elemMatch:{id:playedItem}}}, {'HistoryLen':1,'_id':0})
+                
+                let statistics;
+                let existingStatistics = await Statistics.findOne({artist: artistId});
+                if (existingStatistics != null) {
+                statistics=await Statistics.findOneAndUpdate({artist:artistId},{$set:{listenersNo:listenerNo,likesNo:likeNo}})
+               } else {
+                 statistics = new Statistics ({
+                        artist: artistId,
+                        listenersNo: listenerNo,
+                        likesNo: likeNo
+                })
+                }
+                return res.status(200).send(statistics);
+        } else {
+                return res.status(404).send({ message: "artistId haven't been sent in the request" });
         }
 }
 
