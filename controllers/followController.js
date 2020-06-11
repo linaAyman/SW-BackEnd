@@ -41,7 +41,9 @@ exports.addFollow = async (req, res)=> {
 
     if (user.type == 'user') {
     let followingTemp = await User.findOne({maestroId: userToFollow}, {'_id':1})
-
+    if (followingTemp == uID)
+    return res.status(400).json({message :'Follow action can not be done to current user'})
+    
     await Follow.findOneAndUpdate({ user: uID},{$addToSet: {followingIds: followingTemp._id}});
     await Follow.findOneAndUpdate({ user: followingTemp._id},{$addToSet: {followerIds: uID}});
     notificationController.addFollowNotification(uID,followingTemp)
@@ -86,8 +88,9 @@ if (!req.params.id) return res.status(404).send({ msg: "userId haven't been sent
     if (token) {
       const decoded = jwt.decode(token);
       let followingTemp = await User.findOne({maestroId: req.params.id }, {'_id': 1})
-  
-      console.log(followingTemp)
+      if (followingTemp == decoded._id)
+      return res.status(400).json({message :'Unfollow action can not be done to current user'})
+
       await Follow.updateOne({ user: decoded._id }, { $pull: {followingIds: followingTemp._id} });
       await Follow.updateOne({user: followingTemp}, {$pull: {followerIds: decoded._id}})
       return res.status(200).json({ "message": 'Deleted Successfully' })

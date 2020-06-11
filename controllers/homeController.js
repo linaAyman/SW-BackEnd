@@ -202,3 +202,20 @@ exports.getReleasedAlbums = async function(req,res){
     res.send(album)
    }
 
+//===============================Loading the user's own playlists========================//
+/**
+ * homeController getCurrentUserPlaylists
+ * @memberof module:homeController
+ * @function {getCurrentUserPlaylists} returns all playlists in the User library 
+ * @returns {array} playlists array of the user
+ */
+exports.getCurrentUserPlaylists = async (req, res)=> {
+
+    const token = req.headers.authorization.split(" ")[1]
+    const decoded = jwt.decode(token)
+    console.log(decoded)
+    let uId = decoded._id
+
+    let userPlaylists = await Playlist.find({owner: uId})
+    res.send(userPlaylists)
+};
