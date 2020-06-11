@@ -80,23 +80,6 @@ describe('add track to Album', function () {
   });
 });
 
-/*
-describe('delet track from Album', function () {
-  it('valid ', function (done) {
-    this.timeout(2345500000);
-      request.delete('/albums/removeTrack/5ee0b701a018fd6580f384c2/5ee0b701a018fd6580f384c3')
-          .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWUwMDE1ZGQ4YjY5MTNiOWE5NTBkZTYiLCJuYW1lIjoibmFuY3k5ODg4ODgiLCJpYXQiOjE1OTE3Mzg3MTd9.3HI6clQkPNRxQlq2W1FfW8ZoVcGsAddRd5HlQVAjrVQ')
-          .end(function (err, res) {
-              if (err) {
-                  console.log(err);
-              } else {
-                  console.log(res.body)
-                  expect(res.status).to.equal(200);
-              }
-              done();
-          });
-  });
-});*/
 
 it('Get Album Test#1', function() {
     const options = {
