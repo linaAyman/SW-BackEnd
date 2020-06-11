@@ -512,6 +512,7 @@ exports.userChangePassword = (req, res, next) => {
 
 exports.userForgetPassword = (req, res, next) => {  
   console.log(  req.params.email )
+  //check that email of the user is actually exists
   User
   .findOne({ email: req.params.email})
   .exec()
@@ -525,6 +526,7 @@ exports.userForgetPassword = (req, res, next) => {
       rand.userId = user._id ;
       rand.save().then().catch();
       const host = req.hostname;
+      //send mail to the user with a lik to update his/her password
       const link ="http://"+host+"/account.mayestro/reset-password/"+rand.randNo;
        mailOptions={
         from: 'Do Not Reply '+process.env.MAESTROEMAIL,
@@ -559,6 +561,7 @@ exports.userForgetPassword = (req, res, next) => {
 
 exports.userResetPassword = (req, res, next) => { 
   if((req.protocol+"://"+req.get('host'))==("http://"+req.get('host'))){
+    //get rand hash whish related to user's id and check if it exists 
      RandHash
      .findOne({ randNo: req.query.id  })
      .exec()
@@ -568,6 +571,7 @@ exports.userResetPassword = (req, res, next) => {
            message: 'The User doesnot Exist'
          });
        }
+       //check if user enters a vaild password 
         validatePassword (req.body);
         if(req.body.newPassword == req.body.confirmedPassword){
           bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
@@ -577,6 +581,7 @@ exports.userResetPassword = (req, res, next) => {
               });
             } 
             else {
+              //here update the user's password
               User
               .updateOne({_id:rand.userId},{password: hash})
               .exec()
@@ -593,7 +598,9 @@ exports.userResetPassword = (req, res, next) => {
                   message: 'You reset password successfly',
                   token: token
                 });
+                //removw the hash from our database
               rand.remove({userID: rand.userId });
+              //finally send mail to confirm that his/her password has been changed
               User
                .findOne({_id:rand.userId})
                .exec()
