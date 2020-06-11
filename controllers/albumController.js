@@ -532,7 +532,7 @@ exports.dislikeAlbum = async function (req, res) {
 
     console.log(albumsTemp)
     await Library.updateOne({ user: userId }, { $pull: { albums:albumsTemp._id } });
-//     await Library.updateOne({user:userId},{$inc:{albumsCount:-1}})
+    await Library.updateOne({user:userId},{$inc:{albumsCount:-1}})
     return res.status(200).json({ "message": 'Deleted Successfully' })
   
 }
