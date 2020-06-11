@@ -188,5 +188,17 @@ exports.getHome=async function(req,res){
 }
 
 
- 
+exports.getReleasedAlbums = async function(req,res){
+  //  let temp1 = Date.now
+    console.log("hellooooooooooooooooooooo")
+     // await Album.find({release_date:})
+    var today = new Date().toISOString();
+    var PreviousMonth = new Date();
+    var targetMonth = PreviousMonth.getMonth() - 1;
+    PreviousMonth.setMonth(targetMonth);
+    console.log(today)
+    console.log(PreviousMonth);
+    let album = await Album.find({release_date:{ $lte:today,$gte:PreviousMonth}})
+    res.send(album)
+   }
 

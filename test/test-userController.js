@@ -27,7 +27,7 @@ describe("forgetPassword",function(){
 
 
 
-/*
+//-------------------------------------
 
 describe("sign up",function(){
   it('signup Test#1', function(done) {
@@ -481,4 +481,4 @@ it('Edit Current user information test', function(done) {
     });
 });
 
-*/
+ 
