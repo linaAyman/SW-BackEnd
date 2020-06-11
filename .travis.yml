@@ -22,7 +22,7 @@ install:
   - npm install request
 
 script:
-  - npm test
+  - npm run test
   
 before_deploy:
   - chmod 400 testaws.pem
