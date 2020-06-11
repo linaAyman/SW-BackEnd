@@ -17,7 +17,7 @@ describe('add Album', function () {
           .field('artist[]', 'Christina Perri')
           .field('genre[]', 'rap')
           .field('type','single')
-          .attach('music',  'uploads/Guy Sebastian - Choir (Alan Walker Remix).mp3')
+          .attach('music',  'uploads/trial album22.mp3')
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
           if (err) {
@@ -55,7 +55,7 @@ describe('edit Album', function () {
           });
   });
 });
-/*
+
 describe('add track to Album', function () {
   it('valid ', function (done) {
     this.timeout(2345500000);
@@ -65,7 +65,7 @@ describe('add track to Album', function () {
           .field('name', 'let her go')
           .field('artist[]', 'Christina Perri')
           .field('genre', 'rock')
-          .attach('music', "uploads/Polytopia(Quetzali Song).mp3")
+          .attach('music', "uploads/trial album33.mp3")
           .attach('image', 'images/FB_IMG_1560785471157.jpg')
           .end(function (err, res) {
               if (err) {
@@ -79,8 +79,8 @@ describe('add track to Album', function () {
           });
   });
 });
-*/
-/*
+
+
 describe('delet track from Album', function () {
   it('valid ', function (done) {
     this.timeout(2345500000);
@@ -96,7 +96,7 @@ describe('delet track from Album', function () {
               done();
           });
   });
-});*/
+});
 
 it('Get Album Test#1', function() {
     const options = {
